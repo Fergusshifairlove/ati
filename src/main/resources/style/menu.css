@@ -1,0 +1,7 @@
+.menu {
+    -fx-font-size: 15;
+    -fx-font-color: black;
+}
+.menu-item {
+    -fx-font-size: 10;
+}
