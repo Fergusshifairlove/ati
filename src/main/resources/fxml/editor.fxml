@@ -11,4 +11,5 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="ar.edu.itba.controllers.EditorController"
             fx:id="holder">
+    <Label fx:id="test" text="no"/>
 </fx:root>
