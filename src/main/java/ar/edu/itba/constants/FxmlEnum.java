@@ -1,4 +1,4 @@
-package ar.edu.itba;
+package ar.edu.itba.constants;
 
 public enum FxmlEnum {
     MAIN("fxml/main.fxml"),

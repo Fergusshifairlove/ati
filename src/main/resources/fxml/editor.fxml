@@ -7,9 +7,14 @@
 <?import javafx.scene.layout.*?>
 
 
+<?import javafx.scene.image.ImageView?>
 <fx:root type="ar.edu.itba.EditorBox"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ar.edu.itba.controllers.EditorController"
-            fx:id="holder">
-    <Label fx:id="test" text="no"/>
+         xmlns:fx="http://javafx.com/fxml"
+         stylesheets="/style/editor.css"
+         fx:controller="ar.edu.itba.controllers.EditorController">
+    <ImageView fx:id="before">
+    </ImageView>
+    <ImageView fx:id="after">
+
+    </ImageView>
 </fx:root>

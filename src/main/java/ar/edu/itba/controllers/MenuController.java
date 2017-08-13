@@ -1,17 +1,14 @@
 package ar.edu.itba.controllers;
 
-import ar.edu.itba.ImageLoaded;
+import ar.edu.itba.events.ImageLoaded;
 import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuBar;
 import javafx.stage.FileChooser;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class MenuController {
     public MenuBar menuBar;
@@ -29,10 +26,10 @@ public class MenuController {
         fileChooser.setTitle("Open Resource File");
     }
 
-    public void openFile(ActionEvent actionEvent) {
+    public void openFile(ActionEvent actionEvent) throws FileNotFoundException {
         fileChooser.setTitle("Open Resource File");
         File file = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
-        eventBus.post(new ImageLoaded("hola"));
+        eventBus.post(new ImageLoaded(new FileInputStream(file)));
     }
 
     public void saveFile(ActionEvent actionEvent) {

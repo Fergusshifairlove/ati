@@ -1,6 +1,6 @@
 package ar.edu.itba.service;
 
-import ar.edu.itba.FxmlEnum;
+import ar.edu.itba.constants.FxmlEnum;
 import javafx.scene.Parent;
 
 public interface FxmlLoaderService {

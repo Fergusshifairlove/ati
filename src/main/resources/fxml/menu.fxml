@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <fx:root type="ar.edu.itba.MenuBox" fx:controller="ar.edu.itba.controllers.MenuController"
-          stylesheets="../style/menu.css"
+          stylesheets="/style/menu.css"
           xmlns:fx="http://javafx.com/fxml">
     <MenuBar fx:id="menuBar" focusTraversable="true">
             <menus>

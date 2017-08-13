@@ -1,18 +1,18 @@
 package ar.edu.itba;
 
-import ar.edu.itba.guice.GuiceModule;
+import ar.edu.itba.constants.FxmlEnum;
 import ar.edu.itba.service.FxmlLoaderService;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import javafx.fxml.FXMLLoader;
+import javafx.scene.control.SplitPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
-public class EditorBox extends HBox {
+import static ar.edu.itba.App.INJECTOR;
+
+public class EditorBox extends SplitPane {
     public EditorBox() throws IOException{
-        final Injector injector = Guice.createInjector(new GuiceModule());
-        final FxmlLoaderService fxmlLoaderService = injector.getInstance(FxmlLoaderService.class);
+        final FxmlLoaderService fxmlLoaderService = INJECTOR.getInstance(FxmlLoaderService.class);
 
         fxmlLoaderService.load(FxmlEnum.EDITOR,this);
 //        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/editor.fxml"));

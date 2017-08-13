@@ -1,12 +1,11 @@
 package ar.edu.itba.service.impl;
 
-import ar.edu.itba.FxmlEnum;
+import ar.edu.itba.constants.FxmlEnum;
 import ar.edu.itba.service.FxmlLoaderService;
 import com.google.common.eventbus.EventBus;
 import com.google.common.io.Resources;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
