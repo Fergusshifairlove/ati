@@ -13,9 +13,9 @@
          stylesheets="/style/editor.css"
          fx:controller="ar.edu.itba.controllers.EditorController">
     <VBox>
-        <ImageView fx:id="before" onMouseClicked="#imageClicked"/>
+        <ImageView fx:id="before" onMouseClicked="#imageClicked" onMousePressed="#mousePressed" onMouseDragged="#mouseDragged" onMouseReleased="#mouseReleased" fitWidth="600" fitHeight="400"/>
     </VBox>
     <VBox>
-        <ImageView fx:id="after"/>
+        <ImageView fx:id="after" fitWidth="600" fitHeight="400"/>
     </VBox>
 </fx:root>

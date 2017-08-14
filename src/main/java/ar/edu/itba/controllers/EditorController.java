@@ -15,7 +15,7 @@ public class EditorController {
 
     @Subscribe
     public void showImage(ImageLoaded imageLoaded) {
-        Image image = new Image(imageLoaded.getImg(),600,400,true,true);
+        Image image = new Image(imageLoaded.getImg(), before.getFitWidth(), before.getFitHeight(),true,true);
         before.setImage(image);
         after.setImage(image);
     }
@@ -27,6 +27,15 @@ public class EditorController {
     public void imageClicked(MouseEvent event) {
         int x = (int) event.getX();
         int y = (int) event.getY();
+    }
+    public void mousePressed(MouseEvent event) {
+        System.out.println("pressed");
+    }
+    public void mouseDragged(MouseEvent event) {
+        System.out.println("dragged");
+    }
+    public void mouseReleased(MouseEvent event) {
+        System.out.println("released");
     }
 
 }
