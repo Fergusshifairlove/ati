@@ -1,6 +1,7 @@
 package ar.edu.itba.controllers;
 
 import ar.edu.itba.events.ImageLoaded;
+import ar.edu.itba.events.SaveImage;
 import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
@@ -35,9 +36,8 @@ public class MenuController {
     public void saveFile(ActionEvent actionEvent) {
         File file = fileChooser.showSaveDialog(menuBar.getScene().getWindow());
 
-        if(file != null){
-            SaveFile("test", file);
-        }
+        if(file != null)
+            eventBus.post(new SaveImage(file));
     }
     private void SaveFile(String content, File file){
         try {

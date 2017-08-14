@@ -12,9 +12,10 @@
          xmlns:fx="http://javafx.com/fxml"
          stylesheets="/style/editor.css"
          fx:controller="ar.edu.itba.controllers.EditorController">
-    <ImageView fx:id="before">
-    </ImageView>
-    <ImageView fx:id="after">
-
-    </ImageView>
+    <VBox>
+        <ImageView fx:id="before" onMouseClicked="#imageClicked"/>
+    </VBox>
+    <VBox>
+        <ImageView fx:id="after"/>
+    </VBox>
 </fx:root>

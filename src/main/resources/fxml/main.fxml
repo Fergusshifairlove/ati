@@ -8,7 +8,11 @@
 <?import ar.edu.itba.MenuBox ?>
 <?import ar.edu.itba.EditorBox ?>
 
-<VBox xmlns:fx="http://javafx.com/fxml">
-    <MenuBox/>
-    <EditorBox/>
-</VBox>
+<BorderPane xmlns:fx="http://javafx.com/fxml">
+    <top>
+        <MenuBox/>
+    </top>
+    <center>
+        <EditorBox/>
+    </center>
+</BorderPane>

@@ -33,8 +33,8 @@ public class App extends Application {
 
         primaryStage.setTitle("FXML Welcome");
         primaryStage.setScene(new Scene(root));
-        primaryStage.setMinWidth(800);
-        primaryStage.setMinHeight(600);
+        primaryStage.setMinWidth(1080);
+        primaryStage.setMinHeight(720);
         primaryStage.show();
     }
 }
