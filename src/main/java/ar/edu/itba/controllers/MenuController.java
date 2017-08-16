@@ -2,6 +2,7 @@ package ar.edu.itba.controllers;
 
 import ar.edu.itba.events.ImageLoaded;
 import ar.edu.itba.events.SaveImage;
+import ar.edu.itba.events.SetPixelActivated;
 import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
@@ -30,7 +31,12 @@ public class MenuController {
     public void openFile(ActionEvent actionEvent) throws FileNotFoundException {
         fileChooser.setTitle("Open Resource File");
         File file = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
-        eventBus.post(new ImageLoaded(new FileInputStream(file)));
+
+        eventBus.post(new ImageLoaded(new FileInputStream(file),1,1));
+    }
+
+    public void setPixel(ActionEvent actionEvent) {
+        eventBus.post(new SetPixelActivated());
     }
 
     public void saveFile(ActionEvent actionEvent) {

@@ -18,6 +18,11 @@
                         <MenuItem text="Save As"/>
                     </items>
                 </Menu>
+                <Menu text="Edit">
+                    <items>
+                        <MenuItem text="SetPixel" onAction="#setPixel"/>
+                    </items>
+                </Menu>
             </menus>
     </MenuBar>
 

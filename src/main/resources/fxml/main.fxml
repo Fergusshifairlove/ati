@@ -7,7 +7,9 @@
 <?import javafx.scene.layout.*?>
 <?import ar.edu.itba.MenuBox ?>
 <?import ar.edu.itba.EditorBox ?>
+<?import ar.edu.itba.ImageData?>
 
+<?import javafx.scene.image.ImageView?>
 <BorderPane xmlns:fx="http://javafx.com/fxml">
     <top>
         <MenuBox/>
@@ -15,4 +17,7 @@
     <center>
         <EditorBox/>
     </center>
+    <right>
+        <ImageData/>
+    </right>
 </BorderPane>

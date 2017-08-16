@@ -4,9 +4,13 @@ import java.io.InputStream;
 
 public class ImageLoaded {
     private InputStream img;
+    private int width;
+    private int height;
 
-    public ImageLoaded(InputStream img) {
+    public ImageLoaded(InputStream img, int width, int height) {
         this.img = img;
+        this.width = width;
+        this.height = height;
     }
 
     public InputStream getImg() {
@@ -15,5 +19,21 @@ public class ImageLoaded {
 
     public void setImg(InputStream img) {
         this.img = img;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 }
