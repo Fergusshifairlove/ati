@@ -15,8 +15,4 @@ public class SaveImage {
     public File getImg() {
         return img;
     }
-
-    public void setImg(File img) {
-        this.img = img;
-    }
 }

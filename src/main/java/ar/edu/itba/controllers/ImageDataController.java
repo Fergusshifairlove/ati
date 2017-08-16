@@ -1,5 +1,6 @@
 package ar.edu.itba.controllers;
 
+import ar.edu.itba.Pixel;
 import ar.edu.itba.events.PixelSelected;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -10,8 +11,9 @@ import javafx.scene.control.TextField;
 
 public class ImageDataController {
     public TextField selectedPixel;
-
+    private Pixel pixel;
     private EventBus eventBus;
+
 
     @Inject
     public ImageDataController(final EventBus eventBus) {
@@ -19,12 +21,12 @@ public class ImageDataController {
     }
 
     @Subscribe
-    public void setSelectedPixel(PixelSelected pixel) {
+    public void setSelectedPixel(PixelSelected selected) {
+        this.pixel = selected.getPixel();
         selectedPixel.setText(pixel.getColor().toString());
     }
 
     public void textChanged(ActionEvent event) {
         System.out.println(event);
-
     }
 }
