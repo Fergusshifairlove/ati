@@ -2,13 +2,17 @@ package ar.edu.itba;
 
 import ar.edu.itba.constants.FxmlEnum;
 import ar.edu.itba.guice.GuiceModule;
-import ar.edu.itba.service.FxmlLoaderService;
+import ar.edu.itba.services.FxmlLoaderService;
+import ar.edu.itba.services.ImageService;
+import com.google.common.eventbus.EventBus;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.fxml.FXML;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -28,13 +32,21 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         final FxmlLoaderService fxmlLoaderService = INJECTOR.getInstance(FxmlLoaderService.class);
+        final EventBus eventBus = INJECTOR.getInstance(EventBus.class);
+        final ImageService imageService = new ImageService();
+        eventBus.register(imageService);
 
         final Parent root = fxmlLoaderService.load(FxmlEnum.MAIN, null);
 
         primaryStage.setTitle("FXML Welcome");
         primaryStage.setScene(new Scene(root));
-        primaryStage.setMinWidth(600);
-        primaryStage.setMinHeight(400);
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getVisualBounds();
+
+        primaryStage.setX(bounds.getMinX());
+        primaryStage.setY(bounds.getMinY());
+        primaryStage.setWidth(bounds.getWidth());
+        primaryStage.setHeight(bounds.getHeight());
         primaryStage.show();
     }
 }

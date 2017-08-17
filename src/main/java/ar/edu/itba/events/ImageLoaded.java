@@ -1,19 +1,19 @@
 package ar.edu.itba.events;
 
-import java.io.InputStream;
+import java.io.File;
 
 public class ImageLoaded {
-    private InputStream img;
+    private File img;
     private int width;
     private int height;
 
-    public ImageLoaded(InputStream img, int width, int height) {
+    public ImageLoaded(File img, int width, int height) {
         this.img = img;
         this.width = width;
         this.height = height;
     }
 
-    public InputStream getImg() {
+    public File getImg() {
         return img;
     }
 

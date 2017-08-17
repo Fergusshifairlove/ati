@@ -13,6 +13,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class EditorController {
@@ -27,9 +29,9 @@ public class EditorController {
     }
 
     @Subscribe
-    public void showImage(ImageLoaded imageLoaded) {
+    public void showImage(ImageLoaded imageLoaded) throws FileNotFoundException{
         //System.out.println("height: " + before.getFitHeight() + " width: " + after.getFitWidth());
-        Image image = new Image(imageLoaded.getImg());
+        Image image = new Image(new FileInputStream(imageLoaded.getImg()));
         //Image image = new Image(imageLoaded.getImg());
 
         System.out.println("height: " + image.getHeight() + " width: " + image.getWidth());

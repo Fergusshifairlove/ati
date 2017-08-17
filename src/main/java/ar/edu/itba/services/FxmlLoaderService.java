@@ -1,4 +1,4 @@
-package ar.edu.itba.service;
+package ar.edu.itba.services;
 
 import ar.edu.itba.constants.FxmlEnum;
 import javafx.scene.Parent;

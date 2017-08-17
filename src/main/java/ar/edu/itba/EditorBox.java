@@ -1,10 +1,8 @@
 package ar.edu.itba;
 
 import ar.edu.itba.constants.FxmlEnum;
-import ar.edu.itba.service.FxmlLoaderService;
+import ar.edu.itba.services.FxmlLoaderService;
 import javafx.scene.control.SplitPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 

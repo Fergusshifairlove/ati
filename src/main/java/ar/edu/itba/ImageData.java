@@ -1,7 +1,7 @@
 package ar.edu.itba;
 
 import ar.edu.itba.constants.FxmlEnum;
-import ar.edu.itba.service.FxmlLoaderService;
+import ar.edu.itba.services.FxmlLoaderService;
 import javafx.scene.layout.GridPane;
 
 import static ar.edu.itba.App.INJECTOR;

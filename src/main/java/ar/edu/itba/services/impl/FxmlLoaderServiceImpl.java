@@ -1,7 +1,7 @@
-package ar.edu.itba.service.impl;
+package ar.edu.itba.services.impl;
 
 import ar.edu.itba.constants.FxmlEnum;
-import ar.edu.itba.service.FxmlLoaderService;
+import ar.edu.itba.services.FxmlLoaderService;
 import com.google.common.eventbus.EventBus;
 import com.google.common.io.Resources;
 import com.google.inject.Inject;
