@@ -3,7 +3,7 @@ package ar.edu.itba;
 import ar.edu.itba.constants.FxmlEnum;
 import ar.edu.itba.guice.GuiceModule;
 import ar.edu.itba.services.FxmlLoaderService;
-import ar.edu.itba.services.ImageService;
+import ar.edu.itba.services.impl.ImageServiceImpl;
 import com.google.common.eventbus.EventBus;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -33,8 +33,6 @@ public class App extends Application {
     public void start(Stage primaryStage) throws IOException {
         final FxmlLoaderService fxmlLoaderService = INJECTOR.getInstance(FxmlLoaderService.class);
         final EventBus eventBus = INJECTOR.getInstance(EventBus.class);
-        final ImageService imageService = new ImageService();
-        eventBus.register(imageService);
 
         final Parent root = fxmlLoaderService.load(FxmlEnum.MAIN, null);
 

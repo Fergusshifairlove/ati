@@ -1,44 +1,35 @@
 package ar.edu.itba.models;
 
+import ar.edu.itba.Pixel;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.DataBufferDouble;
 
-public class ImageMatrix {
-    private double [][] matrix;
+public abstract class ImageMatrix {
     private int height;
     private int width;
 
     public ImageMatrix(int width, int height) {
-        this.matrix = new double[height][width];
+        this.height = height;
+        this.width = width;
     }
 
-    public ImageMatrix(BufferedImage image) {
-        this.height = image.getHeight();
-        this.width = image.getWidth();
-
-        System.out.println(this.width + "x" + this.height);
-        byte[] buffer = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
-        System.out.println(buffer.length + " " + height * width);
-        this.matrix = new double[height][width];
-        for (int i = 0; i < this.width; i++) {
-            for (int j = 0; j < this.height; j++) {
-                matrix[j][i] = image.getRaster().getDataBuffer().getElemDouble(i*this.height + j);
-            }
-        }
+    public static ImageMatrix readImage(BufferedImage image) {
+        if (image.getRaster().getNumDataElements() == 1)
+            return new GreyImageMatrix(image);
+        else
+            return new RGBImageMatrix(image);
     }
 
-    public double getValue(int x,int y) {
-        return this.matrix[y][x];
+    public int getHeight() {
+        return height;
     }
 
-    public void setValue(int x, int y, double value) {
-        this.matrix[y][x] = value;
+    public int getWidth() {
+        return width;
     }
 
-    public BufferedImage toBufferedImage() {
-        return null;
-    }
-
-
+    public abstract Pixel getPixelColor(int x, int y);
 }

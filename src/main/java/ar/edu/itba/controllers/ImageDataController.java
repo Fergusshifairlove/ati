@@ -23,7 +23,7 @@ public class ImageDataController {
     @Subscribe
     public void setSelectedPixel(PixelSelected selected) {
         this.pixel = selected.getPixel();
-        selectedPixel.setText(pixel.getColor().toString());
+        selectedPixel.setText(this.pixel.getColor().toString());
     }
 
     public void textChanged(ActionEvent event) {

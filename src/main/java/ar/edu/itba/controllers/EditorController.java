@@ -5,13 +5,14 @@ import ar.edu.itba.events.ImageLoaded;
 import ar.edu.itba.events.PixelSelected;
 import ar.edu.itba.events.SaveImage;
 import ar.edu.itba.events.SetPixelActivated;
+import ar.edu.itba.services.ImageService;
+import ar.edu.itba.services.impl.ImageServiceImpl;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -22,15 +23,18 @@ public class EditorController {
     public ImageView after;
     private boolean setPixel;
     private EventBus eventBus;
+    private ImageService imageService;
 
     @Inject
-    public EditorController(final EventBus eventBus) {
+    public EditorController(final EventBus eventBus, final ImageService imageService) {
         this.eventBus = eventBus;
+        this.imageService = imageService;
     }
 
     @Subscribe
-    public void showImage(ImageLoaded imageLoaded) throws FileNotFoundException{
+    public void loadImage(ImageLoaded imageLoaded) throws FileNotFoundException, IOException{
         //System.out.println("height: " + before.getFitHeight() + " width: " + after.getFitWidth());
+        imageService.loadImage(imageLoaded);
         Image image = new Image(new FileInputStream(imageLoaded.getImg()));
         //Image image = new Image(imageLoaded.getImg());
 
@@ -52,12 +56,8 @@ public class EditorController {
     public void imageClicked(MouseEvent event) {
         int x = (int) event.getX();
         int y = (int) event.getY();
-        Image img = before.getImage();
-        Color color = img.getPixelReader().getColor(x,y);
-
-        System.out.println("width:" + before.getImage().getWidth() + " height: " + before.getImage().getHeight());
-        System.out.println("x: " + x + " y:" + y);
-        eventBus.post(new PixelSelected(new Pixel(color,x,y,img)));
+        System.out.println("x: " + x + " y: " + y);
+        eventBus.post(new PixelSelected(this.imageService.selectPixel(x,y)));
     }
     public void mousePressed(MouseEvent event) {
         System.out.println("pressed");
