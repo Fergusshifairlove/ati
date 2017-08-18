@@ -45,7 +45,7 @@ public final class FxmlLoaderServiceImpl implements FxmlLoaderService {
             return loader.load();
         }
         catch (IOException e) {
-            throw new RuntimeException("Unable to load FXML from path: " + fxmlEnum.getPath(), e);
+            throw new RuntimeException("Unable to load FXML from path: " + fxmlEnum.getPath() + " from: " + System.getProperty("user.dir"), e);
         }
     }
 

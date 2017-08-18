@@ -31,7 +31,7 @@ public class MenuController {
     public void openFile(ActionEvent actionEvent) throws FileNotFoundException, IOException {
         fileChooser.setTitle("Open Resource File");
         File file = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
-        eventBus.post(new ImageLoaded(file,1,1));
+        eventBus.post(new ImageLoaded(file,1,1, true));
 
     }
 

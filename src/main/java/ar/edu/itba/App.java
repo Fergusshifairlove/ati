@@ -3,7 +3,7 @@ package ar.edu.itba;
 import ar.edu.itba.constants.FxmlEnum;
 import ar.edu.itba.guice.GuiceModule;
 import ar.edu.itba.services.FxmlLoaderService;
-import ar.edu.itba.services.impl.ImageServiceImpl;
+import ar.edu.itba.views.MenuView;
 import com.google.common.eventbus.EventBus;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -20,7 +20,7 @@ import java.io.IOException;
 public class App extends Application {
 
     @FXML
-    private MenuBox menuBox;
+    private MenuView menuView;
 
 
     public static Injector INJECTOR = Guice.createInjector(new GuiceModule());

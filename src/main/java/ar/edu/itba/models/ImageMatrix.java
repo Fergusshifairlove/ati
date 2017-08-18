@@ -1,19 +1,16 @@
 package ar.edu.itba.models;
 
-import ar.edu.itba.Pixel;
-
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferDouble;
 
 public abstract class ImageMatrix {
     private int height;
     private int width;
+    private BufferedImage image;
 
-    public ImageMatrix(int width, int height) {
+    public ImageMatrix(int width, int height, BufferedImage image) {
         this.height = height;
         this.width = width;
+        this.image = image;
     }
 
     public static ImageMatrix readImage(BufferedImage image) {
@@ -31,5 +28,10 @@ public abstract class ImageMatrix {
         return width;
     }
 
+    public BufferedImage getImage() { return image; }
+
     public abstract Pixel getPixelColor(int x, int y);
+
+    public abstract void setPixel(Pixel pixel);
+
 }

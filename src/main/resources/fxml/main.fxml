@@ -5,19 +5,19 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import ar.edu.itba.MenuBox ?>
-<?import ar.edu.itba.EditorBox ?>
-<?import ar.edu.itba.ImageData?>
+<?import ar.edu.itba.views.MenuView ?>
+<?import ar.edu.itba.views.EditorView ?>
+<?import ar.edu.itba.views.ImageDataView?>
 
 <?import javafx.scene.image.ImageView?>
 <BorderPane xmlns:fx="http://javafx.com/fxml">
     <top>
-        <MenuBox/>
+        <MenuView/>
     </top>
     <center>
-        <EditorBox/>
+        <EditorView/>
     </center>
     <right>
-        <ImageData/>
+        <ImageDataView/>
     </right>
 </BorderPane>

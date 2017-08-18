@@ -6,11 +6,13 @@ public class ImageLoaded {
     private File img;
     private int width;
     private int height;
+    private boolean rgb;
 
-    public ImageLoaded(File img, int width, int height) {
+    public ImageLoaded(File img, int width, int height, boolean rgb) {
         this.img = img;
         this.width = width;
         this.height = height;
+        this.rgb = rgb;
     }
 
     public File getImg() {
@@ -23,5 +25,9 @@ public class ImageLoaded {
 
     public int getHeight() {
         return height;
+    }
+
+    public boolean isRgb() {
+        return rgb;
     }
 }

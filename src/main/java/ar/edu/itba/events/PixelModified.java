@@ -5,18 +5,14 @@ import ar.edu.itba.models.Pixel;
 /**
  * Created by Luis on 18/8/2017.
  */
-public class PixelSelected {
+public class PixelModified {
     private Pixel pixel;
 
-    public PixelSelected(Pixel pixel) {
+    public PixelModified(Pixel pixel) {
         this.pixel = pixel;
     }
 
     public Pixel getPixel() {
         return pixel;
-    }
-
-    public void setPixel(Pixel pixel) {
-        this.pixel = pixel;
     }
 }

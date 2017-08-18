@@ -1,15 +1,12 @@
 package ar.edu.itba.controllers;
 
-import ar.edu.itba.Pixel;
-import ar.edu.itba.events.ImageLoaded;
-import ar.edu.itba.events.PixelSelected;
-import ar.edu.itba.events.SaveImage;
-import ar.edu.itba.events.SetPixelActivated;
+import ar.edu.itba.events.*;
+import ar.edu.itba.models.RGBPixel;
 import ar.edu.itba.services.ImageService;
-import ar.edu.itba.services.impl.ImageServiceImpl;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -49,15 +46,17 @@ public class EditorController {
     }
 
     @Subscribe
-    public void activateSetPixel(SetPixelActivated set) {
-        this.setPixel = true;
+    public void modifyPixel(PixelModified pixelModified) {
+        System.out.println("PIXEL MODIFIED");
+        this.imageService.modifyPixel(pixelModified.getPixel());
+        this.after.setImage(SwingFXUtils.toFXImage(this.imageService.getImage(), null));
     }
 
     public void imageClicked(MouseEvent event) {
         int x = (int) event.getX();
         int y = (int) event.getY();
         System.out.println("x: " + x + " y: " + y);
-        eventBus.post(new PixelSelected(this.imageService.selectPixel(x,y)));
+        eventBus.post(new RGBPixelSelected((RGBPixel) this.imageService.selectPixel(x,y)));
     }
     public void mousePressed(MouseEvent event) {
         System.out.println("pressed");

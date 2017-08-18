@@ -5,10 +5,11 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import ar.edu.itba.views.MenuView?>
 
-<fx:root type="ar.edu.itba.MenuBox" fx:controller="ar.edu.itba.controllers.MenuController"
-          stylesheets="/style/menu.css"
-          xmlns:fx="http://javafx.com/fxml">
+<fx:root type="MenuView" fx:controller="ar.edu.itba.controllers.MenuController"
+         stylesheets="/style/menu.css"
+         xmlns:fx="http://javafx.com/fxml">
     <MenuBar fx:id="menuBar" focusTraversable="true">
             <menus>
                 <Menu text="File">

@@ -5,10 +5,10 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
+<?import ar.edu.itba.views.EditorView?>
 
 <?import javafx.scene.image.ImageView?>
-<fx:root type="ar.edu.itba.EditorBox"
+<fx:root type="EditorView"
          xmlns:fx="http://javafx.com/fxml"
          stylesheets="/style/editor.css"
          fx:controller="ar.edu.itba.controllers.EditorController">

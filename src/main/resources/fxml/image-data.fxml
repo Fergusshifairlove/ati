@@ -6,10 +6,21 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root type="ar.edu.itba.ImageData" xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ar.edu.itba.controllers.ImageDataController"
-            prefHeight="400" prefWidth="100.0">
-    <TextField fx:id="selectedPixel" onAction="#textChanged"/>
+<?import com.sun.javafx.scene.control.skin.TableHeaderRow?>
+<?import com.sun.javafx.scene.control.skin.DoubleField?>
+<?import javafx.scene.text.Text?>
+<?import ar.edu.itba.views.ImageDataView?>
 
+<fx:root type="ImageDataView" xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="ar.edu.itba.controllers.ImageDataController"
+         prefHeight="400" prefWidth="200.0">
+    <VBox fx:id="data">
+        <HBox>
+            <Label text="X:"/>
+            <TextField fx:id="x" disable="true" prefWidth="50"/>
+            <Label text="Y:"/>
+            <TextField fx:id="y" disable="true" prefWidth="50" />
+        </HBox>
+    </VBox>
 </fx:root>
