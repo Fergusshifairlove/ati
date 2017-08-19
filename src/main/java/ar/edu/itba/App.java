@@ -33,7 +33,6 @@ public class App extends Application {
     public void start(Stage primaryStage) throws IOException {
         final FxmlLoaderService fxmlLoaderService = INJECTOR.getInstance(FxmlLoaderService.class);
         final EventBus eventBus = INJECTOR.getInstance(EventBus.class);
-
         final Parent root = fxmlLoaderService.load(FxmlEnum.MAIN, null);
 
         primaryStage.setTitle("FXML Welcome");

@@ -4,10 +4,11 @@ import ar.edu.itba.models.Pixel;
 import ar.edu.itba.events.ImageLoaded;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 public interface ImageService {
-    void loadImage(ImageLoaded loaded) throws IOException;
+    void loadImage(File img) throws IOException;
     Pixel selectPixel(int x, int y);
 
     void modifyPixel(Pixel pixel);

@@ -1,5 +1,7 @@
 package ar.edu.itba.models;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
+
 import java.awt.image.BufferedImage;
 
 public abstract class ImageMatrix {
@@ -14,10 +16,12 @@ public abstract class ImageMatrix {
     }
 
     public static ImageMatrix readImage(BufferedImage image) {
-        if (image.getRaster().getNumDataElements() == 1)
+        if (image.getType() == BufferedImage.TYPE_BYTE_GRAY)
             return new GreyImageMatrix(image);
-        else
+        else if (image.getType() == BufferedImage.TYPE_INT_RGB)
             return new RGBImageMatrix(image);
+
+        throw new RuntimeException();
     }
 
     public int getHeight() {

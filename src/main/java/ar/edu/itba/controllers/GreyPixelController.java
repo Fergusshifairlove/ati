@@ -34,12 +34,12 @@ public class GreyPixelController {
 
     public void clearData(ImageLoaded loaded) {
         this.grey.clear();
-        this.pixel =null;
+        this.pixel = null;
     }
 
     @Subscribe
-    public void setSelectedPixel(GreyPixelSelected selected) {
-        this.pixel = selected.getPixel();
+    public void setSelectedPixel(PixelSelected selected) {
+        this.pixel = (GreyPixel) selected.getPixel();
         grey.setText(String.valueOf(pixel.getGrey()));
     }
 }

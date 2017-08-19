@@ -30,11 +30,7 @@ public class EditorController {
 
     @Subscribe
     public void loadImage(ImageLoaded imageLoaded) throws FileNotFoundException, IOException{
-        //System.out.println("height: " + before.getFitHeight() + " width: " + after.getFitWidth());
-        imageService.loadImage(imageLoaded);
-        Image image = new Image(new FileInputStream(imageLoaded.getImg()));
-        //Image image = new Image(imageLoaded.getImg());
-
+        Image image = SwingFXUtils.toFXImage(imageService.getImage(), null);
         System.out.println("height: " + image.getHeight() + " width: " + image.getWidth());
         before.setImage(image);
         after.setImage(image);
@@ -56,7 +52,7 @@ public class EditorController {
         int x = (int) event.getX();
         int y = (int) event.getY();
         System.out.println("x: " + x + " y: " + y);
-        eventBus.post(new RGBPixelSelected((RGBPixel) this.imageService.selectPixel(x,y)));
+        eventBus.post(new PixelSelected(this.imageService.selectPixel(x,y)));
     }
     public void mousePressed(MouseEvent event) {
         System.out.println("pressed");

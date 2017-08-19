@@ -6,6 +6,8 @@ import ar.edu.itba.events.RGBPixelModified;
 import ar.edu.itba.events.RGBPixelSelected;
 import ar.edu.itba.models.Pixel;
 import ar.edu.itba.models.RGBPixel;
+import ar.edu.itba.services.ImageService;
+import ar.edu.itba.views.GreyPixelView;
 import ar.edu.itba.views.RGBPixelView;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -18,6 +20,8 @@ import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
+import java.awt.image.BufferedImage;
+
 
 public class ImageDataController {
     public TextField x, y;
@@ -25,11 +29,13 @@ public class ImageDataController {
 
     private Pixel pixel;
     private EventBus eventBus;
+    private ImageService imageService;
 
 
     @Inject
-    public ImageDataController(final EventBus eventBus) {
+    public ImageDataController(final EventBus eventBus, final ImageService imageService) {
         this.eventBus = eventBus;
+        this.imageService = imageService;
     }
 
     @FXML
@@ -54,10 +60,18 @@ public class ImageDataController {
 
     @Subscribe
     public void clearData(ImageLoaded imageLoaded) {
-        if (imageLoaded.isRgb()) {
+        BufferedImage image = this.imageService.getImage();
+        if (image.getType() == BufferedImage.TYPE_INT_RGB) {
             ObservableList<Node> children = this.data.getChildren();
             children.remove(this.data.lookup(".grey"));
             RGBPixelView pixelView = new RGBPixelView();
+            pixelView.setId("rgb");
+            children.add(pixelView);
+        } else {
+            ObservableList<Node> children = this.data.getChildren();
+            children.remove(this.data.lookup(".rgb"));
+            GreyPixelView pixelView = new GreyPixelView();
+            pixelView.setId("grey");
             children.add(pixelView);
         }
         this.x.clear();
