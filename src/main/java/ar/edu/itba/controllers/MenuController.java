@@ -1,9 +1,10 @@
 package ar.edu.itba.controllers;
 
-import ar.edu.itba.events.ImageLoaded;
-import ar.edu.itba.events.SaveImage;
-import ar.edu.itba.events.SetPixelActivated;
+import ar.edu.itba.events.*;
 import ar.edu.itba.services.ImageService;
+import ar.edu.itba.views.GreyPixelView;
+import ar.edu.itba.views.punctualOperations.NegativeView;
+import ar.edu.itba.views.punctualOperations.ThresholdView;
 import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
@@ -32,28 +33,37 @@ public class MenuController {
         fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Images", "*.raw", "*.pgm", "*.ppm", "*.bmp")
+                new FileChooser.ExtensionFilter("RAW", "*.raw"),
+                new FileChooser.ExtensionFilter("PGM", "*.pgm"),
+                new FileChooser.ExtensionFilter("PPM", "*.ppm"),
+                new FileChooser.ExtensionFilter("BMP", "*.bmp"),
+                new FileChooser.ExtensionFilter("All Images", "*.*")
         );
     }
 
     public void openFile(ActionEvent actionEvent) throws IOException {
         fileChooser.setTitle("Open Resource File");
         File file = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
-        imageService.loadImage(file);
-        eventBus.post(new ImageLoaded());
+        if (file != null)
+            eventBus.post(new OpenImage(file));
 
     }
 
     public void setPixel(ActionEvent actionEvent) {
-        eventBus.post(new SetPixelActivated());
+        eventBus.post(new NewOperation<>(new GreyPixelView()));
     }
 
     public void saveFile(ActionEvent actionEvent) throws IOException{
         File file = fileChooser.showSaveDialog(menuBar.getScene().getWindow());
-
-        if(file != null)
-            ImageIO.write(imageService.getImage(), FilenameUtils.getExtension(file.getName()),file);
+        if (file != null)
+            this.eventBus.post(new SaveImage(file));
     }
 
+    public void getNegative(ActionEvent actionEvent) {
+        eventBus.post(new NewOperation<>(new NegativeView()));
+    }
 
+    public void getThreshold(ActionEvent actionEvent) {
+        eventBus.post(new NewOperation<>(new ThresholdView()));
+    }
 }

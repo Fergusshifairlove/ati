@@ -1,9 +1,6 @@
 package ar.edu.itba.controllers;
 
-import ar.edu.itba.events.ImageLoaded;
-import ar.edu.itba.events.PixelSelected;
-import ar.edu.itba.events.RGBPixelModified;
-import ar.edu.itba.events.RGBPixelSelected;
+import ar.edu.itba.events.*;
 import ar.edu.itba.models.Pixel;
 import ar.edu.itba.models.RGBPixel;
 import ar.edu.itba.services.ImageService;
@@ -30,6 +27,7 @@ public class ImageDataController {
     private Pixel pixel;
     private EventBus eventBus;
     private ImageService imageService;
+    private int currentImgType;
 
 
     @Inject
@@ -40,9 +38,6 @@ public class ImageDataController {
 
     @FXML
     public void initialize() {
-//        red.setAlignment(Pos.BASELINE_RIGHT);
-//        green.setAlignment(Pos.BASELINE_RIGHT);
-//        blue.setAlignment(Pos.BASELINE_RIGHT);
         x.setAlignment(Pos.BASELINE_RIGHT);
         y.setAlignment(Pos.BASELINE_RIGHT);
     }
@@ -50,32 +45,31 @@ public class ImageDataController {
     @Subscribe
     public void setSelectedPixel(PixelSelected selected) {
         this.pixel = selected.getPixel();
-//        red.setText(String.valueOf(pixel.getRed()));
-//        green.setText(String.valueOf(pixel.getGreen()));
-//        blue.setText(String.valueOf(pixel.getBlue()));
-        //selectedPixel.setText(this.pixel.toString());
         x.setText(String.valueOf(pixel.getX()));
         y.setText(String.valueOf(pixel.getY()));
     }
 
     @Subscribe
     public void clearData(ImageLoaded imageLoaded) {
-        BufferedImage image = this.imageService.getImage();
-        if (image.getType() == BufferedImage.TYPE_INT_RGB) {
-            ObservableList<Node> children = this.data.getChildren();
-            children.remove(this.data.lookup(".grey"));
+        ObservableList<Node> children = this.data.getChildren();
+        this.x.clear();
+        this.y.clear();
+
+        if (this.currentImgType == imageLoaded.getType())
+            return;
+        this.currentImgType = imageLoaded.getType();
+
+        if (imageLoaded.getType() == BufferedImage.TYPE_INT_RGB || imageLoaded.getType() == BufferedImage.TYPE_3BYTE_BGR) {
+            children.remove(this.data.lookup("#grey"));
             RGBPixelView pixelView = new RGBPixelView();
             pixelView.setId("rgb");
             children.add(pixelView);
         } else {
-            ObservableList<Node> children = this.data.getChildren();
-            children.remove(this.data.lookup(".rgb"));
+            children.remove(this.data.lookup("#rgb"));
             GreyPixelView pixelView = new GreyPixelView();
             pixelView.setId("grey");
             children.add(pixelView);
         }
-        this.x.clear();
-        this.y.clear();
     }
 
 }

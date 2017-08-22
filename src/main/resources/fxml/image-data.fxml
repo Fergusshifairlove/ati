@@ -13,9 +13,11 @@
 
 <fx:root type="ImageDataView" xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
+         stylesheets="/style/image-data.css"
          fx:controller="ar.edu.itba.controllers.ImageDataController"
          prefHeight="400" prefWidth="200.0">
     <VBox fx:id="data">
+        <Label text="DATA"/>
         <HBox>
             <Label text="X:"/>
             <TextField fx:id="x" disable="true" prefWidth="50"/>

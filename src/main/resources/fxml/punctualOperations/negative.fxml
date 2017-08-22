@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import ar.edu.itba.views.punctualOperations.NegativeView?>
+
+<fx:root type="NegativeView"
+         fx:controller="ar.edu.itba.controllers.punctualOperations.NegativeController"
+         xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml">
+    <Label text="Negative"/>
+    <CheckBox/>
+</fx:root>

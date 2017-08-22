@@ -10,15 +10,14 @@ import org.apache.commons.io.IOUtils;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.awt.image.DataBufferInt;
 import java.awt.image.Raster;
 import java.io.*;
 
 public class ImageServiceImpl implements ImageService{
 
-    private ImageMatrix matrix;
 
-
-    public void loadImage(File img) throws IOException {
+    public ImageMatrix loadImage(File img) throws IOException {
         System.out.println("reading file");
         String extension = FilenameUtils.getExtension(img.getName());
         BufferedImage image;
@@ -38,24 +37,13 @@ public class ImageServiceImpl implements ImageService{
             default:
                 image = ImageIO.read(img);
         }
-        this.matrix = ImageMatrix.readImage(image);
+        if (image == null) {
+            throw new IOException();
+        }
+        return ImageMatrix.readImage(image);
     }
 
-    public Pixel selectPixel(int x, int y) {
-        return this.matrix.getPixelColor(x, y);
-    }
-
-    @Override
-    public void modifyPixel(Pixel pixel) {
-        matrix.setPixel(pixel);
-    }
-
-    @Override
-    public BufferedImage getImage() {
-        return matrix.getImage();
-    }
-
-    private static BufferedImage bufferedFromRaw(File file) throws IOException{
+    private BufferedImage bufferedFromRaw(File file) throws IOException{
         //search for data txt file
         String dataFilename = FilenameUtils.getFullPath(file.getPath()) + FilenameUtils.getBaseName(file.getName()) + ".data";
         if (!FilenameUtils.directoryContains(file.getParent(),dataFilename)) {
@@ -74,7 +62,7 @@ public class ImageServiceImpl implements ImageService{
 
     }
 
-    private static BufferedImage bufferedFromPPM(File file) throws IOException{
+    private BufferedImage bufferedFromPPM(File file) throws IOException{
         int [] vals = parsePImage(file);
         for (int i = 0; i < vals.length; i++) {
             System.out.println(vals[i]);
@@ -87,7 +75,7 @@ public class ImageServiceImpl implements ImageService{
         return copyImage(width, height, imageType, file, vals[4]);
     }
 
-    private static BufferedImage bufferedFromPGM(File file) throws IOException{
+    private BufferedImage bufferedFromPGM(File file) throws IOException{
         int [] vals = parsePImage(file);
         for (int i = 0; i < vals.length; i++) {
             System.out.println(vals[i]);
@@ -101,7 +89,7 @@ public class ImageServiceImpl implements ImageService{
         System.out.println(height);
         return copyImage(width, height, imageType, file, vals[4]);
     }
-    private static BufferedImage copyImage(int width, int height, int imageType, File file, int src) throws IOException{
+    private BufferedImage copyImage(int width, int height, int imageType, File file, int src) throws IOException{
         byte[] pixels = IOUtils.toByteArray(new FileInputStream(file));
         System.out.println(pixels.length - src);
         BufferedImage image = new BufferedImage(width, height, imageType);
@@ -113,7 +101,28 @@ public class ImageServiceImpl implements ImageService{
         return image;
     }
 
-    private static int[] parsePImage(File file) throws IOException{
+    private BufferedImage copyRGBImage(int width, int height, int imageType, File file, int src) throws IOException {
+        byte[] pixels = IOUtils.toByteArray(new FileInputStream(file));
+        int[] rgbPixels = new int[(pixels.length -src)/3];
+
+
+        for (int i = src; i < rgbPixels.length ; i+=3) {
+            int color = pixels[i];
+            color = (color << 8) + pixels[i+1];
+            color = (color << 8) + pixels[i+2];
+            rgbPixels[i/3] = color;
+        }
+        System.out.println(pixels.length - src);
+        BufferedImage image = new BufferedImage(width, height, imageType);
+        DataBufferInt buffer = (DataBufferInt) image.getRaster().getDataBuffer();
+        int[] imgData = buffer.getData();
+        System.out.println(imgData.length);
+        System.arraycopy(rgbPixels, src, imgData, 0, imgData.length);
+
+        return image;
+    }
+
+    private int[] parsePImage(File file) throws IOException{
         BufferedReader reader = new BufferedReader(new FileReader(file));
         boolean lineDone;
         String[] words;
@@ -152,4 +161,5 @@ public class ImageServiceImpl implements ImageService{
         } while (line != null);
         throw new RuntimeException();
     }
+
 }

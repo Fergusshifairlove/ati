@@ -1,5 +1,6 @@
 package ar.edu.itba.services;
 
+import ar.edu.itba.models.ImageMatrix;
 import ar.edu.itba.models.Pixel;
 import ar.edu.itba.events.ImageLoaded;
 
@@ -8,10 +9,5 @@ import java.io.File;
 import java.io.IOException;
 
 public interface ImageService {
-    void loadImage(File img) throws IOException;
-    Pixel selectPixel(int x, int y);
-
-    void modifyPixel(Pixel pixel);
-
-    BufferedImage getImage();
+    ImageMatrix loadImage(File img) throws IOException;
 }

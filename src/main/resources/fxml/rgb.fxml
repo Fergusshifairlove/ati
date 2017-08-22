@@ -8,6 +8,7 @@
 
 <fx:root type="ar.edu.itba.views.RGBPixelView"
          fx:controller="ar.edu.itba.controllers.RGBPixelController"
+         stylesheets="/style/rgb-pixel.css"
          xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml">
     <Label text="R:"/>

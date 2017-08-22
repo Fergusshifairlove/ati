@@ -16,6 +16,6 @@
         <ImageView fx:id="before" onMouseClicked="#imageClicked" onMousePressed="#mousePressed" onMouseDragged="#mouseDragged" onMouseReleased="#mouseReleased"/>
     </ScrollPane>
     <ScrollPane>
-        <ImageView fx:id="after"/>
+        <ImageView fx:id="after" onMouseClicked="#imageClicked"/>
     </ScrollPane>
 </fx:root>

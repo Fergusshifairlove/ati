@@ -8,16 +8,23 @@
 <?import ar.edu.itba.views.MenuView ?>
 <?import ar.edu.itba.views.EditorView ?>
 <?import ar.edu.itba.views.ImageDataView?>
+<?import ar.edu.itba.views.OperationsView?>
 
 <?import javafx.scene.image.ImageView?>
-<BorderPane xmlns:fx="http://javafx.com/fxml">
+<BorderPane xmlns:fx="http://javafx.com/fxml" stylesheets="/style/main.css">
     <top>
         <MenuView/>
     </top>
     <center>
-        <EditorView/>
+        <VBox>
+            <EditorView/>
+        </VBox>
     </center>
     <right>
-        <ImageDataView/>
+        <VBox id="left">
+            <ImageDataView/>
+            <Separator/>
+            <OperationsView/>
+        </VBox>
     </right>
 </BorderPane>

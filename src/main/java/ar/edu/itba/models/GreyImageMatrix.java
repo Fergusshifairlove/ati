@@ -4,6 +4,8 @@ import javafx.scene.paint.Color;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.util.function.BinaryOperator;
+import java.util.function.ToDoubleFunction;
 
 public class GreyImageMatrix extends ImageMatrix{
     private double[][] grey;
@@ -36,9 +38,39 @@ public class GreyImageMatrix extends ImageMatrix{
         GreyPixel greyPixel = (GreyPixel) pixel;
         int x = greyPixel.getX(); int y = greyPixel.getY();
         int val = greyPixel.getGrey();
+        setPixel(x, y, val);
+    }
+
+    private void setPixel(int x, int y, double val) {
         grey[x][y] = val;
-        int [] iArray = {val};
-        this.getImage().getRaster().setPixel(x,y,iArray);
+        double [] array = {val};
+        this.getImage().getRaster().setPixel(x,y,array);
+    }
+
+    @Override
+    public ImageMatrix applyPunctualOperation(ToDoubleFunction<Double> operation) {
+        double val;
+        double[] array = new double[1];
+        for (int i = 0; i < this.getWidth(); i++) {
+            for (int j = 0; j < this.getHeight(); j++) {
+                val = operation.applyAsDouble(grey[i][j]);
+                setPixel(i, j, val);
+            }
+        }
+        return this;
+    }
+
+    @Override
+    public ImageMatrix applyBinaryOperation(BinaryOperator<Double> operator, ImageMatrix matrix) {
+        double val;
+        GreyImageMatrix greyMatrix = (GreyImageMatrix) matrix;
+        for (int i = 0; i < this.getWidth(); i++) {
+            for (int j = 0; j < this.getHeight(); j++) {
+                val = operator.apply(grey[i][j], greyMatrix.grey[i][j]);
+                setPixel(i, j, val);
+            }
+        }
+        return this;
     }
 
 }

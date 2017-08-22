@@ -6,7 +6,10 @@ public enum FxmlEnum {
     MENU("fxml/menu.fxml"),
     DATA("fxml/image-data.fxml"),
     RGB("fxml/rgb.fxml"),
-    GREY("fxml/grey.fxml");
+    GREY("fxml/grey.fxml"),
+    OPERATIONS("fxml/operations.fxml"),
+    THRESHOLD("fxml/punctualOperations/threshold.fxml"),
+    NEGATIVE("fxml/punctualOperations/negative.fxml");
 
     private String path;
 

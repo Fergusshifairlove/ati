@@ -15,13 +15,19 @@
                 <Menu text="File">
                     <items>
                         <MenuItem text="Open" onAction="#openFile"/>
+                        <SeparatorMenuItem/>
                         <MenuItem text="Save" onAction="#saveFile"/>
+                        <SeparatorMenuItem/>
                         <MenuItem text="Save As"/>
                     </items>
                 </Menu>
                 <Menu text="Edit">
                     <items>
                         <MenuItem text="SetPixel" onAction="#setPixel"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Negativo" onAction="#getNegative"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Umbral" onAction="#getThreshold"/>
                     </items>
                 </Menu>
             </menus>
