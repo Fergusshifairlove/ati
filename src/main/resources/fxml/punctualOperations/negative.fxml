@@ -10,7 +10,9 @@
 <fx:root type="NegativeView"
          fx:controller="ar.edu.itba.controllers.punctualOperations.NegativeController"
          xmlns="http://javafx.com/javafx"
-         xmlns:fx="http://javafx.com/fxml">
+         xmlns:fx="http://javafx.com/fxml"
+         stylesheets="/style/punctualOperations/negative.css">
     <Label text="Negative"/>
-    <CheckBox/>
+    <CheckBox fx:id="check" selected="true"/>
+    <Button id="close" onAction="#removeOperation"/>
 </fx:root>

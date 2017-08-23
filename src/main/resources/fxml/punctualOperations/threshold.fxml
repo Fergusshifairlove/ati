@@ -12,5 +12,5 @@
          xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml">
     <Label text="Threshold:"/>
-    <TextField fx:id="thresholdField" prefWidth="50"/>
+    <Slider fx:id="slider" max="255" min="0" showTickLabels="true" showTickMarks="true"/>
 </fx:root>

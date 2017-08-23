@@ -1,10 +1,6 @@
-VBox {
-    -fx-border-width: 0;
-}
-
 HBox {
     -fx-alignment: baseline-center;
-    -fx-spacing: 20;
+    -fx-spacing: 10;
 }
 
 .background {

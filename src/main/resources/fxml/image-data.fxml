@@ -15,7 +15,7 @@
          xmlns:fx="http://javafx.com/fxml"
          stylesheets="/style/image-data.css"
          fx:controller="ar.edu.itba.controllers.ImageDataController"
-         prefHeight="400" prefWidth="200.0">
+         prefHeight="400" >
     <VBox fx:id="data">
         <Label text="DATA"/>
         <HBox>

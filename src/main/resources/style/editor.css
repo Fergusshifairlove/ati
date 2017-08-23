@@ -2,11 +2,11 @@
     -fx-background-color: black;
 }
 
-.scroll-pane .viewport {
+ScrollPane .viewport {
    -fx-background-color: black;
 }
 
-.scroll-pane {
+ScrollPane {
    -fx-background-color: black;
    -fx-pref-height:2000;
 }

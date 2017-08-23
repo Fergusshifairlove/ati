@@ -1,7 +1,40 @@
-Label {
-}
 
 HBox {
     -fx-alignment: baseline-center;
     -fx-spacing: 20;
 }
+
+#title {
+    -fx-alignment: center;
+    -fx-border-color: black;
+    -fx-border-width: 2;
+}
+
+#title Label {
+    -fx-font-size: 18;
+}
+
+#user-confirmation {
+    -fx-alignment: baseline-center;
+    -fx-spacing: 10;
+}
+
+Separator {
+    -fx-padding: 10 0 10 0;
+    -fx-background-color: transparent;
+    -fx-alignment: baseline-center;
+}
+
+Separator .line {
+    fx-fill: black;
+}
+
+ScrollPane .viewport {
+   -fx-background-color: transparent;
+   -fx-border-width: 0;
+}
+
+ScrollPane {
+   -fx-background-color: transparent;
+}
+

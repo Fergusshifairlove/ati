@@ -57,8 +57,15 @@ public class EditorController {
 
     @Subscribe
     public void applyPunctualOperator(ApplyPunctualOperation operation) {
+        this.imageAfter = ImageMatrix.readImage(this.imageBefore.deepCopy());
         this.imageAfter.applyPunctualOperation(operation.getOperator());
         eventBus.post(new ImageModfied());
+    }
+
+    @Subscribe
+    public void confirm(OperationsConfirmed operationsConfirmed) {
+        this.imageBefore = this.imageAfter;
+        this.before.setImage(SwingFXUtils.toFXImage(this.imageAfter.getImage(), null));
     }
 
     public void imageClicked(MouseEvent event) {

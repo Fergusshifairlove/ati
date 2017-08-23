@@ -31,3 +31,7 @@ Separator {
     -fx-background-color: black;
     -fx-background-radius: 2;
 }
+
+#left VBox {
+    -fx-border-width: 0;
+}

@@ -15,15 +15,24 @@
          xmlns:fx="http://javafx.com/fxml"
          fx:controller="ar.edu.itba.controllers.OperationsController"
          stylesheets="/style/operations.css"
-         prefHeight="400" prefWidth="200.0">
+         prefHeight="400" maxWidth="200">
     <top>
-        <Label text="Operations"/>
+        <VBox id="title">
+            <Label text="Operations"/>
+        </VBox>
     </top>
     <center>
-        <VBox fx:id="operations">
-        </VBox>
+        <ScrollPane>
+            <VBox fx:id="operations"/>
+        </ScrollPane>
     </center>
     <bottom>
-        <Button text="Apply" onAction="#applyOperations"/>
+        <VBox id="user-confirmation">
+            <HBox>
+                <Button text="Apply" onAction="#applyOperations"/>
+                <Button text="Clear" onAction="#clearOperations"/>
+            </HBox>
+            <Button text="Confirm" onAction="#confirmOperations"/>
+        </VBox>
     </bottom>
 </fx:root>
