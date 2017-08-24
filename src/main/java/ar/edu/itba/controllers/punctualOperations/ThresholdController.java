@@ -11,7 +11,6 @@ import javafx.scene.control.Slider;
  * Created by Luis on 20/8/2017.
  */
 public class ThresholdController extends PunctualOperationController {
-    private EventBus eventBus;
     public Slider slider;
 
     @Inject

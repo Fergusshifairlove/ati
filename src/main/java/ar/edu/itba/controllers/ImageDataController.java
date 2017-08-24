@@ -2,7 +2,6 @@ package ar.edu.itba.controllers;
 
 import ar.edu.itba.events.*;
 import ar.edu.itba.models.Pixel;
-import ar.edu.itba.models.RGBPixel;
 import ar.edu.itba.services.ImageService;
 import ar.edu.itba.views.GreyPixelView;
 import ar.edu.itba.views.RGBPixelView;
@@ -10,7 +9,6 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;

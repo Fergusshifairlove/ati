@@ -9,7 +9,8 @@ public enum FxmlEnum {
     GREY("fxml/grey.fxml"),
     OPERATIONS("fxml/operations.fxml"),
     THRESHOLD("fxml/punctualOperations/threshold.fxml"),
-    NEGATIVE("fxml/punctualOperations/negative.fxml");
+    NEGATIVE("fxml/punctualOperations/negative.fxml"),
+    GAMMA("fxml/punctualOperations/gamma.fxml");
 
     private String path;
 

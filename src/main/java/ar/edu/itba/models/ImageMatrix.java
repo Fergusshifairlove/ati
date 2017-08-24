@@ -1,23 +1,34 @@
 package ar.edu.itba.models;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
-
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.WritableRaster;
 import java.util.function.BinaryOperator;
-import java.util.function.Function;
 import java.util.function.ToDoubleFunction;
 
-public abstract class ImageMatrix {
+public abstract class ImageMatrix{
     private int height;
     private int width;
-    private BufferedImage image;
+    private double maxValue = 255;
+    private double minValue = 0;
 
-    public ImageMatrix(int width, int height, BufferedImage image) {
+    public double getMaxValue() {
+        return maxValue;
+    }
+
+    public void setMaxValue(double maxValue) {
+        this.maxValue = maxValue;
+    }
+
+    public double getMinValue() {
+        return minValue;
+    }
+
+    public void setMinValue(double minValue) {
+        this.minValue = minValue;
+    }
+
+    public ImageMatrix(int width, int height) {
         this.height = height;
         this.width = width;
-        this.image = image;
     }
 
     public static ImageMatrix readImage(BufferedImage image) {
@@ -39,7 +50,11 @@ public abstract class ImageMatrix {
         return width;
     }
 
-    public BufferedImage getImage() { return image; }
+    public BufferedImage getImage(boolean compress) {
+        return this.toBufferedImage(compress);
+    }
+
+    protected abstract BufferedImage toBufferedImage(boolean compress);
 
     public abstract Pixel getPixelColor(int x, int y);
 
@@ -49,11 +64,17 @@ public abstract class ImageMatrix {
 
     public abstract ImageMatrix applyBinaryOperation(BinaryOperator<Double> operator, ImageMatrix matrix);
 
-    public BufferedImage deepCopy() {
-        ColorModel cm = this.image.getColorModel();
-        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
-        WritableRaster raster = this.image.copyData(null);
-        //NOT CROPPED
-        return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+    public void dynamicRange(double maxValue, double minValue) {
+        this.applyPunctualOperation(pixel -> pixel - minValue);
+        double c = 255/(Math.log(1 + (maxValue -minValue)));
+        this.applyPunctualOperation(pixel -> c * Math.log(1 + pixel));
+    }
+
+    protected double truncate(double p) {
+        if (p < 0)
+            return p;
+        if (p > 255)
+            return  255;
+        return p;
     }
 }

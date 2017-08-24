@@ -3,7 +3,6 @@ package ar.edu.itba.controllers;
 import ar.edu.itba.events.ImageLoaded;
 import ar.edu.itba.events.PixelSelected;
 import ar.edu.itba.events.RGBPixelModified;
-import ar.edu.itba.events.RGBPixelSelected;
 import ar.edu.itba.models.RGBPixel;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;

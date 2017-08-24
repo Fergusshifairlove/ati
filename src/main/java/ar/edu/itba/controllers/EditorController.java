@@ -30,7 +30,7 @@ public class EditorController {
 
     @Subscribe
     public void loadImage(ImageModfied imageModfied) throws IOException{
-        Image image = SwingFXUtils.toFXImage(this.imageAfter.getImage(), null);
+        Image image = SwingFXUtils.toFXImage(this.imageAfter.getImage(false), null);
         System.out.println("height: " + image.getHeight() + " width: " + image.getWidth());
         after.setImage(image);
     }
@@ -38,9 +38,9 @@ public class EditorController {
     @Subscribe
     public void openImage(OpenImage openImage) throws IOException {
         this.imageBefore = imageService.loadImage(openImage.getImage());
-        this.imageAfter = ImageMatrix.readImage(imageBefore.deepCopy());
-        this.before.setImage(SwingFXUtils.toFXImage(this.imageBefore.getImage(), null));
-        this.eventBus.post(new ImageLoaded(this.imageBefore.getImage().getType()));
+        this.imageAfter = ImageMatrix.readImage(imageBefore.getImage(false));
+        this.before.setImage(SwingFXUtils.toFXImage(this.imageBefore.getImage(false), null));
+        this.eventBus.post(new ImageLoaded(this.imageBefore.getImage(false).getType()));
     }
 
     @Subscribe
@@ -57,7 +57,7 @@ public class EditorController {
 
     @Subscribe
     public void applyPunctualOperator(ApplyPunctualOperation operation) {
-        this.imageAfter = ImageMatrix.readImage(this.imageBefore.deepCopy());
+        this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
         this.imageAfter.applyPunctualOperation(operation.getOperator());
         eventBus.post(new ImageModfied());
     }
@@ -65,7 +65,7 @@ public class EditorController {
     @Subscribe
     public void confirm(OperationsConfirmed operationsConfirmed) {
         this.imageBefore = this.imageAfter;
-        this.before.setImage(SwingFXUtils.toFXImage(this.imageAfter.getImage(), null));
+        this.before.setImage(SwingFXUtils.toFXImage(this.imageAfter.getImage(false), null));
     }
 
     public void imageClicked(MouseEvent event) {

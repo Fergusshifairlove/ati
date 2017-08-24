@@ -3,7 +3,6 @@ package ar.edu.itba.views;
 import ar.edu.itba.constants.FxmlEnum;
 import ar.edu.itba.services.FxmlLoaderService;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 

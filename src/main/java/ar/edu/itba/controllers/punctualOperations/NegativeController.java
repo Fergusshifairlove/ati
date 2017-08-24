@@ -12,7 +12,6 @@ import javafx.scene.control.CheckBox;
  */
 public class NegativeController extends PunctualOperationController{
     public CheckBox check;
-    private EventBus eventBus;
 
     @Inject
     public NegativeController(EventBus eventBus) {

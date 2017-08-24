@@ -2,14 +2,11 @@ package ar.edu.itba.controllers;
 
 import ar.edu.itba.events.*;
 import ar.edu.itba.models.GreyPixel;
-import ar.edu.itba.models.RGBPixel;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
-
-import static java.awt.Color.red;
 
 /**
  * Created by Luis on 18/8/2017.

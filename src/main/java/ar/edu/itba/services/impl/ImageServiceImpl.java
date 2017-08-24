@@ -1,17 +1,12 @@
 package ar.edu.itba.services.impl;
 
-import ar.edu.itba.models.Pixel;
-import ar.edu.itba.events.ImageLoaded;
 import ar.edu.itba.models.ImageMatrix;
 import ar.edu.itba.services.ImageService;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferInt;
-import java.awt.image.Raster;
+import java.awt.image.*;
 import java.io.*;
 
 public class ImageServiceImpl implements ImageService{
@@ -64,9 +59,6 @@ public class ImageServiceImpl implements ImageService{
 
     private BufferedImage bufferedFromPPM(File file) throws IOException{
         int [] vals = parsePImage(file);
-        for (int i = 0; i < vals.length; i++) {
-            System.out.println(vals[i]);
-        }
         int width = vals[1];
         int height = vals[2];
         int imageType = BufferedImage.TYPE_INT_RGB;
@@ -77,25 +69,18 @@ public class ImageServiceImpl implements ImageService{
 
     private BufferedImage bufferedFromPGM(File file) throws IOException{
         int [] vals = parsePImage(file);
-        for (int i = 0; i < vals.length; i++) {
-            System.out.println(vals[i]);
-        }
         int width = vals[1];
         int height = vals[2];
         int imageType = BufferedImage.TYPE_BYTE_GRAY;
         // GREY BufferedImage.TYPE_BYTE_GRAY == 10
         // RGB BufferedImage.TYPE_INT_RGB == 1
-        System.out.println(width);
-        System.out.println(height);
         return copyImage(width, height, imageType, file, vals[4]);
     }
     private BufferedImage copyImage(int width, int height, int imageType, File file, int src) throws IOException{
         byte[] pixels = IOUtils.toByteArray(new FileInputStream(file));
-        System.out.println(pixels.length - src);
         BufferedImage image = new BufferedImage(width, height, imageType);
         DataBufferByte buffer = (DataBufferByte) image.getRaster().getDataBuffer();
         byte[] imgData = buffer.getData();
-        System.out.println(imgData.length);
         System.arraycopy(pixels, src, imgData, 0, imgData.length);
 
         return image;
@@ -162,4 +147,11 @@ public class ImageServiceImpl implements ImageService{
         throw new RuntimeException();
     }
 
+    public BufferedImage deepCopy(BufferedImage image) {
+        ColorModel cm = image.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = image.copyData(null);
+        //NOT CROPPED
+        return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+    }
 }

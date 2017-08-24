@@ -3,6 +3,7 @@ package ar.edu.itba.controllers;
 import ar.edu.itba.events.*;
 import ar.edu.itba.services.ImageService;
 import ar.edu.itba.views.GreyPixelView;
+import ar.edu.itba.views.punctualOperations.GammaView;
 import ar.edu.itba.views.punctualOperations.NegativeView;
 import ar.edu.itba.views.punctualOperations.ThresholdView;
 import com.google.common.eventbus.EventBus;
@@ -11,9 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuBar;
 import javafx.stage.FileChooser;
-import org.apache.commons.io.FilenameUtils;
 
-import javax.imageio.ImageIO;
 import java.io.*;
 
 public class MenuController {
@@ -65,5 +64,9 @@ public class MenuController {
 
     public void getThreshold(ActionEvent actionEvent) {
         eventBus.post(new NewOperation<>(new ThresholdView()));
+    }
+
+    public void getGamma(ActionEvent actionEvent) {
+        eventBus.post(new NewOperation<>(new GammaView()));
     }
 }

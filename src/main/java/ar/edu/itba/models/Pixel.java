@@ -1,7 +1,6 @@
 package ar.edu.itba.models;
 
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class Pixel {

@@ -28,6 +28,8 @@
                         <MenuItem text="Negativo" onAction="#getNegative"/>
                         <SeparatorMenuItem/>
                         <MenuItem text="Umbral" onAction="#getThreshold"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Gamma" onAction="#getGamma"/>
                     </items>
                 </Menu>
             </menus>
