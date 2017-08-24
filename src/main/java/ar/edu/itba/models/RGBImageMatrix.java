@@ -31,6 +31,13 @@ public class RGBImageMatrix extends ImageMatrix{
         }
     }
 
+    public RGBImageMatrix(int width, int height, double[][] red, double[][] green, double[][] blue) {
+        super(width, height);
+        this.red = red;
+        this.green =green;
+        this.blue = blue;
+    }
+
     @Override
     public Pixel getPixelColor(int x, int y) {
         int red = (int)this.red[x][y];

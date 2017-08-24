@@ -3,6 +3,7 @@ package ar.edu.itba.models;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.BinaryOperator;
@@ -27,6 +28,10 @@ public class GreyImageMatrix extends ImageMatrix implements Iterable<GreyPixel>{
         }
     }
 
+    public GreyImageMatrix(int width, int height, double[][] grey) {
+        super(width, height);
+        this.grey = grey;
+    }
     @Override
     protected BufferedImage toBufferedImage(boolean compress) {
         BufferedImage image = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_BYTE_GRAY);

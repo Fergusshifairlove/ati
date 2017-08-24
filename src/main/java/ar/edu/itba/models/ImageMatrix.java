@@ -1,6 +1,7 @@
 package ar.edu.itba.models;
 
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 import java.util.function.BinaryOperator;
 import java.util.function.ToDoubleFunction;
 
@@ -76,5 +77,26 @@ public abstract class ImageMatrix{
         if (p > 255)
             return  255;
         return p;
+    }
+
+    protected void updateMinMaxValues(ToDoubleFunction<Double> operation) {
+        double[] current = {this.getMaxValue(), this.getMinValue()};
+        double[] vals = Arrays.stream(current).map(
+                operation::applyAsDouble
+        ).distinct().toArray();
+
+        this.setMaxValue(Arrays.stream(vals).max().getAsDouble());
+        this.setMinValue(Arrays.stream(vals).min().getAsDouble());
+    }
+
+    protected void updateMinMaxValues(BinaryOperator<Double> operator, ImageMatrix matrix) {
+        double[] current = {this.getMaxValue(), this.getMinValue()};
+        double[] other = {matrix.getMaxValue(), matrix.getMinValue()};
+        double[] vals = Arrays.stream(current).flatMap(
+                c -> Arrays.stream(other).map(o -> operator.apply(c,o))
+        ).distinct().toArray();
+
+        this.setMaxValue(Arrays.stream(vals).max().getAsDouble());
+        this.setMinValue(Arrays.stream(vals).min().getAsDouble());
     }
 }
