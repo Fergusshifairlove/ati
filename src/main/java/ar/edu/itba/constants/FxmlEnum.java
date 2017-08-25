@@ -15,7 +15,7 @@ public enum FxmlEnum {
     EXPONENTIAL("fxml/noise/exponential.fxml"),
     RAYLEIGH("fxml/noise/rayleigh.fxml"),
     HISTOGRAM("fxml/histogram.fxml");
-    
+
     private String path;
 
     FxmlEnum(final String path) {

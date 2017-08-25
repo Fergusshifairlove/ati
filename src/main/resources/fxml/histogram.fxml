@@ -12,13 +12,24 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <fx:root type="HistogramView" fx:controller="ar.edu.itba.controllers.HistogramController"
-         xmlns:fx="http://javafx.com/fxml">
-    <BarChart fx:id="barChart" categoryGap="0" barGap="0">
-        <xAxis>
-            <CategoryAxis side="BOTTOM" label="Grey Level" />
-        </xAxis>
-        <yAxis>
-            <NumberAxis side="LEFT" label="Frequency" upperBound="1"/>
-        </yAxis>
-    </BarChart>
+         xmlns:fx="http://javafx.com/fxml"
+         prefHeight="2000">
+    <SplitPane>
+        <BarChart fx:id="barChartBefore" categoryGap="0" barGap="0">
+            <xAxis>
+                <CategoryAxis side="BOTTOM" label="Grey Level" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" label="Frequency" upperBound="1"/>
+            </yAxis>
+        </BarChart>
+        <BarChart fx:id="barChartAfter" categoryGap="0" barGap="0">
+            <xAxis>
+                <CategoryAxis side="BOTTOM" label="Grey Level" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" label="Frequency" upperBound="1"/>
+            </yAxis>
+        </BarChart>
+    </SplitPane>
 </fx:root>

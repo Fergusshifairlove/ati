@@ -8,12 +8,13 @@ import java.util.Map;
  */
 public class Histogram {
 
-    private int pixelCount=0;
+    private int pixelCount;
     private Map<Integer,Double> greyLevelMap;
 
 
     public Histogram(GreyImageMatrix gim){
         this.greyLevelMap = new HashMap<>();
+        this.pixelCount = 0;
         for(int i=0; i <= 255; i++){
             greyLevelMap.put(i, 0.0);
         }
@@ -26,7 +27,7 @@ public class Histogram {
                 pixelCount++;
             }
         }
-        greyLevelMap.entrySet().stream().map(e -> greyLevelMap.put(e.getKey(),e.getValue()/pixelCount));
+        greyLevelMap.forEach((key, value) -> greyLevelMap.put(key, value / pixelCount));
 
     }
 

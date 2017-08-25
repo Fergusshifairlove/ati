@@ -31,7 +31,8 @@ public class EditorController {
     }
 
     @Subscribe
-    public void loadImage(ImageModfied imageModfied) throws IOException{
+    public void loadImage(ImageModified imageModified) throws IOException{
+        this.imageAfter = imageModified.getModified();
         Image image = SwingFXUtils.toFXImage(this.imageAfter.getImage(false), null);
         System.out.println("height: " + image.getHeight() + " width: " + image.getWidth());
         after.setImage(image);
@@ -43,7 +44,7 @@ public class EditorController {
         this.imageBefore = imageService.loadImage(openImage.getImage());
         this.imageAfter = ImageMatrix.readImage(imageBefore.getImage(false));
         this.before.setImage(SwingFXUtils.toFXImage(imageBefore.getImage(false), null));
-        this.eventBus.post(new ImageLoaded(this.imageBefore.getImage(false).getType()));
+        this.eventBus.post(new ImageLoaded(this.imageBefore));
         eventBus.post(new LoadHistogram(new Histogram((GreyImageMatrix) this.imageAfter)));
     }
 
@@ -56,27 +57,28 @@ public class EditorController {
     public void modifyPixel(PixelModified pixelModified) {
         System.out.println("PIXEL MODIFIED");
         this.imageAfter.setPixel(pixelModified.getPixel());
-        this.eventBus.post(new ImageModfied());
+        this.eventBus.post(new ImageModified(this.imageAfter));
     }
 
     @Subscribe
     public void applyPunctualOperator(ApplyPunctualOperation operation) {
         this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
         this.imageAfter.applyPunctualOperation(operation.getOperator());
-        eventBus.post(new ImageModfied());
+        eventBus.post(new ImageModified(this.imageAfter));
     }
 
     @Subscribe
     public void confirm(OperationsConfirmed operationsConfirmed) {
         this.imageBefore = this.imageAfter;
         this.before.setImage(SwingFXUtils.toFXImage(this.imageAfter.getImage(false), null));
+        this.after.setImage(null);
     }
 
     @Subscribe
     public void applyNoise(ApplyNoise noise) {
         this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
         this.imageAfter.applyNoise(noise.getNoiseType(), noise.getGenerator(), noise.getPercentage());
-        eventBus.post(new ImageModfied());
+        eventBus.post(new ImageModified(this.imageAfter));
     }
 
     public void imageClicked(MouseEvent event) {

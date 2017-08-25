@@ -26,5 +26,4 @@
             <TextField fx:id="y" disable="true" prefWidth="50" />
         </HBox>
     </VBox>
-    <HistogramView/>
 </fx:root>

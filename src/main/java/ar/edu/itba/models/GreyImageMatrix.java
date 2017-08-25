@@ -19,7 +19,7 @@ public class GreyImageMatrix extends ImageMatrix implements Iterable<GreyPixel>{
     private double[][] grey;
 
     public GreyImageMatrix(BufferedImage image) {
-        super(image.getWidth(), image.getHeight());
+        super(image.getWidth(), image.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
         this.grey = new double[this.width][this.height];
         byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
         final int pixelLength = 1;
@@ -34,7 +34,7 @@ public class GreyImageMatrix extends ImageMatrix implements Iterable<GreyPixel>{
     }
 
     public GreyImageMatrix(int width, int height, double[][] grey) {
-        super(width, height);
+        super(width, height, BufferedImage.TYPE_BYTE_GRAY);
         this.grey = grey;
     }
     @Override

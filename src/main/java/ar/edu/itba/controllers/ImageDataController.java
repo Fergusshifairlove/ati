@@ -1,6 +1,7 @@
 package ar.edu.itba.controllers;
 
 import ar.edu.itba.events.*;
+import ar.edu.itba.models.ImageMatrix;
 import ar.edu.itba.models.Pixel;
 import ar.edu.itba.services.ImageService;
 import ar.edu.itba.views.GreyPixelView;
@@ -52,12 +53,13 @@ public class ImageDataController {
         ObservableList<Node> children = this.data.getChildren();
         this.x.clear();
         this.y.clear();
+        int type = imageLoaded.getImage().getType();
 
-        if (this.currentImgType == imageLoaded.getType())
+        if (this.currentImgType == type)
             return;
-        this.currentImgType = imageLoaded.getType();
+        this.currentImgType = type;
 
-        if (imageLoaded.getType() == BufferedImage.TYPE_INT_RGB || imageLoaded.getType() == BufferedImage.TYPE_3BYTE_BGR) {
+        if (type == BufferedImage.TYPE_INT_RGB || type == BufferedImage.TYPE_3BYTE_BGR) {
             children.remove(this.data.lookup("#grey"));
             RGBPixelView pixelView = new RGBPixelView();
             pixelView.setId("rgb");

@@ -17,7 +17,7 @@ public class RGBImageMatrix extends ImageMatrix{
     private double[][] blue;
 
     protected RGBImageMatrix(BufferedImage image) {
-        super(image.getWidth(), image.getHeight());
+        super(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
         this.red = new double[this.getWidth()][this.getHeight()];
         this.green = new double[this.getWidth()][this.getHeight()];
         this.blue = new double[this.getWidth()][this.getHeight()];
@@ -37,7 +37,7 @@ public class RGBImageMatrix extends ImageMatrix{
     }
 
     public RGBImageMatrix(int width, int height, double[][] red, double[][] green, double[][] blue) {
-        super(width, height);
+        super(width, height, BufferedImage.TYPE_INT_RGB);
         this.red = red;
         this.green =green;
         this.blue = blue;

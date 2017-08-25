@@ -1,13 +1,15 @@
 package ar.edu.itba.events;
 
-public class ImageLoaded {
-    private int type;
+import ar.edu.itba.models.ImageMatrix;
 
-    public ImageLoaded(int type) {
-        this.type = type;
+public class ImageLoaded {
+    private ImageMatrix image;
+
+    public ImageLoaded(ImageMatrix image) {
+        this.image = image;
     }
 
-    public int getType() {
-        return type;
+    public ImageMatrix getImage() {
+        return image;
     }
 }
