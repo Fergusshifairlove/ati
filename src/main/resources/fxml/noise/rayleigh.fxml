@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import ar.edu.itba.views.noiseOperations.RayleighNoiseView?>
+
+
+<fx:root type="RayleighNoiseView" xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="ar.edu.itba.controllers.operations.noise.RayleighController">
+    <Label text="Exponential Noise"/>
+    <HBox>
+        <Label text="xi"/>
+        <TextField fx:id="xi"/>
+    </HBox>
+    <HBox>
+        <Label text="percentage"/>
+        <TextField fx:id="percentage"/>
+    </HBox>
+    <HBox>
+        <Label text="Type"/>
+        <ComboBox fx:id="type"/>
+    </HBox>
+
+</fx:root>

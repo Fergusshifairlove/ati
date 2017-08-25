@@ -1,5 +1,6 @@
-package ar.edu.itba.controllers.punctualOperations;
+package ar.edu.itba.controllers.operations.punctualOperations;
 
+import ar.edu.itba.controllers.operations.OperationController;
 import ar.edu.itba.events.ApplyPunctualOperation;
 import ar.edu.itba.events.ApplyOperations;
 import com.google.common.eventbus.EventBus;
@@ -10,7 +11,7 @@ import javafx.scene.control.Slider;
 /**
  * Created by Luis on 20/8/2017.
  */
-public class ThresholdController extends PunctualOperationController {
+public class ThresholdController extends OperationController {
     public Slider slider;
 
     @Inject

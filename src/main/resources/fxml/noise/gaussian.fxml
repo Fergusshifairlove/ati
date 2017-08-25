@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import ar.edu.itba.views.noiseOperations.GaussianNoiseView?>
+
+<?import com.sun.javafx.scene.control.skin.ContextMenuContent.ArrowMenuItem?>
+<fx:root type="GaussianNoiseView" xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="ar.edu.itba.controllers.operations.noise.GaussianController"
+         stylesheets="/style/noiseOperations/gaussian.css">
+    <Label text="Gaussian Noise"/>
+    <HBox>
+        <Label text="sigma"/>
+        <TextField fx:id="sigma"/>
+    </HBox>
+    <HBox>
+        <Label text="mu"/>
+        <TextField fx:id="mu"/>
+    </HBox>
+    <HBox>
+        <Label text="percentage"/>
+        <TextField fx:id="percentage"/>
+    </HBox>
+    <HBox>
+        <Label text="Type"/>
+        <ComboBox fx:id="type"/>
+    </HBox>
+
+</fx:root>

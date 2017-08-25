@@ -8,7 +8,8 @@
 
 <fx:root type="ar.edu.itba.views.punctualOperations.GammaView" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ar.edu.itba.controllers.punctualOperations.GammaController">
+            fx:controller="ar.edu.itba.controllers.operations.punctualOperations.GammaController">
             <Label text="Gamma"/>
             <TextField fx:id="gammaValue" prefWidth="50"/>
+            <Button styleClass="close" onAction="#removeOperation"/>
 </fx:root>

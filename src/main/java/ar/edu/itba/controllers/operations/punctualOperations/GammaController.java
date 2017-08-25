@@ -1,5 +1,6 @@
-package ar.edu.itba.controllers.punctualOperations;
+package ar.edu.itba.controllers.operations.punctualOperations;
 
+import ar.edu.itba.controllers.operations.OperationController;
 import ar.edu.itba.events.ApplyOperations;
 import ar.edu.itba.events.ApplyPunctualOperation;
 import com.google.common.eventbus.EventBus;
@@ -7,7 +8,7 @@ import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import javafx.scene.control.TextField;
 
-public class GammaController extends PunctualOperationController{
+public class GammaController extends OperationController {
     public TextField gammaValue;
 
     @Inject

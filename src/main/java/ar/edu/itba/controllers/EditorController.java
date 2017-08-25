@@ -39,7 +39,7 @@ public class EditorController {
     public void openImage(OpenImage openImage) throws IOException {
         this.imageBefore = imageService.loadImage(openImage.getImage());
         this.imageAfter = ImageMatrix.readImage(imageBefore.getImage(false));
-        this.before.setImage(SwingFXUtils.toFXImage(this.imageBefore.getImage(false), null));
+        this.before.setImage(SwingFXUtils.toFXImage(imageBefore.getImage(false), null));
         this.eventBus.post(new ImageLoaded(this.imageBefore.getImage(false).getType()));
     }
 
@@ -66,6 +66,13 @@ public class EditorController {
     public void confirm(OperationsConfirmed operationsConfirmed) {
         this.imageBefore = this.imageAfter;
         this.before.setImage(SwingFXUtils.toFXImage(this.imageAfter.getImage(false), null));
+    }
+
+    @Subscribe
+    public void applyNoise(ApplyNoise noise) {
+        this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
+        this.imageAfter.applyNoise(noise.getNoiseType(), noise.getGenerator(), noise.getPercentage());
+        eventBus.post(new ImageModfied());
     }
 
     public void imageClicked(MouseEvent event) {

@@ -1,10 +1,15 @@
 package ar.edu.itba.models;
 
+import ar.edu.itba.constants.NoiseType;
+import ar.edu.itba.models.randomGenerators.RandomNumberGenerator;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
 import java.util.function.BinaryOperator;
 import java.util.function.ToDoubleFunction;
+import java.util.stream.DoubleStream;
 
 public class RGBImageMatrix extends ImageMatrix{
     private double[][] red;
@@ -70,6 +75,7 @@ public class RGBImageMatrix extends ImageMatrix{
                 this.setPixel(i, j, r, g, b);
             }
         }
+        this.updateMinMaxValues(operation);
         return this;
     }
 
@@ -85,11 +91,35 @@ public class RGBImageMatrix extends ImageMatrix{
                 this.setPixel(i, j, r, g, b);
             }
         }
+        this.updateMinMaxValues(operator, matrix);
         return this;
     }
 
     @Override
+    public void applyNoise(NoiseType noiseType, RandomNumberGenerator generator, double percentage) {
+        long cant = Math.round(this.width * this.height * percentage);
+        DoubleStream randoms;
+        Iterable<Point> toModify;
+
+        double[][][] matrices = {new double[this.width][this.height], new double[this.width][this.height], new double[this.width][this.height]};
+        for (int i = 0; i < matrices.length; i++) {
+            randoms = generator.doubles(cant);
+            toModify = getPixelsToModify(this.width, this.height, cant);
+            matrices[i] = getRandomMatrix(this.width, this.height, noiseType, toModify, randoms.iterator());
+        }
+        ImageMatrix noise = new RGBImageMatrix(this.width, this.height, matrices[0], matrices[1], matrices[2]);
+        this.applyBinaryOperation((x1, x2) -> x1 + x2, noise);
+
+    }
+
+    @Override
     protected BufferedImage toBufferedImage(boolean compress) {
+        if (compress) {
+            this.dynamicRange(getMaxValue(), getMinValue());
+        }
+        else {
+            this.applyPunctualOperation(this::truncate);
+        }
         BufferedImage image = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
         WritableRaster raster = image.getRaster();
         for (int i = 0; i < this.getWidth(); i++) {

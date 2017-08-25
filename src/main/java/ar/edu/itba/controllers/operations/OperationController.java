@@ -1,4 +1,4 @@
-package ar.edu.itba.controllers.punctualOperations;
+package ar.edu.itba.controllers.operations;
 
 import ar.edu.itba.events.RemoveOperation;
 import com.google.common.eventbus.EventBus;
@@ -6,10 +6,10 @@ import javafx.event.ActionEvent;
 import javafx.scene.Node;
 
 
-public abstract class PunctualOperationController {
+public abstract class OperationController {
     protected EventBus eventBus;
 
-    public PunctualOperationController(EventBus eventBus) {
+    public OperationController(EventBus eventBus) {
         this.eventBus = eventBus;
     }
 

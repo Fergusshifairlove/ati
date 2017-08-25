@@ -3,6 +3,9 @@ package ar.edu.itba.controllers;
 import ar.edu.itba.events.*;
 import ar.edu.itba.services.ImageService;
 import ar.edu.itba.views.GreyPixelView;
+import ar.edu.itba.views.noiseOperations.ExponentialNoiseView;
+import ar.edu.itba.views.noiseOperations.GaussianNoiseView;
+import ar.edu.itba.views.noiseOperations.RayleighNoiseView;
 import ar.edu.itba.views.punctualOperations.GammaView;
 import ar.edu.itba.views.punctualOperations.NegativeView;
 import ar.edu.itba.views.punctualOperations.ThresholdView;
@@ -68,5 +71,15 @@ public class MenuController {
 
     public void getGamma(ActionEvent actionEvent) {
         eventBus.post(new NewOperation<>(new GammaView()));
+    }
+
+    public void gaussianNoise(ActionEvent actionEvent) { eventBus.post(new NewOperation<>(new GaussianNoiseView()));}
+
+    public void exponentialNoise(ActionEvent actionEvent) {
+        eventBus.post(new NewOperation<>(new ExponentialNoiseView()));
+    }
+
+    public void rayleighNoise(ActionEvent actionEvent) {
+        eventBus.post(new NewOperation<>(new RayleighNoiseView()));
     }
 }

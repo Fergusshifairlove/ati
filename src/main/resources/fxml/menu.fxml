@@ -32,6 +32,15 @@
                         <MenuItem text="Gamma" onAction="#getGamma"/>
                     </items>
                 </Menu>
+                <Menu text="Noise">
+                    <items>
+                        <MenuItem text="Gaussian" onAction="#gaussianNoise"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Exponential" onAction="#exponentialNoise"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Rayleigh" onAction="#rayleighNoise"/>
+                    </items>
+                </Menu>
             </menus>
     </MenuBar>
 

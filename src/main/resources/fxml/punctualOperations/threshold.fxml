@@ -8,9 +8,10 @@
 <?import ar.edu.itba.views.punctualOperations.ThresholdView?>
 
 <fx:root type="ThresholdView"
-         fx:controller="ar.edu.itba.controllers.punctualOperations.ThresholdController"
+         fx:controller="ar.edu.itba.controllers.operations.punctualOperations.ThresholdController"
          xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml">
     <Label text="Threshold:"/>
     <Slider fx:id="slider" max="255" min="0" showTickLabels="true" showTickMarks="true"/>
+    <Button styleClass="close" onAction="#removeOperation"/>
 </fx:root>
