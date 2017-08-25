@@ -10,8 +10,8 @@ public enum FxmlEnum {
     OPERATIONS("fxml/operations.fxml"),
     THRESHOLD("fxml/punctualOperations/threshold.fxml"),
     NEGATIVE("fxml/punctualOperations/negative.fxml"),
-    GAMMA("fxml/punctualOperations/gamma.fxml");
-
+    GAMMA("fxml/punctualOperations/gamma.fxml"),
+    HISTOGRAM("fxml/histogram.fxml");
     private String path;
 
     FxmlEnum(final String path) {

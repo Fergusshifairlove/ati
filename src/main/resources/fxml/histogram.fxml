@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import ar.edu.itba.views.HistogramView?>
+
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<fx:root type="HistogramView" fx:controller="ar.edu.itba.controllers.HistogramController"
+         xmlns:fx="http://javafx.com/fxml">
+    <BarChart fx:id="barChart" categoryGap="0" barGap="0">
+        <xAxis>
+            <CategoryAxis side="BOTTOM" label="Grey Level" />
+        </xAxis>
+        <yAxis>
+            <NumberAxis side="LEFT" label="Frequency" upperBound="1"/>
+        </yAxis>
+    </BarChart>
+</fx:root>

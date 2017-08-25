@@ -1,6 +1,8 @@
 package ar.edu.itba.controllers;
 
 import ar.edu.itba.events.*;
+import ar.edu.itba.models.GreyImageMatrix;
+import ar.edu.itba.models.Histogram;
 import ar.edu.itba.models.ImageMatrix;
 import ar.edu.itba.services.ImageService;
 import com.google.common.eventbus.EventBus;
@@ -33,6 +35,7 @@ public class EditorController {
         Image image = SwingFXUtils.toFXImage(this.imageAfter.getImage(false), null);
         System.out.println("height: " + image.getHeight() + " width: " + image.getWidth());
         after.setImage(image);
+        eventBus.post(new LoadHistogram(new Histogram((GreyImageMatrix) this.imageAfter)));
     }
 
     @Subscribe
@@ -41,6 +44,7 @@ public class EditorController {
         this.imageAfter = ImageMatrix.readImage(imageBefore.getImage(false));
         this.before.setImage(SwingFXUtils.toFXImage(this.imageBefore.getImage(false), null));
         this.eventBus.post(new ImageLoaded(this.imageBefore.getImage(false).getType()));
+        eventBus.post(new LoadHistogram(new Histogram((GreyImageMatrix) this.imageAfter)));
     }
 
     @Subscribe
