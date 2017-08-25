@@ -13,8 +13,9 @@ public enum FxmlEnum {
     GAMMA("fxml/punctualOperations/gamma.fxml"),
     GAUSSIAN("fxml/noise/gaussian.fxml"),
     EXPONENTIAL("fxml/noise/exponential.fxml"),
-    RAYLEIGH("fxml/noise/rayleigh.fxml");
-
+    RAYLEIGH("fxml/noise/rayleigh.fxml"),
+    HISTOGRAM("fxml/histogram.fxml");
+    
     private String path;
 
     FxmlEnum(final String path) {
