@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by root on 8/29/17.
+ * Created by Nicolas Castano on 8/29/17.
  */
-public class PounderedMedianMask extends Mask {
+public class WeightedMedianMask extends Mask {
 
     private Map<Double,Double> repeats;
-    public PounderedMedianMask(int size) {
+    public WeightedMedianMask(int size) {
         super(size);
         set(0,0,1);
         set(0,2,1);
