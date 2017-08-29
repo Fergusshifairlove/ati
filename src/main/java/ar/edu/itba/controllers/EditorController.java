@@ -78,7 +78,7 @@ public class EditorController {
     public void applyNoise(ApplyNoise noise) {
         this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
         this.imageAfter.applyNoise(noise.getNoiseType(), noise.getGenerator(), noise.getPercentage());
-        eventBus.post(new ImageModified(this.imageAfter));
+        eventBus.post(new ImageModified(ImageMatrix.readImage(imageAfter.getImage(false))));
     }
 
     public void imageClicked(MouseEvent event) {

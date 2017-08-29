@@ -15,20 +15,21 @@ public class Histogram {
     public Histogram(GreyImageMatrix gim){
         this.greyLevelMap = new HashMap<>();
         this.pixelCount = 0;
-        for(int i=0; i <= 255; i++){
-            greyLevelMap.put(i, 0.0);
-        }
 
         GreyPixel gp;
+        Double count;
         for(int i=0; i<gim.getWidth(); i++){
             for (int j=0; j<gim.getHeight(); j++){
                 gp = (GreyPixel) gim.getPixelColor(i, j);
-                greyLevelMap.put(gp.getGrey(), greyLevelMap.get(gp.getGrey())+1);
+                count = greyLevelMap.get(gp.getGrey());
+                if (count == null)
+                    greyLevelMap.put(gp.getGrey(), 0.0);
+                else
+                    greyLevelMap.put(gp.getGrey(),count + 1);
                 pixelCount++;
             }
         }
         greyLevelMap.forEach((key, value) -> greyLevelMap.put(key, value / pixelCount));
-
     }
 
     private double getSumOfFrequencies(){
@@ -43,7 +44,7 @@ public class Histogram {
     }
 
     private double getMinFrequency(){
-        double sMin=greyLevelMap.get(0);
+        double sMin=greyLevelMap.get(0.0);
 
         for(Double i: greyLevelMap.values()){
             if(i<sMin){

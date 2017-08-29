@@ -37,6 +37,7 @@ public class HistogramController {
 
         barChartAfter.getData().clear();
         Histogram histogram = new Histogram((GreyImageMatrix) image);
+        System.out.println("ADASDASDASDF");
         barChartAfter.getData().addAll(this.getSeries(histogram));
     }
 

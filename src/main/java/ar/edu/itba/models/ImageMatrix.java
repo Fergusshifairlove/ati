@@ -86,6 +86,9 @@ public abstract class ImageMatrix{
         this.applyPunctualOperation(pixel -> c * Math.log(1 + pixel));
     }
 
+    public void compress() {
+        this.dynamicRange(this.maxValue, this.minValue);
+    }
     double truncate(double p) {
         if (p < 0)
             return p;
