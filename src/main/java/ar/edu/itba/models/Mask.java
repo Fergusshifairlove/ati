@@ -1,22 +1,20 @@
 package ar.edu.itba.models;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
- * Created by root on 8/28/17.
+ * Created by Nicolas Castano on 8/28/17.
  */
 public class Mask {
 
     double mask[][];
     protected int size;
-    protected List<Integer> list;
+//    protected List<Integer> list;
 
     public Mask(int size){
         mask= new double[size][size];
         this.size = size;
-        list = new ArrayList<>();
+//        list = new ArrayList<>();
     }
 
     private double get(int x, int y)throws IllegalArgumentException{
@@ -47,14 +45,13 @@ public class Mask {
 
     }
 
-    public double filter(double[] values,double[][] m) {
+    public double applyFilter(double[] values) {
         double accum = 0.0;
         for(int i =0; i<size; i++){
             for (int j = 0; j < size; j++) {
-                accum += m[i][j] * values[i*size + j];
+                accum += get(i, j) * values[i*size + j];
             }
         }
-        System.out.println("VOy a devolver: " + accum);
         return accum;
     }
 
@@ -70,12 +67,9 @@ public class Mask {
                     for (int k = 0; k < size; k++) {
                         for (int k2 = 0; k2 < size; k2++) {
                             values[k*size+k2] = image[i+k-halfSize][j+k2-halfSize];
-                            System.out.print("\t" + values[k*size+k2]);
-
                         }
                     }
-                    System.out.println("Esto me devuelve filter: " + filter(values,mask));
-                    newImage[i][j] = filter(values,mask);
+                    newImage[i][j] = applyFilter(values);
 
                 }
             }
@@ -83,44 +77,6 @@ public class Mask {
         return newImage;
     }
 
-
-    public static void main(String[] args) {
-        double image[][] = new double[5][5];
-        Mask mask = new Mask(3);
-        int k=1;
-
-        for(int i=0; i<5;i++) {
-            for (int j = 0; j < 5; j++) {
-                image[i][j]=k++;
-            }
-        }
-
-        for(int i=0; i<5;i++) {
-            for (int j = 0; j < 5; j++) {
-                System.out.print(image[i][j]+"\t");
-            }
-            System.out.println();
-        }
-
-        image= mask.filterImage(image);
-
-
-        System.out.println();
-        System.out.println();
-        System.out.println();
-
-//        for(int i=0; i<5;i++) {
-//            for (int j = 0; j < 5; j++) {
-//                System.out.print(image[i][j]+"\t");
-//            }
-//            System.out.println();
-//        }
-
-
-
-//        System.out.println(test.toString());
-
-    }
 
 }
 
