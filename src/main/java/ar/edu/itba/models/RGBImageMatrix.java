@@ -112,6 +112,20 @@ public class RGBImageMatrix extends ImageMatrix{
 
     }
 
+    public static RGBImageMatrix getNoiseImage(int width, int height, RandomNumberGenerator generator, NoiseType type) {
+        long cant = Math.round(width * height);
+        DoubleStream randoms;
+        Iterable<Point> toModify;
+
+        double[][][] matrices = {new double[width][height], new double[width][height], new double[width][height]};
+        for (int i = 0; i < matrices.length; i++) {
+            randoms = generator.doubles(cant);
+            toModify = getPixelsToModify(width, height, cant);
+            matrices[i] = getRandomMatrix(width, height, type, toModify, randoms.iterator());
+        }
+        return new RGBImageMatrix(width, height, matrices[0], matrices[1], matrices[2]);
+    }
+
     @Override
     protected BufferedImage toBufferedImage(boolean compress) {
         if (compress) {

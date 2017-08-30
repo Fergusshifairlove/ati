@@ -120,7 +120,7 @@ public abstract class ImageMatrix{
 
     public abstract void applyNoise(NoiseType noiseType, RandomNumberGenerator generator, double percentage);
 
-    double[][] getRandomMatrix(int width, int height, NoiseType noiseType, Iterable<Point> toModify, Iterator<Double> generator) {
+    static double[][] getRandomMatrix(int width, int height, NoiseType noiseType, Iterable<Point> toModify, Iterator<Double> generator) {
         double[][] noise = new double[width][height];
 
         for (int i = 0; i < width; i++) {
@@ -136,7 +136,7 @@ public abstract class ImageMatrix{
         return noise;
     }
 
-    Iterable<Point> getPixelsToModify(int width, int height, long cant) {
+    static Iterable<Point> getPixelsToModify(int width, int height, long cant) {
         Set<Point> modified = new HashSet<>();
         ThreadLocalRandom random = ThreadLocalRandom.current();
         Iterator<Integer> cols = random.ints(0, width).iterator();

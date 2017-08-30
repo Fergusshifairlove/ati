@@ -129,4 +129,12 @@ public class GreyImageMatrix extends ImageMatrix implements Iterable<GreyPixel>{
     public Spliterator<GreyPixel> spliterator() {
         return null;
     }
+
+    public static GreyImageMatrix getNoiseImage(int width, int height, RandomNumberGenerator generator, NoiseType noiseType) {
+        long cant = Math.round(width * height);
+        DoubleStream randoms =  generator.doubles(cant);
+        Iterable<Point> toModify = getPixelsToModify(width, height, cant);
+        double[][] matrix = getRandomMatrix(width, height, noiseType, toModify, randoms.iterator());
+        return new GreyImageMatrix(width, height, matrix);
+    }
 }

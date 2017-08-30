@@ -84,8 +84,13 @@ public class EditorController {
 
     @Subscribe
     public void applyNoise(ApplyNoise noise) {
-        this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
-        this.imageAfter.applyNoise(noise.getNoiseType(), noise.getGenerator(), noise.getPercentage());
+        if (this.imageBefore == null) {
+            this.imageAfter = GreyImageMatrix.getNoiseImage(100,100,noise.getGenerator(),noise.getNoiseType());
+
+        }else {
+            this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
+            this.imageAfter.applyNoise(noise.getNoiseType(), noise.getGenerator(), noise.getPercentage());
+        }
         eventBus.post(new ImageModified(ImageMatrix.readImage(imageAfter.getImage(false))));
     }
 
