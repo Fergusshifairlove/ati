@@ -14,7 +14,12 @@ public enum FxmlEnum {
     GAUSSIAN("fxml/noise/gaussian.fxml"),
     EXPONENTIAL("fxml/noise/exponential.fxml"),
     RAYLEIGH("fxml/noise/rayleigh.fxml"),
-    HISTOGRAM("fxml/histogram.fxml");
+    HISTOGRAM("fxml/histogram.fxml"),
+    MEAN("fxml/mask/mean.fxml"),
+    MEDIAN("fxml/mask/median.fxml"),
+    WEIGHTEDMEDIAN("fxml/mask/weightedmedian.fxml"),
+    GAUSS("fxml/mask/gauss.fxml"),
+    HIGHPASS("fxml/mask/highpass.fxml");
 
     private String path;
 

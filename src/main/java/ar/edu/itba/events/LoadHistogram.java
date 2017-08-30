@@ -3,7 +3,7 @@ package ar.edu.itba.events;
 import ar.edu.itba.models.Histogram;
 
 /**
- * Created by root on 8/25/17.
+ * Created by Nicolas Castano on 8/25/17.
  */
 public class LoadHistogram {
     private Histogram histogram;

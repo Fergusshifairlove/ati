@@ -41,6 +41,20 @@
                         <MenuItem text="Rayleigh" onAction="#rayleighNoise"/>
                     </items>
                 </Menu>
+                <Menu text="Mask">
+                    <items>
+                        <MenuItem text="Mean" />
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Median" />
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Weighted Median" />
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Gauss" />
+                        <SeparatorMenuItem/>
+                        <MenuItem text="High Pass" />
+                    </items>
+                </Menu>
+
             </menus>
     </MenuBar>
 
