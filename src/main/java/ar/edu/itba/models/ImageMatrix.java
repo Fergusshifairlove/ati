@@ -117,6 +117,8 @@ public abstract class ImageMatrix{
 
     public abstract void applyNoise(NoiseType noiseType, RandomNumberGenerator generator, double percentage);
 
+    public abstract ImageMatrix applyMask(Mask mask);
+
     double[][] getRandomMatrix(int width, int height, NoiseType noiseType, Iterable<Point> toModify, Iterator<Double> generator) {
         double[][] noise = new double[width][height];
 

@@ -113,6 +113,14 @@ public class RGBImageMatrix extends ImageMatrix{
     }
 
     @Override
+    public ImageMatrix applyMask(Mask mask) {
+        this.red = mask.filterImage(this.red);
+        this.green = mask.filterImage(this.green);
+        this.blue = mask.filterImage(this.blue);
+        return this;
+    }
+
+    @Override
     protected BufferedImage toBufferedImage(boolean compress) {
         if (compress) {
             this.dynamicRange(getMaxValue(), getMinValue());

@@ -112,6 +112,12 @@ public class GreyImageMatrix extends ImageMatrix implements Iterable<GreyPixel>{
     }
 
     @Override
+    public ImageMatrix applyMask(Mask mask) {
+        this.grey = mask.filterImage(this.grey);
+        return this;
+    }
+
+    @Override
     public Iterator<GreyPixel> iterator() {
         return null;
     }

@@ -4,6 +4,7 @@ import ar.edu.itba.events.*;
 import ar.edu.itba.models.GreyImageMatrix;
 import ar.edu.itba.models.Histogram;
 import ar.edu.itba.models.ImageMatrix;
+import ar.edu.itba.models.Mask;
 import ar.edu.itba.services.ImageService;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -81,6 +82,12 @@ public class EditorController {
         eventBus.post(new ImageModified(this.imageAfter));
     }
 
+    @Subscribe
+    public void applyMask(Mask mask) {
+        this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
+        this.imageAfter.applyMask(mask);
+        eventBus.post(new ImageModified(this.imageAfter));
+    }
     public void imageClicked(MouseEvent event) {
         int x = (int) event.getX();
         int y = (int) event.getY();
