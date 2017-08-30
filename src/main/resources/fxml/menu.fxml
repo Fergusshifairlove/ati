@@ -41,6 +41,11 @@
                         <MenuItem text="Rayleigh" onAction="#rayleighNoise"/>
                     </items>
                 </Menu>
+                <Menu text="Histogram">
+                    <items>
+                        <MenuItem text="Equalize" onAction="#equalize"/>
+                    </items>
+                </Menu>
             </menus>
     </MenuBar>
 

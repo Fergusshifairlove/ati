@@ -68,6 +68,14 @@ public class EditorController {
     }
 
     @Subscribe
+    public void equalize(EqualizeImage equalizeImage) {
+        this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
+        Histogram histogram = new Histogram((GreyImageMatrix) imageAfter);
+        this.imageAfter.applyPunctualOperation(histogram::equalize);
+        eventBus.post(new ImageModified(this.imageAfter));
+    }
+
+    @Subscribe
     public void confirm(OperationsConfirmed operationsConfirmed) {
         this.imageBefore = this.imageAfter;
         this.before.setImage(SwingFXUtils.toFXImage(this.imageAfter.getImage(false), null));

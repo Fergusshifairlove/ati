@@ -82,4 +82,8 @@ public class MenuController {
     public void rayleighNoise(ActionEvent actionEvent) {
         eventBus.post(new NewOperation<>(new RayleighNoiseView()));
     }
+
+    public void equalize(ActionEvent event) {
+        eventBus.post(new EqualizeImage());
+    }
 }
