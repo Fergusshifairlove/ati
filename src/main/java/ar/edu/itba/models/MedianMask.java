@@ -13,6 +13,6 @@ public class MedianMask extends Mask{
 
     public double applyFilter(double[] values){
         Arrays.sort(values);
-        return (double)values[(values.length - 1) / 2];
+        return values[(values.length - 1) / 2];
     }
 }
