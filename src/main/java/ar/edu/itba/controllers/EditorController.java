@@ -1,5 +1,6 @@
 package ar.edu.itba.controllers;
 
+import ar.edu.itba.constants.NoiseType;
 import ar.edu.itba.events.*;
 import ar.edu.itba.models.GreyImageMatrix;
 import ar.edu.itba.models.Histogram;
@@ -91,6 +92,8 @@ public class EditorController {
         }else {
             this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
             this.imageAfter.applyNoise(noise.getNoiseType(), noise.getGenerator(), noise.getPercentage());
+            if (noise.getNoiseType() == NoiseType.MULTIPLICATIVE)
+                this.imageAfter.compress();
         }
         eventBus.post(new ImageModified(ImageMatrix.readImage(imageAfter.getImage(false))));
     }

@@ -40,7 +40,7 @@ public class GreyImageMatrix extends ImageMatrix implements Iterable<GreyPixel>{
     @Override
     protected BufferedImage toBufferedImage(boolean compress) {
         if (compress) {
-            this.dynamicRange(getMaxValue(), getMinValue());
+            this.compress();
         }
         else {
             this.applyPunctualOperation(this::truncate);
@@ -97,7 +97,6 @@ public class GreyImageMatrix extends ImageMatrix implements Iterable<GreyPixel>{
                 this.setPixel(i, j, val);
             }
         }
-        this.updateMinMaxValues(operator, matrix);
         return this;
     }
 
@@ -142,5 +141,29 @@ public class GreyImageMatrix extends ImageMatrix implements Iterable<GreyPixel>{
         Iterable<Point> toModify = getPixelsToModify(width, height, cant);
         double[][] matrix = getRandomMatrix(width, height, noiseType, toModify, randoms.iterator());
         return new GreyImageMatrix(width, height, matrix);
+    }
+
+    @Override
+    public void compress() {
+
+        double min= this.grey[0][0];
+        double max= min;
+        double val;
+        for (int i = 0; i < this.width; i++) {
+            for (int j = 0; j < this.height; j++) {
+                val = grey[i][j];
+                if(val < min)
+                    min = val;
+                if(val > max)
+                    max = val;
+            }
+        }
+        this.dynamicRange(max, min);
+    }
+
+    void dynamicRange(double maxValue, double minValue) {
+        this.applyPunctualOperation(pixel -> pixel - minValue);
+        double c = 255/(Math.log(1 + (maxValue -minValue)));
+        this.applyPunctualOperation(pixel -> c * Math.log(1 + pixel));
     }
 }

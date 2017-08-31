@@ -7,6 +7,7 @@ import ar.edu.itba.models.ImageMatrix;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
+import com.sun.javafx.charts.Legend;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
@@ -43,7 +44,7 @@ public class HistogramController {
         barChartBefore.getData().clear();
         ImageMatrix image = imageLoaded.getImage();
 
-        if (image.getType() == BufferedImage.TYPE_INT_RGB)
+        if (image.getType() == BufferedImage.TYPE_INT_RGB || image.getType() == BufferedImage.TYPE_3BYTE_BGR)
             return;
 
         System.out.println("IMAGE OPENED");
@@ -65,6 +66,7 @@ public class HistogramController {
         for (Integer level: histogram.getCategories()) {
             series.getData().add(new XYChart.Data<>(level.toString(), histogram.getFrequency(level)));
         }
+        series.setName("Frequency of grey level");
         return series;
     }
 }

@@ -16,25 +16,7 @@ import java.util.function.ToDoubleFunction;
 public abstract class ImageMatrix{
     protected int height;
     protected int width;
-    private double maxValue = 255;
-    private double minValue = 0;
     private int type;
-
-    double getMaxValue() {
-        return maxValue;
-    }
-
-    private void setMaxValue(double maxValue) {
-        this.maxValue = maxValue;
-    }
-
-    double getMinValue() {
-        return minValue;
-    }
-
-    private void setMinValue(double minValue) {
-        this.minValue = minValue;
-    }
 
     public int getType() {
         return type;
@@ -55,6 +37,7 @@ public abstract class ImageMatrix{
         else if (image.getType() == BufferedImage.TYPE_3BYTE_BGR) {
             return new RGBImageMatrix(image);
         }
+        System.out.println(image.getType());
         throw new RuntimeException();
     }
 
@@ -80,42 +63,14 @@ public abstract class ImageMatrix{
 
     public abstract ImageMatrix applyBinaryOperation(BinaryOperator<Double> operator, ImageMatrix matrix);
 
-    void dynamicRange(double maxValue, double minValue) {
-        this.applyPunctualOperation(pixel -> pixel - minValue);
-        double c = 255/(Math.log(1 + (maxValue -minValue)));
-        this.applyPunctualOperation(pixel -> c * Math.log(1 + pixel));
-    }
+    public abstract void compress();
 
-    public void compress() {
-        this.dynamicRange(this.maxValue, this.minValue);
-    }
     double truncate(double p) {
         if (p < 0)
             return 0;
         if (p > 255)
             return  255;
         return p;
-    }
-
-    void updateMinMaxValues(ToDoubleFunction<Double> operation) {
-        double[] current = {this.getMaxValue(), this.getMinValue()};
-        double[] vals = Arrays.stream(current).map(
-                operation::applyAsDouble
-        ).distinct().toArray();
-
-        this.setMaxValue(Arrays.stream(vals).max().getAsDouble());
-        this.setMinValue(Arrays.stream(vals).min().getAsDouble());
-    }
-
-    void updateMinMaxValues(BinaryOperator<Double> operator, ImageMatrix matrix) {
-        double[] current = {this.getMaxValue(), this.getMinValue()};
-        double[] other = {matrix.getMaxValue(), matrix.getMinValue()};
-        double[] vals = Arrays.stream(current).flatMap(
-                c -> Arrays.stream(other).map(o -> operator.apply(c,o))
-        ).distinct().toArray();
-
-        this.setMaxValue(Arrays.stream(vals).max().getAsDouble());
-        this.setMinValue(Arrays.stream(vals).min().getAsDouble());
     }
 
     public abstract void applyNoise(NoiseType noiseType, RandomNumberGenerator generator, double percentage);
@@ -142,8 +97,8 @@ public abstract class ImageMatrix{
     static Iterable<Point> getPixelsToModify(int width, int height, long cant) {
         Set<Point> modified = new HashSet<>();
         ThreadLocalRandom random = ThreadLocalRandom.current();
-        Iterator<Integer> cols = random.ints(0, width).iterator();
-        Iterator<Integer> rows = random.ints(0, height).iterator();
+        Iterator<Integer> cols = random.ints(0, height).iterator();
+        Iterator<Integer> rows = random.ints(0, width).iterator();
 
         do {
             modified.add(new Point(rows.next(), cols.next()));

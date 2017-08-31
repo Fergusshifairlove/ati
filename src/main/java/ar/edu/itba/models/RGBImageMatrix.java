@@ -6,6 +6,7 @@ import ar.edu.itba.models.randomGenerators.RandomNumberGenerator;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.awt.image.DataBufferInt;
 import java.awt.image.WritableRaster;
 import java.util.function.BinaryOperator;
 import java.util.function.ToDoubleFunction;
@@ -17,11 +18,35 @@ public class RGBImageMatrix extends ImageMatrix{
     private double[][] blue;
 
     protected RGBImageMatrix(BufferedImage image) {
-        super(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+        super(image.getWidth(), image.getHeight(), image.getType());
         this.red = new double[this.getWidth()][this.getHeight()];
         this.green = new double[this.getWidth()][this.getHeight()];
         this.blue = new double[this.getWidth()][this.getHeight()];
+        if (this.getType() == BufferedImage.TYPE_INT_RGB) {
+            this.IntRGB(image);
+        }
+        else if (this.getType() == BufferedImage.TYPE_3BYTE_BGR) {
+            this.ByteImage(image);
+        }
 
+    }
+
+    private void IntRGB(BufferedImage image) {
+        final int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+        final int pixelLength = 3;
+        for (int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength) {
+            this.blue[row][col] = ((int) pixels[pixel] & 0xff); // blue
+            this.green[row][col] = (((int) pixels[pixel + 1] & 0xff)); // green
+            this.red[row][col] = (((int) pixels[pixel + 2] & 0xff)); // red
+            row++;
+            if (row == this.getWidth()) {
+                row = 0;
+                col++;
+            }
+        }
+    }
+
+    private void ByteImage(BufferedImage image) {
         final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
         final int pixelLength = 3;
         for (int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength) {
@@ -75,7 +100,6 @@ public class RGBImageMatrix extends ImageMatrix{
                 this.setPixel(i, j, r, g, b);
             }
         }
-        this.updateMinMaxValues(operation);
         return this;
     }
 
@@ -91,8 +115,12 @@ public class RGBImageMatrix extends ImageMatrix{
                 this.setPixel(i, j, r, g, b);
             }
         }
-        this.updateMinMaxValues(operator, matrix);
         return this;
+    }
+
+    @Override
+    public void compress() {
+
     }
 
     @Override
@@ -137,12 +165,12 @@ public class RGBImageMatrix extends ImageMatrix{
     @Override
     protected BufferedImage toBufferedImage(boolean compress) {
         if (compress) {
-            this.dynamicRange(getMaxValue(), getMinValue());
+            this.compress();
         }
         else {
             this.applyPunctualOperation(this::truncate);
         }
-        BufferedImage image = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = new BufferedImage(this.getWidth(), this.getHeight(), this.getType());
         WritableRaster raster = image.getRaster();
         for (int i = 0; i < this.getWidth(); i++) {
             for (int j = 0; j < this.getHeight(); j++) {
