@@ -33,11 +33,11 @@ public class EditorController {
 
     @Subscribe
     public void loadImage(ImageModified imageModified) throws IOException{
+        System.out.println("IMAGE MODIFIED");
         this.imageAfter = imageModified.getModified();
         Image image = SwingFXUtils.toFXImage(this.imageAfter.getImage(false), null);
         System.out.println("height: " + image.getHeight() + " width: " + image.getWidth());
         after.setImage(image);
-        eventBus.post(new LoadHistogram(new Histogram((GreyImageMatrix) this.imageAfter)));
     }
 
     @Subscribe
@@ -46,7 +46,7 @@ public class EditorController {
         this.imageAfter = ImageMatrix.readImage(imageBefore.getImage(false));
         this.before.setImage(SwingFXUtils.toFXImage(imageBefore.getImage(false), null));
         this.eventBus.post(new ImageLoaded(this.imageBefore));
-        eventBus.post(new LoadHistogram(new Histogram((GreyImageMatrix) this.imageAfter)));
+        //eventBus.post(new LoadHistogram(new Histogram((GreyImageMatrix) this.imageAfter)));
     }
 
     @Subscribe
@@ -69,6 +69,14 @@ public class EditorController {
     }
 
     @Subscribe
+    public void equalize(EqualizeImage equalizeImage) {
+        this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
+        Histogram histogram = new Histogram((GreyImageMatrix) imageAfter);
+        this.imageAfter.applyPunctualOperation(histogram::equalize);
+        eventBus.post(new ImageModified(this.imageAfter));
+    }
+
+    @Subscribe
     public void confirm(OperationsConfirmed operationsConfirmed) {
         this.imageBefore = this.imageAfter;
         this.before.setImage(SwingFXUtils.toFXImage(this.imageAfter.getImage(false), null));
@@ -77,9 +85,14 @@ public class EditorController {
 
     @Subscribe
     public void applyNoise(ApplyNoise noise) {
-        this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
-        this.imageAfter.applyNoise(noise.getNoiseType(), noise.getGenerator(), noise.getPercentage());
-        eventBus.post(new ImageModified(this.imageAfter));
+        if (this.imageBefore == null) {
+            this.imageAfter = GreyImageMatrix.getNoiseImage(100,100,noise.getGenerator(),noise.getNoiseType());
+
+        }else {
+            this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
+            this.imageAfter.applyNoise(noise.getNoiseType(), noise.getGenerator(), noise.getPercentage());
+        }
+        eventBus.post(new ImageModified(ImageMatrix.readImage(imageAfter.getImage(false))));
     }
 
     @Subscribe

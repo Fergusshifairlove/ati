@@ -31,12 +31,10 @@ public class HistogramController {
     @Subscribe
     public void loadHistogram(ImageModified imageModified) {
         System.out.println("HISTOGRAM");
-        ImageMatrix image = imageModified.getModified();
-        if (image.getType() == BufferedImage.TYPE_INT_RGB)
-            return;
 
         barChartAfter.getData().clear();
-        Histogram histogram = new Histogram((GreyImageMatrix) image);
+        Histogram histogram = new Histogram((GreyImageMatrix) ImageMatrix.readImage(imageModified.getModified().getImage(false)));
+        System.out.println("LOAD HISTOGRAM");
         barChartAfter.getData().addAll(this.getSeries(histogram));
     }
 
@@ -48,6 +46,7 @@ public class HistogramController {
         if (image.getType() == BufferedImage.TYPE_INT_RGB)
             return;
 
+        System.out.println("IMAGE OPENED");
         Histogram histogram = new Histogram((GreyImageMatrix) image);
         barChartBefore.getData().addAll(this.getSeries(histogram));
 
@@ -55,7 +54,9 @@ public class HistogramController {
 
     @Subscribe void operationsConfirmed(OperationsConfirmed operationsConfirmed) {
         this.barChartBefore.getData().clear();
+        System.out.println("OPERATIONS CONFIRMED");
         this.barChartBefore.getData().addAll(this.barChartAfter.getData());
+        this.barChartAfter.getData().clear();
     }
 
     private XYChart.Series getSeries(Histogram histogram) {

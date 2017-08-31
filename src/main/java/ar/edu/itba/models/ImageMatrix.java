@@ -86,9 +86,12 @@ public abstract class ImageMatrix{
         this.applyPunctualOperation(pixel -> c * Math.log(1 + pixel));
     }
 
+    public void compress() {
+        this.dynamicRange(this.maxValue, this.minValue);
+    }
     double truncate(double p) {
         if (p < 0)
-            return p;
+            return 0;
         if (p > 255)
             return  255;
         return p;
@@ -117,9 +120,10 @@ public abstract class ImageMatrix{
 
     public abstract void applyNoise(NoiseType noiseType, RandomNumberGenerator generator, double percentage);
 
+
     public abstract ImageMatrix applyMask(Mask mask);
 
-    double[][] getRandomMatrix(int width, int height, NoiseType noiseType, Iterable<Point> toModify, Iterator<Double> generator) {
+    static double[][] getRandomMatrix(int width, int height, NoiseType noiseType, Iterable<Point> toModify, Iterator<Double> generator) {
         double[][] noise = new double[width][height];
 
         for (int i = 0; i < width; i++) {
@@ -135,7 +139,7 @@ public abstract class ImageMatrix{
         return noise;
     }
 
-    Iterable<Point> getPixelsToModify(int width, int height, long cant) {
+    static Iterable<Point> getPixelsToModify(int width, int height, long cant) {
         Set<Point> modified = new HashSet<>();
         ThreadLocalRandom random = ThreadLocalRandom.current();
         Iterator<Integer> cols = random.ints(0, width).iterator();

@@ -7,6 +7,8 @@ import ar.edu.itba.views.maskOperations.*;
 import ar.edu.itba.views.noiseOperations.ExponentialNoiseView;
 import ar.edu.itba.views.noiseOperations.GaussianNoiseView;
 import ar.edu.itba.views.noiseOperations.RayleighNoiseView;
+import ar.edu.itba.views.noiseOperations.SaltAndPepperNoiseView;
+import ar.edu.itba.views.punctualOperations.ContrastView;
 import ar.edu.itba.views.punctualOperations.GammaView;
 import ar.edu.itba.views.punctualOperations.NegativeView;
 import ar.edu.itba.views.punctualOperations.ThresholdView;
@@ -89,4 +91,13 @@ public class MenuController {
     public void weightedMedianMask(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new WeightedMedianView()));}
     public void gaussMask(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new GaussView()));}
     public void highPassMask(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new HighPassView()));}
+    public void saltAndPepperNoise(ActionEvent actionEvent) { eventBus.post(new NewOperation<>(new SaltAndPepperNoiseView()));}
+
+    public void equalize(ActionEvent event) {
+        eventBus.post(new EqualizeImage());
+    }
+
+    public void getContrast(ActionEvent event) {
+        eventBus.post(new NewOperation<>(new ContrastView()));
+    }
 }

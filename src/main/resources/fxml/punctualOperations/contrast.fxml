@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import ar.edu.itba.views.punctualOperations.ContrastView?>
+
+<fx:root type="ContrastView"
+         fx:controller="ar.edu.itba.controllers.operations.punctualOperations.ContrastController"
+         xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml">
+    <Label text="Lower Limit:"/>
+    <TextField fx:id="r1"/>
+    <Label text="Upper Limit"/>
+    <TextField fx:id="r2"/>
+    <Label text="Increase"/>
+    <TextField fx:id="increase"/>
+    <Button styleClass="close" onAction="#removeOperation"/>
+</fx:root>

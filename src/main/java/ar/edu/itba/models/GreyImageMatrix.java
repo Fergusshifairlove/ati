@@ -82,7 +82,7 @@ public class GreyImageMatrix extends ImageMatrix implements Iterable<GreyPixel>{
                 setPixel(i, j, val);
             }
         }
-        this.updateMinMaxValues(operation);
+        //this.updateMinMaxValues(operation);
         return this;
     }
 
@@ -108,7 +108,11 @@ public class GreyImageMatrix extends ImageMatrix implements Iterable<GreyPixel>{
         Iterable<Point> toModify = getPixelsToModify(this.width, this.height, cant);
         double[][] matrix = getRandomMatrix(this.width, this.height, noiseType, toModify, randoms.iterator());
         ImageMatrix noise = new GreyImageMatrix(this.width, this.height, matrix);
-        this.applyBinaryOperation((x1, x2) -> x1 + x2, noise);
+        this.applyBinaryOperation((x1, x2) -> noiseType.getOperator().apply(x1,  x2), noise);
+    }
+
+    public int getValue(int x, int y) {
+        return (int)this.grey[x][y];
     }
 
     @Override
@@ -130,5 +134,13 @@ public class GreyImageMatrix extends ImageMatrix implements Iterable<GreyPixel>{
     @Override
     public Spliterator<GreyPixel> spliterator() {
         return null;
+    }
+
+    public static GreyImageMatrix getNoiseImage(int width, int height, RandomNumberGenerator generator, NoiseType noiseType) {
+        long cant = Math.round(width * height);
+        DoubleStream randoms =  generator.doubles(cant);
+        Iterable<Point> toModify = getPixelsToModify(width, height, cant);
+        double[][] matrix = getRandomMatrix(width, height, noiseType, toModify, randoms.iterator());
+        return new GreyImageMatrix(width, height, matrix);
     }
 }

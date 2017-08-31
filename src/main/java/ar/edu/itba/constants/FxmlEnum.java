@@ -19,7 +19,9 @@ public enum FxmlEnum {
     MEDIAN("fxml/mask/median.fxml"),
     WEIGHTEDMEDIAN("fxml/mask/weightedmedian.fxml"),
     GAUSS("fxml/mask/gauss.fxml"),
-    HIGHPASS("fxml/mask/highpass.fxml");
+    HIGHPASS("fxml/mask/highpass.fxml"),
+    CONTRAST("fxml/punctualOperations/contrast.fxml"),
+    SALT_AND_PEPPER("fxml/noise/salt_and_pepper.fxml");
 
     private String path;
 
