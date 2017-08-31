@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import ar.edu.itba.views.noiseOperations.SaltAndPepperNoiseView?>
+
+<fx:root type="SaltAndPepperNoiseView" xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="ar.edu.itba.controllers.operations.noise.SaltAndPepperController"
+         stylesheets="/style/noiseOperations/gaussian.css">
+    <Label text="Salt and Pepper Noise"/>
+    <HBox>
+        <Label text="White Probability"/>
+        <TextField fx:id="white"/>
+    </HBox>
+    <HBox>
+        <Label text="Black Probability"/>
+        <TextField fx:id="black"/>
+    </HBox>
+    <HBox>
+        <Label text="percentage"/>
+        <TextField fx:id="percentage"/>
+    </HBox>
+
+</fx:root>

@@ -15,7 +15,8 @@ public enum FxmlEnum {
     EXPONENTIAL("fxml/noise/exponential.fxml"),
     RAYLEIGH("fxml/noise/rayleigh.fxml"),
     HISTOGRAM("fxml/histogram.fxml"),
-    CONTRAST("fxml/punctualOperations/contrast.fxml");
+    CONTRAST("fxml/punctualOperations/contrast.fxml"),
+    SALT_AND_PEPPER("fxml/noise/salt_and_pepper.fxml");
 
     private String path;
 

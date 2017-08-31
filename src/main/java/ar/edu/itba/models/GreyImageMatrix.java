@@ -108,7 +108,7 @@ public class GreyImageMatrix extends ImageMatrix implements Iterable<GreyPixel>{
         Iterable<Point> toModify = getPixelsToModify(this.width, this.height, cant);
         double[][] matrix = getRandomMatrix(this.width, this.height, noiseType, toModify, randoms.iterator());
         ImageMatrix noise = new GreyImageMatrix(this.width, this.height, matrix);
-        this.applyBinaryOperation((x1, x2) -> x1 + x2, noise);
+        this.applyBinaryOperation((x1, x2) -> noiseType.getOperator().apply(x1,  x2), noise);
     }
 
     public int getValue(int x, int y) {

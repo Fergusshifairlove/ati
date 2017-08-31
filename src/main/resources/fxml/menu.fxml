@@ -41,6 +41,8 @@
                         <MenuItem text="Exponential" onAction="#exponentialNoise"/>
                         <SeparatorMenuItem/>
                         <MenuItem text="Rayleigh" onAction="#rayleighNoise"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Salt and Pepper" onAction="#saltAndPepperNoise"/>
                     </items>
                 </Menu>
                 <Menu text="Histogram">
