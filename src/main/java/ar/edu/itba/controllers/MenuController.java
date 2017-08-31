@@ -6,6 +6,7 @@ import ar.edu.itba.views.GreyPixelView;
 import ar.edu.itba.views.noiseOperations.ExponentialNoiseView;
 import ar.edu.itba.views.noiseOperations.GaussianNoiseView;
 import ar.edu.itba.views.noiseOperations.RayleighNoiseView;
+import ar.edu.itba.views.punctualOperations.ContrastView;
 import ar.edu.itba.views.punctualOperations.GammaView;
 import ar.edu.itba.views.punctualOperations.NegativeView;
 import ar.edu.itba.views.punctualOperations.ThresholdView;
@@ -85,5 +86,9 @@ public class MenuController {
 
     public void equalize(ActionEvent event) {
         eventBus.post(new EqualizeImage());
+    }
+
+    public void getContrast(ActionEvent event) {
+        eventBus.post(new NewOperation<>(new ContrastView()));
     }
 }

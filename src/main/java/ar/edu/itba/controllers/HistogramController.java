@@ -29,14 +29,11 @@ public class HistogramController {
 
 
     @Subscribe
-    public void loadHistogram(ImageModified imageModified) {
+    public void loadHistogram(LoadHistogram loadHistogram) {
         System.out.println("HISTOGRAM");
-        ImageMatrix image = imageModified.getModified();
-        if (image.getType() == BufferedImage.TYPE_INT_RGB)
-            return;
 
         barChartAfter.getData().clear();
-        Histogram histogram = new Histogram((GreyImageMatrix) image);
+        Histogram histogram = loadHistogram.getHistogram();
         System.out.println("ADASDASDASDF");
         barChartAfter.getData().addAll(this.getSeries(histogram));
     }

@@ -36,7 +36,7 @@ public class EditorController {
         Image image = SwingFXUtils.toFXImage(this.imageAfter.getImage(false), null);
         System.out.println("height: " + image.getHeight() + " width: " + image.getWidth());
         after.setImage(image);
-        eventBus.post(new LoadHistogram(new Histogram((GreyImageMatrix) this.imageAfter)));
+        eventBus.post(new LoadHistogram(new Histogram((GreyImageMatrix) ImageMatrix.readImage(this.imageAfter.getImage(false)))));
     }
 
     @Subscribe
@@ -45,7 +45,7 @@ public class EditorController {
         this.imageAfter = ImageMatrix.readImage(imageBefore.getImage(false));
         this.before.setImage(SwingFXUtils.toFXImage(imageBefore.getImage(false), null));
         this.eventBus.post(new ImageLoaded(this.imageBefore));
-        eventBus.post(new LoadHistogram(new Histogram((GreyImageMatrix) this.imageAfter)));
+        //eventBus.post(new LoadHistogram(new Histogram((GreyImageMatrix) this.imageAfter)));
     }
 
     @Subscribe

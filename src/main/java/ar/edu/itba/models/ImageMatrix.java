@@ -91,7 +91,7 @@ public abstract class ImageMatrix{
     }
     double truncate(double p) {
         if (p < 0)
-            return p;
+            return 0;
         if (p > 255)
             return  255;
         return p;

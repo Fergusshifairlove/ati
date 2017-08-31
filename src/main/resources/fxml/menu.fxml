@@ -30,6 +30,8 @@
                         <MenuItem text="Umbral" onAction="#getThreshold"/>
                         <SeparatorMenuItem/>
                         <MenuItem text="Gamma" onAction="#getGamma"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Contrast" onAction="#getContrast"/>
                     </items>
                 </Menu>
                 <Menu text="Noise">
