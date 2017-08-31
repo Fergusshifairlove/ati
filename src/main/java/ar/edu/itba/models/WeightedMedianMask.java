@@ -1,7 +1,10 @@
 package ar.edu.itba.models;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by Nicolas Castano on 8/29/17.
@@ -65,10 +68,19 @@ public class WeightedMedianMask extends Mask {
 
     public double applyFilter(Map<Double,Double> map){
 
+        List<Double> values = map.keySet().stream().collect(Collectors.toList());
+        Collections.sort(values);
+
         double[] repetitions = new double[16];
 //        map.values().stream().sorted(Double::compare).collect();
         double aux;
         int k=0;
+        for (Double value: values) {
+            System.out.println(value);
+            for(int j=0;j< repeats.get(value);j++){
+                repetitions[k++]=value;
+            }
+        }
 
 //        System.out.println("longitud de values: "+values.length);
 //        for(int i=0; i< values.length; i++){
@@ -80,7 +92,7 @@ public class WeightedMedianMask extends Mask {
 //            }
 //        }
 
-        return (double)repetitions[(repetitions.length - 1) / 2];
+        return repetitions[(repetitions.length - 1) / 2];
     }
 
 }
