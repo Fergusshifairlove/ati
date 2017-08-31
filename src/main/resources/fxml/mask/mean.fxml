@@ -13,4 +13,8 @@
          fx:controller="ar.edu.itba.controllers.operations.mask.MeanController">
     <Label text="Mean Mask"/>
 
+    <HBox>
+        <Label text="size"/>
+        <TextField fx:id="size"/>
+    </HBox>
 </fx:root>

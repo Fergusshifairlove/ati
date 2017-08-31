@@ -1,6 +1,5 @@
 package ar.edu.itba.models;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +21,8 @@ public class WeightedMedianMask extends Mask {
         set(2,1,2);
         set(1,1,4);
 
+        System.out.println(this.toString());
+
         repeats = new HashMap<>();
     }
 
@@ -37,10 +38,24 @@ public class WeightedMedianMask extends Mask {
                     for (int k = 0; k < size; k++) {
                         for (int k2 = 0; k2 < size; k2++) {
                             values[k*size+k2] = image[i+k-halfSize][j+k2-halfSize];
-                            repeats.put(image[i+k-halfSize][j+k2-halfSize], mask[i+k-halfSize][j+k2-halfSize]);
+                            System.out.println("VALUES");
+                            System.out.println(values[k*size+k2]);
+                            Double prev = repeats.get(image[i+k-halfSize][j+k2-halfSize]);
+                            if(prev == null){
+                                repeats.put(image[i+k-halfSize][j+k2-halfSize], mask[k][k2]);
+                            }else{
+                                repeats.put(image[i+k-halfSize][j+k2-halfSize], mask[k][k2]+prev);
+                            }
+
                         }
                     }
-                    newImage[i][j] = applyFilter(values);
+                    System.out.println();
+                    System.out.println();
+                    System.out.println();
+                    System.out.println(repeats.toString());
+                    System.out.println("PASE ESTO");
+                    newImage[i][j] = applyFilter(repeats);
+                    repeats.clear();
 
                 }
             }
@@ -48,18 +63,22 @@ public class WeightedMedianMask extends Mask {
         return newImage;
     }
 
-    public double applyFilter(double[] values){
-        Arrays.sort(values);
+    public double applyFilter(Map<Double,Double> map){
+
         double[] repetitions = new double[16];
+//        map.values().stream().sorted(Double::compare).collect();
         double aux;
         int k=0;
 
-        for(int i=0; i< repetitions.length; i++){
-            aux = values[i];
-            for(int j=0;j< repeats.get(aux);j++){
-                repetitions[k++]=aux;
-            }
-        }
+//        System.out.println("longitud de values: "+values.length);
+//        for(int i=0; i< values.length; i++){
+//            aux = values[i];
+//            System.out.println("aux: " + aux);
+//            System.out.println("lo que devuelve el mapa: "+ repeats.get(aux));
+//            for(int j=0;j< repeats.get(aux);j++){
+//                repetitions[k++]=aux;
+//            }
+//        }
 
         return (double)repetitions[(repetitions.length - 1) / 2];
     }

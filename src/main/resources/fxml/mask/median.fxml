@@ -13,4 +13,9 @@
          fx:controller="ar.edu.itba.controllers.operations.mask.MedianController">
     <Label text="Median Mask"/>
 
+    <HBox>
+        <Label text="size"/>
+        <TextField fx:id="size"/>
+    </HBox>
+
 </fx:root>

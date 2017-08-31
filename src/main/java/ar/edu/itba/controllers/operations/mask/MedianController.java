@@ -7,11 +7,14 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 
 /**
  * Created by root on 8/30/17.
  */
 public class MedianController extends OperationController {
+    public TextField size;
+
     @Inject
     public MedianController(EventBus eventBus) {
         super(eventBus);
@@ -23,6 +26,7 @@ public class MedianController extends OperationController {
 
     @Subscribe
     void apply(ApplyOperations applyOperations) {
-        this.eventBus.post(new MedianMask(3));
+        int s = Integer.parseInt(size.getText());
+        this.eventBus.post(new MedianMask(s));
     }
 }

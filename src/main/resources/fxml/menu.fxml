@@ -43,15 +43,15 @@
                 </Menu>
                 <Menu text="Mask">
                     <items>
-                        <MenuItem text="Mean" />
+                        <MenuItem text="Mean" onAction="#meanMask"/>
                         <SeparatorMenuItem/>
-                        <MenuItem text="Median" />
+                        <MenuItem text="Median" onAction="#medianMask"/>
                         <SeparatorMenuItem/>
-                        <MenuItem text="Weighted Median" />
+                        <MenuItem text="Weighted Median" onAction="#weightedMedianMask"/>
                         <SeparatorMenuItem/>
-                        <MenuItem text="Gauss" />
+                        <MenuItem text="Gauss" onAction="#gaussMask"/>
                         <SeparatorMenuItem/>
-                        <MenuItem text="High Pass" />
+                        <MenuItem text="High Pass" onAction="#highPassMask"/>
                     </items>
                 </Menu>
 

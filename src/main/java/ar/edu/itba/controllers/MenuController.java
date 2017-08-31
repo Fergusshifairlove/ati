@@ -3,6 +3,7 @@ package ar.edu.itba.controllers;
 import ar.edu.itba.events.*;
 import ar.edu.itba.services.ImageService;
 import ar.edu.itba.views.GreyPixelView;
+import ar.edu.itba.views.maskOperations.*;
 import ar.edu.itba.views.noiseOperations.ExponentialNoiseView;
 import ar.edu.itba.views.noiseOperations.GaussianNoiseView;
 import ar.edu.itba.views.noiseOperations.RayleighNoiseView;
@@ -82,4 +83,10 @@ public class MenuController {
     public void rayleighNoise(ActionEvent actionEvent) {
         eventBus.post(new NewOperation<>(new RayleighNoiseView()));
     }
+
+    public void meanMask(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new MeanView()));}
+    public void medianMask(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new MedianView()));}
+    public void weightedMedianMask(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new WeightedMedianView()));}
+    public void gaussMask(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new GaussView()));}
+    public void highPassMask(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new HighPassView()));}
 }

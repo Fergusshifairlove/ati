@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class Mask {
 
     double mask[][];
-    protected int size;
+    protected int size=0;
 //    protected List<Integer> list;
 
     public Mask(int size){

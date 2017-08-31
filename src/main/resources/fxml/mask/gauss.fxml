@@ -13,6 +13,10 @@
          fx:controller="ar.edu.itba.controllers.operations.mask.GaussController">
     <Label text="Gauss Mask"/>
     <HBox>
+        <Label text="size"/>
+        <TextField fx:id="size"/>
+    </HBox>
+    <HBox>
         <Label text="sigma"/>
         <TextField fx:id="sigma"/>
     </HBox>

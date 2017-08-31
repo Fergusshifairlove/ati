@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
  * Created by Nicolas Castano on 8/30/17.
  */
 public class GaussController extends OperationController {
+    public TextField size;
     public TextField sigma;
 
     @Inject
@@ -27,7 +28,8 @@ public class GaussController extends OperationController {
     @Subscribe
     void apply(ApplyOperations applyOperations) {
         double s = Double.parseDouble(sigma.getText());
+        int maskSize = Integer.parseInt(size.getText());
 
-        this.eventBus.post(new GaussianMask(3,s));
+        this.eventBus.post(new GaussianMask(maskSize,s));
     }
 }
