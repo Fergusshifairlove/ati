@@ -7,7 +7,7 @@ import java.util.List;
  * Created by root on 9/16/17.
  */
 public class DirectionalMask {
-    List<Mask> masks;
+    private List<Mask> masks;
 
     public DirectionalMask(Mask mask, List<Direction> directions){
         if(mask.size != 3)
@@ -45,12 +45,10 @@ public class DirectionalMask {
     }
 
     public double[][] filterImage(double[][] image){
-        double[][] result = sintesis(getFilteredImages(image));
-
-        return result;
+        return sintesis(getFilteredImages(image));
     }
 
-    public List<double[][]> getFilteredImages(double[][] image){
+    private List<double[][]> getFilteredImages(double[][] image){
         List<double[][]> filteredImages= new ArrayList<>();
 
         for(Mask mask: masks){
@@ -60,7 +58,7 @@ public class DirectionalMask {
         return filteredImages;
     }
 
-    public double[][] sintesis(List<double[][]> filteredImages){
+    private double[][] sintesis(List<double[][]> filteredImages){
         if(filteredImages.size()==2){
             double[][] imageX=filteredImages.get(0);
             double[][] imageY=filteredImages.get(1);
