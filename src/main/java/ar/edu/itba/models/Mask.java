@@ -17,7 +17,7 @@ public class Mask {
 //        list = new ArrayList<>();
     }
 
-    private double get(int x, int y)throws IllegalArgumentException{
+    public double get(int x, int y)throws IllegalArgumentException{
         if(x >=0 && x < size && y>=0 && y<size){
             return mask[x][y];
         }else{
