@@ -16,8 +16,9 @@ public class PrewittMask extends Mask {
             mask[1][i]=0;
         }
 
-        mask[0][2]=1;
-        mask[0][2]=1;
-        mask[0][2]=1;
+        mask[2][0]=1.0;
+        mask[2][1]=1.0;
+        mask[2][2]=1.0;
+
     }
 }

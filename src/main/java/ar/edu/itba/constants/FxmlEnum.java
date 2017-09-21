@@ -21,7 +21,12 @@ public enum FxmlEnum {
     GAUSS("fxml/mask/gauss.fxml"),
     HIGHPASS("fxml/mask/highpass.fxml"),
     CONTRAST("fxml/punctualOperations/contrast.fxml"),
-    SALT_AND_PEPPER("fxml/noise/salt_and_pepper.fxml");
+    SALT_AND_PEPPER("fxml/noise/salt_and_pepper.fxml"),
+    PREWITT("fxml/border/prewitt.fxml"),
+    SOBEL("fxml/border/sobel.fxml"),
+    LAPLACIAN("fxml/border/laplacian.fxml"),
+    LOG("fxml/border/log.fxml");
+
 
     private String path;
 

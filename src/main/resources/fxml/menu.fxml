@@ -63,6 +63,18 @@
                         <MenuItem text="High Pass" onAction="#highPassMask"/>
                     </items>
                 </Menu>
+                <Menu text="Border">
+                    <items>
+                        <MenuItem text="Prewitt" onAction="#prewitt"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Sobel" onAction="#sobel"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Laplacian" onAction="#laplacian"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="LoG" onAction="#log"/>
+                        <SeparatorMenuItem/>
+                    </items>
+                </Menu>
 
             </menus>
     </MenuBar>

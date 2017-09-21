@@ -13,6 +13,7 @@ public class LaplacianMask extends Mask {
         mask[0][0] = mask[0][2] = mask[2][0] = mask[2][2] = 0;
         mask[0][1] = mask[1][0] = mask[1][2] = mask[2][1] = -1;
         mask[1][1] = 4;
+
     }
 
     public double[][] filter(double[][] image) {

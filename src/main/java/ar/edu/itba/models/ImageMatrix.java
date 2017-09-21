@@ -5,7 +5,6 @@ import ar.edu.itba.models.randomGenerators.RandomNumberGenerator;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -77,6 +76,8 @@ public abstract class ImageMatrix{
 
 
     public abstract ImageMatrix applyMask(Mask mask);
+
+    public abstract ImageMatrix applyBorder(DirectionalMask dirMask);
 
     static double[][] getRandomMatrix(int width, int height, NoiseType noiseType, Iterable<Point> toModify, Iterator<Double> generator) {
         double[][] noise = new double[width][height];

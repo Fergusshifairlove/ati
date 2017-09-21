@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.BinaryOperator;
@@ -116,7 +115,14 @@ public class GreyImageMatrix extends ImageMatrix implements Iterable<GreyPixel>{
 
     @Override
     public ImageMatrix applyMask(Mask mask) {
+        String s = LaplacianMask.class.isInstance(mask) ? "TRUE" : "FALSE";
         this.grey = mask.filterImage(this.grey);
+        return this;
+    }
+
+    @Override
+    public ImageMatrix applyBorder(DirectionalMask dirMask) {
+        this.grey = dirMask.filterImage(this.grey);
         return this;
     }
 

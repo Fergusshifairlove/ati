@@ -59,6 +59,10 @@ public class DirectionalMask {
     }
 
     private double[][] sintesis(List<double[][]> filteredImages){
+        if(filteredImages.size()==1){
+            return filteredImages.get(0);
+        }
+
         if(filteredImages.size()==2){
             double[][] imageX=filteredImages.get(0);
             double[][] imageY=filteredImages.get(1);

@@ -163,6 +163,14 @@ public class RGBImageMatrix extends ImageMatrix{
     }
 
     @Override
+    public ImageMatrix applyBorder(DirectionalMask dirMask) {
+        this.red = dirMask.filterImage(this.red);
+        this.green = dirMask.filterImage(this.green);
+        this.blue = dirMask.filterImage(this.blue);
+        return this;
+    }
+
+    @Override
     protected BufferedImage toBufferedImage(boolean compress) {
         if (compress) {
             this.compress();
