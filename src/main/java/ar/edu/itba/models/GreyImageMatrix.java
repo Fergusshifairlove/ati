@@ -115,7 +115,6 @@ public class GreyImageMatrix extends ImageMatrix implements Iterable<GreyPixel>{
 
     @Override
     public ImageMatrix applyMask(Mask mask) {
-        String s = LaplacianMask.class.isInstance(mask) ? "TRUE" : "FALSE";
         this.grey = mask.filterImage(this.grey);
         return this;
     }

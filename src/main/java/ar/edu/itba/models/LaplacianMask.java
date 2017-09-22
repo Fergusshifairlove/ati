@@ -19,6 +19,7 @@ public class LaplacianMask extends Mask {
     public double[][] filter(double[][] image) {
         double[][] maskApplied;
 
+        System.out.println("estoy en lo de mica");
         maskApplied = filterImage(image);
 
         return crossByZero(maskApplied);

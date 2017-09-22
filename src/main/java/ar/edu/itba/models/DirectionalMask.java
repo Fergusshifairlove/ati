@@ -52,6 +52,12 @@ public class DirectionalMask {
         List<double[][]> filteredImages= new ArrayList<>();
 
         for(Mask mask: masks){
+            if(mask instanceof LaplacianMask){
+                System.out.println("LLEGUE");
+                LaplacianMask aux = (LaplacianMask) mask;
+                filteredImages.add(aux.filter(image));
+            }
+
             filteredImages.add(mask.filterImage(image));
         }
 
