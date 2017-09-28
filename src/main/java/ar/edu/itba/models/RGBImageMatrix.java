@@ -1,6 +1,8 @@
 package ar.edu.itba.models;
 
 import ar.edu.itba.constants.NoiseType;
+import ar.edu.itba.models.masks.DirectionalMask;
+import ar.edu.itba.models.masks.Mask;
 import ar.edu.itba.models.randomGenerators.RandomNumberGenerator;
 
 import java.awt.*;
@@ -171,6 +173,16 @@ public class RGBImageMatrix extends ImageMatrix{
     }
 
     @Override
+    public void equalize() {
+        Histogram r = new Histogram(this.getRedBand());
+        Histogram g = new Histogram(this.getGreenBand());
+        Histogram b = new Histogram(this.getBlueBand());
+        this.applyBandOperation(r::equalize,this.red);
+        this.applyBandOperation(g::equalize,this.green);
+        this.applyBandOperation(b::equalize,this.blue);
+    }
+
+    @Override
     protected BufferedImage toBufferedImage(boolean compress) {
         if (compress) {
             this.compress();
@@ -190,4 +202,25 @@ public class RGBImageMatrix extends ImageMatrix{
         return image;
     }
 
+    public Iterable<Double> getRedBand() {
+        return this.getBand(red);
+    }
+
+    public Iterable<Double> getGreenBand() {
+        return this.getBand(green);
+    }
+
+    public Iterable<Double> getBlueBand() {
+        return this.getBand(blue);
+    }
+
+    private ImageMatrix applyBandOperation(ToDoubleFunction<Double> operation, double[][] band) {
+        double b;
+        for (int i = 0; i < this.getWidth(); i++) {
+            for (int j = 0; j < this.getHeight(); j++) {
+                band[i][j] = operation.applyAsDouble(band[i][j]);
+            }
+        }
+        return this;
+    }
 }

@@ -1,4 +1,4 @@
-package ar.edu.itba.models;
+package ar.edu.itba.models.masks;
 
 /**
  * Created by root on 9/16/17.

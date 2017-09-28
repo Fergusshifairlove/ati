@@ -1,4 +1,6 @@
-package ar.edu.itba.models;
+package ar.edu.itba.models.masks;
+
+import ar.edu.itba.models.masks.LaplacianMask;
 
 /**
  * Created by root on 9/17/17.

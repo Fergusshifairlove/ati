@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Text?>
 <?import ar.edu.itba.views.ImageDataView?>
 
-<?import ar.edu.itba.views.HistogramView?>
+<?import ar.edu.itba.views.histograms.GreyHistogramView?>
 <fx:root type="ImageDataView" xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
          stylesheets="/style/image-data.css"

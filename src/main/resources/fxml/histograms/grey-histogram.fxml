@@ -5,13 +5,13 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import ar.edu.itba.views.HistogramView?>
+<?import ar.edu.itba.views.histograms.GreyHistogramView?>
 
 
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
-<fx:root type="HistogramView" fx:controller="ar.edu.itba.controllers.HistogramController"
+<fx:root type="GreyHistogramView" fx:controller="ar.edu.itba.controllers.histograms.GreyHistogramController"
          xmlns:fx="http://javafx.com/fxml"
          prefHeight="2000">
     <SplitPane>

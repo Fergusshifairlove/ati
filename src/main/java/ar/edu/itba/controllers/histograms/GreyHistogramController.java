@@ -1,4 +1,4 @@
-package ar.edu.itba.controllers;
+package ar.edu.itba.controllers.histograms;
 
 import ar.edu.itba.events.*;
 import ar.edu.itba.models.GreyImageMatrix;
@@ -18,13 +18,13 @@ import java.util.Observable;
 /**
  * Created by root on 8/25/17.
  */
-public class HistogramController {
+public class GreyHistogramController {
 
     public BarChart barChartBefore, barChartAfter;
     private EventBus eventBus;
 
     @Inject
-    public HistogramController(EventBus eventBus) {
+    public GreyHistogramController(EventBus eventBus) {
         this.eventBus = eventBus;
     }
 
@@ -34,12 +34,15 @@ public class HistogramController {
         System.out.println("HISTOGRAM");
 
         barChartAfter.getData().clear();
-        Histogram histogram = new Histogram((GreyImageMatrix) ImageMatrix.readImage(imageModified.getModified().getImage(false)));
+        ImageMatrix image = ImageMatrix.readImage(imageModified.getModified().getImage(false));
+        if (image.getType() == BufferedImage.TYPE_INT_RGB || image.getType() == BufferedImage.TYPE_3BYTE_BGR)
+            return;
+        Histogram histogram = new Histogram(((GreyImageMatrix) image).getGreyBand());
         System.out.println("LOAD HISTOGRAM");
         barChartAfter.getData().addAll(this.getSeries(histogram));
     }
 
-    @Subscribe void imageOpened(ImageLoaded imageLoaded) {
+    @Subscribe void imageOpened(ShowHistogram imageLoaded) {
         barChartAfter.getData().clear();
         barChartBefore.getData().clear();
         ImageMatrix image = imageLoaded.getImage();
@@ -48,7 +51,7 @@ public class HistogramController {
             return;
 
         System.out.println("IMAGE OPENED");
-        Histogram histogram = new Histogram((GreyImageMatrix) image);
+        Histogram histogram = new Histogram(((GreyImageMatrix) image).getGreyBand());
         barChartBefore.getData().addAll(this.getSeries(histogram));
 
     }

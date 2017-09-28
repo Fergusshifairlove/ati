@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import ar.edu.itba.views.histograms.HistogramView?>
+
+<fx:root type="HistogramView" fx:controller="ar.edu.itba.controllers.histograms.HistogramController"
+         xmlns:fx="http://javafx.com/fxml"
+         prefHeight="2000">
+    <VBox fx:id="histograms"/>
+</fx:root>

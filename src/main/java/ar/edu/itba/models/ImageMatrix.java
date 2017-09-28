@@ -1,13 +1,14 @@
 package ar.edu.itba.models;
 
 import ar.edu.itba.constants.NoiseType;
+import ar.edu.itba.models.masks.DirectionalMask;
+import ar.edu.itba.models.masks.Mask;
 import ar.edu.itba.models.randomGenerators.RandomNumberGenerator;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.BinaryOperator;
 import java.util.function.ToDoubleFunction;
@@ -107,4 +108,16 @@ public abstract class ImageMatrix{
 
         return modified;
     }
+
+    protected Iterable<Double> getBand(double[][] band) {
+        List<Double> b = new ArrayList<>();
+        for (int i=0; i<this.width; i++) {
+            for (int j=0; j<this.height; j++) {
+                b.add(band[i][j]);
+            }
+        }
+        return b;
+    }
+
+    public abstract void equalize();
 }

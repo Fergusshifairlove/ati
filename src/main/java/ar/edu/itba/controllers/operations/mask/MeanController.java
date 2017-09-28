@@ -2,7 +2,7 @@ package ar.edu.itba.controllers.operations.mask;
 
 import ar.edu.itba.controllers.operations.OperationController;
 import ar.edu.itba.events.ApplyOperations;
-import ar.edu.itba.models.MeanMask;
+import ar.edu.itba.models.masks.MeanMask;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;

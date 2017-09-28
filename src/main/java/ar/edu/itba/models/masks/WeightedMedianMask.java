@@ -1,4 +1,4 @@
-package ar.edu.itba.models;
+package ar.edu.itba.models.masks;
 
 import java.util.Collections;
 import java.util.HashMap;

@@ -3,6 +3,8 @@ package ar.edu.itba.controllers;
 import ar.edu.itba.constants.NoiseType;
 import ar.edu.itba.events.*;
 import ar.edu.itba.models.*;
+import ar.edu.itba.models.masks.DirectionalMask;
+import ar.edu.itba.models.masks.Mask;
 import ar.edu.itba.services.ImageService;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -12,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class EditorController {
@@ -69,8 +72,7 @@ public class EditorController {
     @Subscribe
     public void equalize(EqualizeImage equalizeImage) {
         this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
-        Histogram histogram = new Histogram((GreyImageMatrix) imageAfter);
-        this.imageAfter.applyPunctualOperation(histogram::equalize);
+        this.imageAfter.equalize();
         eventBus.post(new ImageModified(this.imageAfter));
     }
 

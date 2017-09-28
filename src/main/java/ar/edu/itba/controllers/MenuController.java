@@ -109,4 +109,11 @@ public class MenuController {
     public void getContrast(ActionEvent event) {
         eventBus.post(new NewOperation<>(new ContrastView()));
     }
+
+    public void globalThreshold(ActionEvent event) {
+        eventBus.post(new NewOperation<>(new ThresholdView()));
+    }
+    public void otsuThreshold(ActionEvent event) {
+
+    }
 }

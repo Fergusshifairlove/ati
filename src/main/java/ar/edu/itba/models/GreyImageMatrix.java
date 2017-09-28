@@ -1,20 +1,21 @@
 package ar.edu.itba.models;
 
 import ar.edu.itba.constants.NoiseType;
+import ar.edu.itba.models.masks.DirectionalMask;
+import ar.edu.itba.models.masks.Mask;
 import ar.edu.itba.models.randomGenerators.RandomNumberGenerator;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
-import java.util.Iterator;
-import java.util.Spliterator;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BinaryOperator;
-import java.util.function.Consumer;
 import java.util.function.ToDoubleFunction;
 import java.util.stream.DoubleStream;
 
-public class GreyImageMatrix extends ImageMatrix implements Iterable<GreyPixel>{
+public class GreyImageMatrix extends ImageMatrix{
     private double[][] grey;
 
     public GreyImageMatrix(BufferedImage image) {
@@ -126,18 +127,9 @@ public class GreyImageMatrix extends ImageMatrix implements Iterable<GreyPixel>{
     }
 
     @Override
-    public Iterator<GreyPixel> iterator() {
-        return null;
-    }
-
-    @Override
-    public void forEach(Consumer<? super GreyPixel> action) {
-
-    }
-
-    @Override
-    public Spliterator<GreyPixel> spliterator() {
-        return null;
+    public void equalize() {
+        Histogram histogram = new Histogram(this.getGreyBand());
+        this.applyPunctualOperation(histogram::equalize);
     }
 
     public static GreyImageMatrix getNoiseImage(int width, int height, RandomNumberGenerator generator, NoiseType noiseType) {
@@ -170,5 +162,9 @@ public class GreyImageMatrix extends ImageMatrix implements Iterable<GreyPixel>{
         this.applyPunctualOperation(pixel -> pixel - minValue);
         double c = 255/(Math.log(1 + (maxValue -minValue)));
         this.applyPunctualOperation(pixel -> c * Math.log(1 + pixel));
+    }
+
+    public Iterable<Double> getGreyBand() {
+        return this.getBand(grey);
     }
 }

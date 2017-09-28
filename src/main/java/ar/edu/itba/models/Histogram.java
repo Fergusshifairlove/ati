@@ -11,37 +11,36 @@ import java.util.stream.Collectors;
 public class Histogram {
 
     private int pixelCount;
-    private Map<Integer,Double> greyLevelMap;
+    private Map<Integer,Double> df;
     private Map<Integer, Double> cdf;
     private double minCdf;
 
-    public Histogram(GreyImageMatrix gim){
-        this.greyLevelMap = new HashMap<>();
-        this.pixelCount = gim.getHeight() * gim.getWidth();
+    public Histogram(Iterable<Double> pixels){
+        this.df = new HashMap<>();
+        this.pixelCount = 0;
 
         for (int i = 0; i < 256; i++) {
-            greyLevelMap.put(i, 0.0);
+            df.put(i, 0.0);
         }
 
-        GreyPixel gp;
         Double count;
-        for(int i=0; i<gim.getWidth(); i++){
-            for (int j=0; j<gim.getHeight(); j++){
-                gp = (GreyPixel) gim.getPixelColor(i, j);
-                count = greyLevelMap.get(gp.getGrey());
-                if (count == null)
-                    greyLevelMap.put(gp.getGrey(), 1.0);
-                else
-                    greyLevelMap.put(gp.getGrey(),count + 1);
-            }
+        for (Double pixel: pixels) {
+            pixelCount++;
+            Integer p = pixel.intValue();
+            count = df.get(p);
+            if (count == null)
+                df.put(p, 1.0);
+            else
+                df.put(p,count + 1);
         }
 
-        this.greyLevelMap.entrySet().forEach(e -> greyLevelMap.put(e.getKey(),(1.0*e.getValue())/pixelCount));
+
+        this.df.entrySet().forEach(e -> df.put(e.getKey(),(1.0*e.getValue())/pixelCount));
 
         double acum = 0;
         this.cdf = new HashMap<>();
         for (int i = 0; i < 256; i++) {
-            acum += greyLevelMap.get(i);
+            acum += df.get(i);
             cdf.put(i,acum);
         }
         this.minCdf = cdf.get(0);
@@ -49,14 +48,14 @@ public class Histogram {
     }
 
     public double getFrequency(int category){
-        return greyLevelMap.get(category);
+        return df.get(category);
     }
 
     public double getCumulativeFrequency(int category){
         return cdf.get(category);
     }
     public Iterable<Integer> getCategories() {
-        return greyLevelMap.keySet();
+        return df.keySet();
     }
 
     public double getCDF(Integer pixel) {
@@ -73,4 +72,9 @@ public class Histogram {
         System.out.println(res);
         return res;
     }
+
+    public int getPixelCount() {
+        return pixelCount;
+    }
+
 }

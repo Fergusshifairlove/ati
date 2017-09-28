@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+
+<?import ar.edu.itba.views.histograms.RGBHistogramView?>
+
+<fx:root type="RGBHistogramView" fx:controller="ar.edu.itba.controllers.histograms.RGBHistogramController"
+         xmlns:fx="http://javafx.com/fxml"
+         prefHeight="2000">
+    <SplitPane>
+        <VBox>
+            <BarChart fx:id="rBarChartBefore" categoryGap="0" barGap="0">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" label="Grey Level" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" label="Frequency" upperBound="1"/>
+                </yAxis>
+            </BarChart>
+            <BarChart fx:id="gBarChartBefore" categoryGap="0" barGap="0">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" label="Grey Level" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" label="Frequency" upperBound="1"/>
+                </yAxis>
+            </BarChart>
+            <BarChart fx:id="bBarChartBefore" categoryGap="0" barGap="0">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" label="Grey Level" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" label="Frequency" upperBound="1"/>
+                </yAxis>
+            </BarChart>
+        </VBox>
+        <VBox>
+            <BarChart fx:id="rBarChartAfter" categoryGap="0" barGap="0">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" label="Grey Level" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" label="Frequency" upperBound="1"/>
+                </yAxis>
+            </BarChart>
+            <BarChart fx:id="gBarChartAfter" categoryGap="0" barGap="0">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" label="Grey Level" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" label="Frequency" upperBound="1"/>
+                </yAxis>
+            </BarChart>
+            <BarChart fx:id="bBarChartAfter" categoryGap="0" barGap="0">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" label="Grey Level" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" label="Frequency" upperBound="1"/>
+                </yAxis>
+            </BarChart>
+        </VBox>
+    </SplitPane>
+</fx:root>

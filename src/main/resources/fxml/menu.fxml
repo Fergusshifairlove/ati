@@ -75,6 +75,13 @@
                         <SeparatorMenuItem/>
                     </items>
                 </Menu>
+                <Menu text="Border">
+                    <items>
+                        <MenuItem text="Global" onAction="#globalThreshold"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Otsu" onAction="#otsuThreshold"/>
+                    </items>
+                </Menu>
 
             </menus>
     </MenuBar>

@@ -12,7 +12,7 @@
 
 <?import javafx.scene.image.ImageView?>
 
-<?import ar.edu.itba.views.HistogramView?>
+<?import ar.edu.itba.views.histograms.HistogramView?>
 <BorderPane xmlns:fx="http://javafx.com/fxml" stylesheets="/style/main.css">
     <top>
         <MenuView/>
