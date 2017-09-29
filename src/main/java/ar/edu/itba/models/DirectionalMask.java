@@ -54,16 +54,19 @@ public class DirectionalMask {
         for(Mask mask: masks){
             if(mask instanceof LoGMask){
                 System.out.println(" LOG");
-                LaplacianMask aux = (LoGMask) mask;
+                LoGMask aux = (LoGMask) mask;
                 filteredImages.add(aux.filter(image));
             }
             if(mask instanceof LaplacianMask){
                 System.out.println("LLEGUE");
                 LaplacianMask aux = (LaplacianMask) mask;
                 filteredImages.add(aux.filter(image));
+            }else{
+                System.out.println("PASE POR AQUI");
+                filteredImages.add(mask.filterImage(image));
             }
 
-            filteredImages.add(mask.filterImage(image));
+
         }
 
         return filteredImages;

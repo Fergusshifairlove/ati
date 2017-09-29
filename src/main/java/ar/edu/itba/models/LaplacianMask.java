@@ -5,7 +5,7 @@ package ar.edu.itba.models;
  */
 public class LaplacianMask extends Mask {
     private static final int WHITE = 255;
-    private static final double DELTA = 2;
+    private static final double DELTA = 0.1;
 
     public LaplacianMask(int size) {
         super(size);
@@ -43,7 +43,7 @@ public class LaplacianMask extends Mask {
                     if ((Math.abs(current) + Math.abs(previous)) > DELTA) {
                         crossByRow[i][j] = WHITE;
                     }else{
-                        crossByRow[i][j]=0;
+                        crossByRow[i][j]=0.0;
                     }
                 }
                 previous = current;
