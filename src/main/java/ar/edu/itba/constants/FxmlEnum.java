@@ -23,7 +23,10 @@ public enum FxmlEnum {
     CONTRAST("fxml/punctualOperations/contrast.fxml"),
     SALT_AND_PEPPER("fxml/noise/salt_and_pepper.fxml"),
     PREWITT("fxml/border/prewitt.fxml"),
+    DIRECTIONALPREWITT("fxml/border/directionalprewitt.fxml"),
     SOBEL("fxml/border/sobel.fxml"),
+    DIRECTIONALSOBEL("fxml/border/directionalsobel.fxml"),
+    ZEROLAPLACIAN("fxml/border/zerolaplacian.fxml"),
     LAPLACIAN("fxml/border/laplacian.fxml"),
     LOG("fxml/border/log.fxml");
 

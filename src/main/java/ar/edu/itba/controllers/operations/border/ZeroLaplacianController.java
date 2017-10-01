@@ -4,11 +4,12 @@ import ar.edu.itba.controllers.operations.OperationController;
 import ar.edu.itba.events.ApplyOperations;
 import ar.edu.itba.models.Direction;
 import ar.edu.itba.models.DirectionalMask;
-import ar.edu.itba.models.PrewittMask;
+import ar.edu.itba.models.ZeroLaplacianMask;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +17,10 @@ import java.util.List;
 /**
  * Created by root on 9/20/17.
  */
-public class PrewittController extends OperationController {
+public class ZeroLaplacianController extends OperationController {
+    public TextField umbral;
     @Inject
-    public PrewittController(EventBus eventBus) {
+    public ZeroLaplacianController(EventBus eventBus) {
         super(eventBus);
     }
     @FXML
@@ -27,9 +29,12 @@ public class PrewittController extends OperationController {
     }
     @Subscribe
     void apply(ApplyOperations applyOperations) {
-        List<Direction> directions=new ArrayList<>();
+        List<Direction> directions;
+        directions = new ArrayList<>();
         directions.add(Direction.HORIZONTAL);
-        directions.add(Direction.VERTICAL);
-        this.eventBus.post(new DirectionalMask(new PrewittMask(),directions,null));
+        double s = Double.parseDouble(umbral.getText());
+        List<Double> params = new ArrayList<>();
+        params.add(s);
+        this.eventBus.post(new DirectionalMask(new ZeroLaplacianMask(3,s),directions,params));
     }
 }

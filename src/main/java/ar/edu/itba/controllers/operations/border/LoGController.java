@@ -9,6 +9,7 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,8 @@ import java.util.List;
  * Created by root on 9/20/17.
  */
 public class LoGController extends OperationController{
+    public TextField umbral;
+    public TextField sigma;
     @Inject
     public LoGController(EventBus eventBus) {
         super(eventBus);
@@ -30,6 +33,11 @@ public class LoGController extends OperationController{
         List<Direction> directions;
         directions = new ArrayList<>();
         directions.add(Direction.HORIZONTAL);
-        this.eventBus.post(new DirectionalMask(new LoGMask(3,2.0),directions) );
+        double s = Double.parseDouble(sigma.getText());
+        double s2 = Double.parseDouble(umbral.getText());
+        List<Double> params = new ArrayList<>();
+        params.add(s);
+        params.add(s2);
+        this.eventBus.post(new DirectionalMask(new LoGMask(3,s,s2),directions,params));
     }
 }

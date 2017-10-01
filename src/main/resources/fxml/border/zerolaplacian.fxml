@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import ar.edu.itba.views.borderOperations.ZeroLaplacianView?>
+
+<fx:root type="ZeroLaplacianView" xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="ar.edu.itba.controllers.operations.border.ZeroLaplacianController">
+
+    <Label text="Zero Laplacian Mask"/>
+    <HBox>
+    <Label text="umbral"/>
+    <TextField fx:id="umbral"/>
+    </HBox>
+</fx:root>

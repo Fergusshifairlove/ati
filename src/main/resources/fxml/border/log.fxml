@@ -13,4 +13,8 @@
         <Label text="sigma"/>
         <TextField fx:id="sigma"/>
     </HBox>
+    <HBox>
+        <Label text="umbral"/>
+        <TextField fx:id="umbral"/>
+    </HBox>
 </fx:root>

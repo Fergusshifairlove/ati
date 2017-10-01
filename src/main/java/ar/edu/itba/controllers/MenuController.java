@@ -3,10 +3,7 @@ package ar.edu.itba.controllers;
 import ar.edu.itba.events.*;
 import ar.edu.itba.services.ImageService;
 import ar.edu.itba.views.GreyPixelView;
-import ar.edu.itba.views.borderOperations.LaplacianView;
-import ar.edu.itba.views.borderOperations.LoGView;
-import ar.edu.itba.views.borderOperations.PrewittView;
-import ar.edu.itba.views.borderOperations.SobelView;
+import ar.edu.itba.views.borderOperations.*;
 import ar.edu.itba.views.maskOperations.*;
 import ar.edu.itba.views.noiseOperations.ExponentialNoiseView;
 import ar.edu.itba.views.noiseOperations.GaussianNoiseView;
@@ -98,7 +95,10 @@ public class MenuController {
     public void saltAndPepperNoise(ActionEvent actionEvent) { eventBus.post(new NewOperation<>(new SaltAndPepperNoiseView()));}
 
     public void prewitt(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new PrewittView()));}
+    public void directionalprewitt(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new DirectionalPrewittView()));}
     public void sobel(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new SobelView()));}
+    public void directionalsobel(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new DirectionalSobelView()));}
+    public void zerolaplacian(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new ZeroLaplacianView()));}
     public void laplacian(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new LaplacianView()));}
     public void log(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new LoGView()));}
 

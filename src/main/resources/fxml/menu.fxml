@@ -67,7 +67,13 @@
                     <items>
                         <MenuItem text="Prewitt" onAction="#prewitt"/>
                         <SeparatorMenuItem/>
+                        <MenuItem text="Directional Prewitt" onAction="#directionalprewitt"/>
+                        <SeparatorMenuItem/>
                         <MenuItem text="Sobel" onAction="#sobel"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Directional Sobel" onAction="#directionalsobel"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Zero Laplacian" onAction="#zerolaplacian"/>
                         <SeparatorMenuItem/>
                         <MenuItem text="Laplacian" onAction="#laplacian"/>
                         <SeparatorMenuItem/>

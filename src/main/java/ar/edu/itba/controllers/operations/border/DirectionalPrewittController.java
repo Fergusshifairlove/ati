@@ -16,9 +16,9 @@ import java.util.List;
 /**
  * Created by root on 9/20/17.
  */
-public class PrewittController extends OperationController {
+public class DirectionalPrewittController extends OperationController {
     @Inject
-    public PrewittController(EventBus eventBus) {
+    public DirectionalPrewittController(EventBus eventBus) {
         super(eventBus);
     }
     @FXML
@@ -30,6 +30,8 @@ public class PrewittController extends OperationController {
         List<Direction> directions=new ArrayList<>();
         directions.add(Direction.HORIZONTAL);
         directions.add(Direction.VERTICAL);
+        directions.add(Direction.DIAGONAL_LEFT);
+        directions.add(Direction.DIAGONAL_RIGHT);
         this.eventBus.post(new DirectionalMask(new PrewittMask(),directions,null));
     }
 }

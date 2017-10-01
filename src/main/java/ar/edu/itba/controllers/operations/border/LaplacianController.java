@@ -30,6 +30,7 @@ public class LaplacianController extends OperationController {
         List<Direction> directions;
         directions = new ArrayList<>();
         directions.add(Direction.HORIZONTAL);
-        this.eventBus.post(new DirectionalMask(new LaplacianMask(3),directions) );
+
+        this.eventBus.post(new DirectionalMask(new LaplacianMask(3),directions,null));
     }
 }
