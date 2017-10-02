@@ -1,6 +1,7 @@
 package ar.edu.itba.controllers;
 
 import ar.edu.itba.events.*;
+import ar.edu.itba.models.thresholding.OtsuThresholding;
 import ar.edu.itba.services.ImageService;
 import ar.edu.itba.views.GreyPixelView;
 import ar.edu.itba.views.borderOperations.LaplacianView;
@@ -111,6 +112,6 @@ public class MenuController {
         eventBus.post(new NewOperation<>(new GlobalThresholdView()));
     }
     public void otsuThreshold(ActionEvent event) {
-
+        eventBus.post(new OtsuThresholding());
     }
 }
