@@ -5,6 +5,7 @@ import ar.edu.itba.events.*;
 import ar.edu.itba.models.*;
 import ar.edu.itba.models.masks.DirectionalMask;
 import ar.edu.itba.models.masks.Mask;
+import ar.edu.itba.models.thresholding.ThresholdFinder;
 import ar.edu.itba.services.ImageService;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -108,6 +109,16 @@ public class EditorController {
     public void applyBorder(DirectionalMask mask){
         this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
         this.imageAfter.applyBorder(mask);
+        eventBus.post(new ImageModified(this.imageAfter));
+    }
+
+    @Subscribe
+    public void applyThresholding(ThresholdFinder f) {
+        this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
+        for (Integer band: this.imageAfter.getBands()) {
+            Double threshold = f.findThreshold(imageAfter.getItBand(band));
+            imageAfter.applyBandOperation(band, p -> p>threshold?255:0);
+        }
         eventBus.post(new ImageModified(this.imageAfter));
     }
 

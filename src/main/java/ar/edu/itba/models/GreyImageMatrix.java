@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.BinaryOperator;
 import java.util.function.ToDoubleFunction;
@@ -17,6 +18,7 @@ import java.util.stream.DoubleStream;
 
 public class GreyImageMatrix extends ImageMatrix{
     private double[][] grey;
+    private static Integer[] bands = {1};
 
     public GreyImageMatrix(BufferedImage image) {
         super(image.getWidth(), image.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
@@ -124,6 +126,19 @@ public class GreyImageMatrix extends ImageMatrix{
     public ImageMatrix applyBorder(DirectionalMask dirMask) {
         this.grey = dirMask.filterImage(this.grey);
         return this;
+    }
+
+    @Override
+    protected double[][] getBand(int band) {
+        switch (band) {
+            case 1: return grey;
+            default: throw new IllegalArgumentException();
+        }
+    }
+
+    @Override
+    public Iterable<Integer> getBands() {
+        return Arrays.asList(bands);
     }
 
     @Override

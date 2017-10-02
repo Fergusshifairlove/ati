@@ -10,6 +10,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.DataBufferInt;
 import java.awt.image.WritableRaster;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.function.BinaryOperator;
 import java.util.function.ToDoubleFunction;
 import java.util.stream.DoubleStream;
@@ -18,6 +20,7 @@ public class RGBImageMatrix extends ImageMatrix{
     private double[][] red;
     private double[][] green;
     private double[][] blue;
+    private static Integer[] bands = {1,2,3};
 
     protected RGBImageMatrix(BufferedImage image) {
         super(image.getWidth(), image.getHeight(), image.getType());
@@ -170,6 +173,21 @@ public class RGBImageMatrix extends ImageMatrix{
         this.green = dirMask.filterImage(this.green);
         this.blue = dirMask.filterImage(this.blue);
         return this;
+    }
+
+    @Override
+    protected double[][] getBand(int band) {
+        switch (band) {
+            case 1: return red;
+            case 2: return green;
+            case 3: return blue;
+            default: throw new IllegalArgumentException();
+        }
+    }
+
+    @Override
+    public Iterable<Integer> getBands() {
+        return Arrays.asList(bands);
     }
 
     @Override

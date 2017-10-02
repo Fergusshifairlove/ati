@@ -12,10 +12,7 @@ import ar.edu.itba.views.noiseOperations.ExponentialNoiseView;
 import ar.edu.itba.views.noiseOperations.GaussianNoiseView;
 import ar.edu.itba.views.noiseOperations.RayleighNoiseView;
 import ar.edu.itba.views.noiseOperations.SaltAndPepperNoiseView;
-import ar.edu.itba.views.punctualOperations.ContrastView;
-import ar.edu.itba.views.punctualOperations.GammaView;
-import ar.edu.itba.views.punctualOperations.NegativeView;
-import ar.edu.itba.views.punctualOperations.ThresholdView;
+import ar.edu.itba.views.punctualOperations.*;
 import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
@@ -111,7 +108,7 @@ public class MenuController {
     }
 
     public void globalThreshold(ActionEvent event) {
-        eventBus.post(new NewOperation<>(new ThresholdView()));
+        eventBus.post(new NewOperation<>(new GlobalThresholdView()));
     }
     public void otsuThreshold(ActionEvent event) {
 

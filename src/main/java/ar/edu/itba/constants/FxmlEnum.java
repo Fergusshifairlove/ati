@@ -27,7 +27,8 @@ public enum FxmlEnum {
     PREWITT("fxml/border/prewitt.fxml"),
     SOBEL("fxml/border/sobel.fxml"),
     LAPLACIAN("fxml/border/laplacian.fxml"),
-    LOG("fxml/border/log.fxml");
+    LOG("fxml/border/log.fxml"),
+    GLOBAL_THRESHOLD("fxml/punctualOperations/global-threshold.fxml");
 
 
     private String path;

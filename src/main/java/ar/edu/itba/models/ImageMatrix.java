@@ -119,5 +119,28 @@ public abstract class ImageMatrix{
         return b;
     }
 
+    public Iterable<Double> getItBand(int band) {
+        return this.getBand(this.getBand(band));
+    }
+
+    public void applyBandOperation(int band, ToDoubleFunction<Double> operation) {
+        if (band == -1) {
+            this.applyPunctualOperation(operation);
+            return;
+        }
+        this.applyBandOperation(this.getBand(band), operation);
+    }
+
+    protected abstract double[][] getBand(int band);
+    public abstract Iterable<Integer> getBands();
+
+    private void applyBandOperation(double[][] band, ToDoubleFunction<Double> operation) {
+        for (int i=0; i<width; i++) {
+            for (int j=0; j<height; j++) {
+                band[i][j] = operation.applyAsDouble(band[i][j]);
+            }
+        }
+    }
+
     public abstract void equalize();
 }

@@ -36,8 +36,9 @@ public class GlobalThresholding implements ThresholdFinder{
 
             prevThreshold = threshold;
             threshold = (m1 + m2) / 2;
-        } while (Math.abs(threshold - prevThreshold) < this.delta);
+        } while (Math.abs(threshold - prevThreshold) > this.delta);
 
+        System.out.println(threshold);
         return threshold;
     }
 }
