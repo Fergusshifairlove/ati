@@ -131,7 +131,7 @@ public abstract class ImageMatrix{
         this.applyBandOperation(this.getBand(band), operation);
     }
 
-    protected abstract double[][] getBand(int band);
+    public abstract double[][] getBand(int band);
     public abstract Iterable<Integer> getBands();
 
     private void applyBandOperation(double[][] band, ToDoubleFunction<Double> operation) {
@@ -142,5 +142,6 @@ public abstract class ImageMatrix{
         }
     }
 
+    public abstract void setBand(int b, double[][] band);
     public abstract void equalize();
 }

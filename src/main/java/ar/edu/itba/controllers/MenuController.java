@@ -1,6 +1,7 @@
 package ar.edu.itba.controllers;
 
 import ar.edu.itba.events.*;
+import ar.edu.itba.models.diffusions.IsotropicDiffusion;
 import ar.edu.itba.models.thresholding.OtsuThresholding;
 import ar.edu.itba.services.ImageService;
 import ar.edu.itba.views.GreyPixelView;
@@ -8,6 +9,8 @@ import ar.edu.itba.views.borderOperations.LaplacianView;
 import ar.edu.itba.views.borderOperations.LoGView;
 import ar.edu.itba.views.borderOperations.PrewittView;
 import ar.edu.itba.views.borderOperations.SobelView;
+import ar.edu.itba.views.diffusion.AnisotropicView;
+import ar.edu.itba.views.diffusion.IsotropicView;
 import ar.edu.itba.views.maskOperations.*;
 import ar.edu.itba.views.noiseOperations.ExponentialNoiseView;
 import ar.edu.itba.views.noiseOperations.GaussianNoiseView;
@@ -113,5 +116,11 @@ public class MenuController {
     }
     public void otsuThreshold(ActionEvent event) {
         eventBus.post(new OtsuThresholding());
+    }
+    public void isotropic(ActionEvent event) {
+        eventBus.post(new NewOperation<>(new IsotropicView()));
+    }
+    public void anisotropic(ActionEvent event) {
+        eventBus.post(new NewOperation<>(new AnisotropicView()));
     }
 }

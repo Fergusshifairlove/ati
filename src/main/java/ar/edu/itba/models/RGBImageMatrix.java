@@ -176,7 +176,7 @@ public class RGBImageMatrix extends ImageMatrix{
     }
 
     @Override
-    protected double[][] getBand(int band) {
+    public double[][] getBand(int band) {
         switch (band) {
             case 1: return red;
             case 2: return green;
@@ -188,6 +188,19 @@ public class RGBImageMatrix extends ImageMatrix{
     @Override
     public Iterable<Integer> getBands() {
         return Arrays.asList(bands);
+    }
+
+    @Override
+    public void setBand(int b, double[][] band) {
+        switch (b) {
+            case 1: this.red = band;
+                    break;
+            case 2: this.green = band;
+                    break;
+            case 3: this.blue = band;
+                    break;
+            default: throw new IllegalArgumentException();
+        }
     }
 
     @Override

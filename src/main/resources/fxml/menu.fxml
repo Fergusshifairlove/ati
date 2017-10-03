@@ -75,11 +75,18 @@
                         <SeparatorMenuItem/>
                     </items>
                 </Menu>
-                <Menu text="Border">
+                <Menu text="Thresholding">
                     <items>
                         <MenuItem text="Global" onAction="#globalThreshold"/>
                         <SeparatorMenuItem/>
                         <MenuItem text="Otsu" onAction="#otsuThreshold"/>
+                    </items>
+                </Menu>
+                <Menu text="Diffusion">
+                    <items>
+                        <MenuItem text="Isotropic" onAction="#isotropic"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Anisotropic" onAction="#anisotropic"/>
                     </items>
                 </Menu>
 

@@ -133,6 +133,15 @@ public class EditorController {
             eventBus.post(new PixelSelected(this.imageAfter.getPixelColor(x, y)));
         }
     }
+
+    @Subscribe void diffuseImage(DiffuseImage diffuse) {
+        this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
+        for (Integer band: this.imageAfter.getBands()) {
+            this.imageAfter.setBand(band, diffuse.getDiffusion().difuse(imageAfter.getBand(band),diffuse.getTimes()));
+        }
+        eventBus.post(new ImageModified(this.imageAfter));
+    }
+
     public void mousePressed(MouseEvent event) {
         System.out.println("pressed");
     }

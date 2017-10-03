@@ -129,7 +129,7 @@ public class GreyImageMatrix extends ImageMatrix{
     }
 
     @Override
-    protected double[][] getBand(int band) {
+    public double[][] getBand(int band) {
         switch (band) {
             case 1: return grey;
             default: throw new IllegalArgumentException();
@@ -139,6 +139,15 @@ public class GreyImageMatrix extends ImageMatrix{
     @Override
     public Iterable<Integer> getBands() {
         return Arrays.asList(bands);
+    }
+
+    @Override
+    public void setBand(int b, double[][] band) {
+        switch (b) {
+            case 1: this.grey=band;
+                    return;
+            default: throw new IllegalArgumentException();
+        }
     }
 
     @Override

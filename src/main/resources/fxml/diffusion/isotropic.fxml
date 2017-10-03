@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import ar.edu.itba.views.diffusion.IsotropicView?>
+
+<fx:root type="IsotropicView" xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="ar.edu.itba.controllers.operations.diffusion.IsotropicController">
+    <Label text="Isotropic Diffusion"/>
+    <HBox>
+        <Label text="lambda"/>
+        <TextField fx:id="lambda"/>
+    </HBox>
+    <HBox>
+        <Label text="t"/>
+        <TextField fx:id="times"/>
+    </HBox>
+
+</fx:root>

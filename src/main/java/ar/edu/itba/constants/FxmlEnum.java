@@ -28,7 +28,9 @@ public enum FxmlEnum {
     SOBEL("fxml/border/sobel.fxml"),
     LAPLACIAN("fxml/border/laplacian.fxml"),
     LOG("fxml/border/log.fxml"),
-    GLOBAL_THRESHOLD("fxml/punctualOperations/global-threshold.fxml");
+    GLOBAL_THRESHOLD("fxml/punctualOperations/global-threshold.fxml"),
+    ANISOTROPIC("fxml/diffusion/anisotropic.fxml"),
+    ISOTROPIC("fxml/diffusion/isotropic.fxml");
 
 
     private String path;
