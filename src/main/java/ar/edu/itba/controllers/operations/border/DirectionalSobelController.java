@@ -4,7 +4,7 @@ import ar.edu.itba.controllers.operations.OperationController;
 import ar.edu.itba.events.ApplyOperations;
 import ar.edu.itba.models.masks.Direction;
 import ar.edu.itba.models.masks.DirectionalMask;
-import ar.edu.itba.models.masks.LaplacianMask;
+import ar.edu.itba.models.masks.SobelMask;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
@@ -16,21 +16,23 @@ import java.util.List;
 /**
  * Created by root on 9/20/17.
  */
-public class LaplacianController extends OperationController {
+public class DirectionalSobelController extends OperationController{
     @Inject
-    public LaplacianController(EventBus eventBus) {
+    public DirectionalSobelController(EventBus eventBus) {
         super(eventBus);
     }
     @FXML
     public void initialize() {
 
     }
+
     @Subscribe
     void apply(ApplyOperations applyOperations) {
-        List<Direction> directions;
-        directions = new ArrayList<>();
+        List<Direction> directions=new ArrayList<Direction>();
         directions.add(Direction.HORIZONTAL);
-
-        this.eventBus.post(new DirectionalMask(new LaplacianMask(3),directions,null));
+        directions.add(Direction.VERTICAL);
+        directions.add(Direction.DIAGONAL_LEFT);
+        directions.add(Direction.DIAGONAL_RIGHT);
+        this.eventBus.post(new DirectionalMask(new SobelMask(),directions,null));
     }
 }
