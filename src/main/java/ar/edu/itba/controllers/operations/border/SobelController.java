@@ -31,6 +31,6 @@ public class SobelController extends OperationController{
         List<Direction> directions=new ArrayList<Direction>();
         directions.add(Direction.HORIZONTAL);
         directions.add(Direction.VERTICAL);
-        this.eventBus.post(new DirectionalMask(new SobelMask(),directions));
+        this.eventBus.post(new DirectionalMask(new SobelMask(),directions,null));
     }
 }

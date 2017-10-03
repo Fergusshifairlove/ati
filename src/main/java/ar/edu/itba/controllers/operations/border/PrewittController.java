@@ -30,6 +30,6 @@ public class PrewittController extends OperationController {
         List<Direction> directions=new ArrayList<>();
         directions.add(Direction.HORIZONTAL);
         directions.add(Direction.VERTICAL);
-        this.eventBus.post(new DirectionalMask(new PrewittMask(),directions));
+        this.eventBus.post(new DirectionalMask(new PrewittMask(),directions,null));
     }
 }
