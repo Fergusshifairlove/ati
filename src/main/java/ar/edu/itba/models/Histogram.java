@@ -50,12 +50,15 @@ public class Histogram {
     public double getFrequency(int category){
         return df.get(category);
     }
-
     public double getCumulativeFrequency(int category){
         return cdf.get(category);
     }
+
     public Iterable<Integer> getCategories() {
         return df.keySet();
+    }
+    public int getCategoryAmmount() {
+        return df.keySet().size();
     }
 
     public double getCDF(Integer pixel) {
