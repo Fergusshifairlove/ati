@@ -20,20 +20,28 @@ public abstract class Diffusion {
         int width = band.length;
         int height = band[0].length;
         double[][] newBand = new double[width][height];
+        double[][] oldBand = new double[width][height];
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                oldBand[i][j] = band[i][j];
+            }
+        }
+
         double[][] aux;
         double d, c, accum;
 
         for (int i = 0; i < width; i++) {
-            newBand[i][0] = band[i][0];
+            newBand[i][0] = oldBand[i][0];
         }
         for (int j = 0; j < height; j++) {
-            newBand[0][j] = band[0][j];
+            newBand[0][j] = oldBand[0][j];
         }
         for (int i = 0; i < width; i++) {
-            newBand[i][height-1] = band[i][height-1];
+            newBand[i][height-1] = oldBand[i][height-1];
         }
         for (int j = 0; j < height; j++) {
-            newBand[width-1][j] = band[width-1][j];
+            newBand[width-1][j] = oldBand[width-1][j];
         }
 
 
@@ -42,20 +50,20 @@ public abstract class Diffusion {
                 for (int j = 1; j < height-1; j++) {
                     accum = 0;
                     for (int k = 0; k < 4; k++) {
-                        d = band[i + disp[k][0]][j + disp[k][1]] - band[i][j];
-                        c = detector.applyAsDouble(d * band[i][j]);
+                        d = oldBand[i + disp[k][0]][j + disp[k][1]] - oldBand[i][j];
+                        c = detector.applyAsDouble(d * oldBand[i][j]);
                         accum += c * d;
                     }
-                    newBand[i][j] = band[i][j] + this.lambda * accum;
+                    newBand[i][j] = oldBand[i][j] + this.lambda * accum;
                 }
             }
             //switch for next iter
-            aux = band;
-            band = newBand;
+            aux = oldBand;
+            oldBand = newBand;
             //garbage
             newBand = aux;
         }
 
-        return band;
+        return oldBand;
     }
 }
