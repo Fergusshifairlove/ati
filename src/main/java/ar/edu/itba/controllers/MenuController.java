@@ -118,7 +118,7 @@ public class MenuController {
         eventBus.post(new NewOperation<>(new GlobalThresholdView()));
     }
     public void otsuThreshold(ActionEvent event) {
-        eventBus.post(new OtsuThresholding());
+        eventBus.post(new NewOperation<>(new OtsuThresholdingView()));
     }
     public void isotropic(ActionEvent event) {
         eventBus.post(new NewOperation<>(new IsotropicView()));

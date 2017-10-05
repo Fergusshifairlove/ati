@@ -65,14 +65,14 @@ public class EditorController {
 
     @Subscribe
     public void applyPunctualOperator(ApplyPunctualOperation operation) {
-        this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
+//        this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
         this.imageAfter.applyPunctualOperation(operation.getOperator());
         eventBus.post(new ImageModified(this.imageAfter));
     }
 
     @Subscribe
     public void equalize(EqualizeImage equalizeImage) {
-        this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
+//        this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
         this.imageAfter.equalize();
         eventBus.post(new ImageModified(this.imageAfter));
     }
@@ -87,34 +87,35 @@ public class EditorController {
     @Subscribe
     public void applyNoise(ApplyNoise noise) {
         if (this.imageBefore == null) {
-            this.imageAfter = GreyImageMatrix.getNoiseImage(100,100,noise.getGenerator(),noise.getNoiseType());
+            this.imageAfter = GreyImageMatrix.getNoiseImage(100, 100, noise.getGenerator(), noise.getNoiseType());
 
-        }else {
-            this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
+        } else {
+//            this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
             this.imageAfter.applyNoise(noise.getNoiseType(), noise.getGenerator(), noise.getPercentage());
             if (noise.getNoiseType() == NoiseType.MULTIPLICATIVE)
                 this.imageAfter.compress();
         }
         eventBus.post(new ImageModified(ImageMatrix.readImage(imageAfter.getImage(false))));
+
     }
 
     @Subscribe
     public void applyMask(Mask mask) {
-        this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
+//        this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
         this.imageAfter.applyMask(mask);
         eventBus.post(new ImageModified(this.imageAfter));
     }
 
     @Subscribe
     public void applyBorder(DirectionalMask mask){
-        this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
+//        this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
         this.imageAfter.applyBorder(mask);
         eventBus.post(new ImageModified(this.imageAfter));
     }
 
     @Subscribe
     public void applyThresholding(ThresholdFinder f) {
-        this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
+//        this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
         for (Integer band: this.imageAfter.getBands()) {
             Double threshold = f.findThreshold(imageAfter.getItBand(band));
             imageAfter.applyBandOperation(band, p -> p>threshold?255:0);
@@ -134,8 +135,9 @@ public class EditorController {
         }
     }
 
-    @Subscribe void diffuseImage(DiffuseImage diffuse) {
-        this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
+    @Subscribe
+    public void diffuseImage(DiffuseImage diffuse) {
+//        this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
         for (Integer band: this.imageAfter.getBands()) {
             this.imageAfter.setBand(band, diffuse.getDiffusion().difuse(imageAfter.getBand(band),diffuse.getTimes()));
         }

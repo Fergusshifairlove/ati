@@ -33,7 +33,7 @@ public enum FxmlEnum {
     LOG("fxml/border/log.fxml"),
     GLOBAL_THRESHOLD("fxml/punctualOperations/global-threshold.fxml"),
     ANISOTROPIC("fxml/diffusion/anisotropic.fxml"),
-    ISOTROPIC("fxml/diffusion/isotropic.fxml");
+    ISOTROPIC("fxml/diffusion/isotropic.fxml"), OTSU("fxml/punctualOperations/otsu-threshold.fxml");
 
 
     private String path;

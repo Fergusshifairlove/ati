@@ -11,7 +11,7 @@
          fx:controller="ar.edu.itba.controllers.GlobalThresholdController"
          xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml">
-    <Label text="Threshold:"/>
+    <Label text="Global Threshold:"/>
     <Slider fx:id="slider" max="255" min="0" showTickLabels="true" showTickMarks="true"/>
     <Button styleClass="close" onAction="#removeOperation"/>
 </fx:root>
