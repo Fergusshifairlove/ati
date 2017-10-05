@@ -23,9 +23,7 @@ public abstract class Diffusion {
         double[][] oldBand = new double[width][height];
 
         for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                oldBand[i][j] = band[i][j];
-            }
+            System.arraycopy(band[i], 0, oldBand[i], 0, height);
         }
 
         double[][] aux;
@@ -45,13 +43,13 @@ public abstract class Diffusion {
         }
 
 
-        for (int t = 1; t < times; t ++) {
+        for (int t = 1; t < times + 1; t ++) {
             for (int i = 1; i < width-1; i++) {
                 for (int j = 1; j < height-1; j++) {
                     accum = 0;
                     for (int k = 0; k < 4; k++) {
                         d = oldBand[i + disp[k][0]][j + disp[k][1]] - oldBand[i][j];
-                        c = detector.applyAsDouble(d * oldBand[i][j]);
+                        c = detector.applyAsDouble(d);
                         accum += c * d;
                     }
                     newBand[i][j] = oldBand[i][j] + this.lambda * accum;
