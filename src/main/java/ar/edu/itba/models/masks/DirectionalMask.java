@@ -24,7 +24,6 @@ public class DirectionalMask {
             }
         }
 
-
         for(Direction direction: directions){
             masks.add(getDirectionizedMask(mask, direction));
         }
@@ -91,7 +90,7 @@ public class DirectionalMask {
                 ZeroLaplacianMask aux = new ZeroLaplacianMask(3,this.params.get(0));
                 filteredImages.add(aux.filter(image));
             }else if(mask instanceof LoGMask){
-                LoGMask aux = new LoGMask((int) (4*this.params.get(0)+1),this.params.get(0),this.params.get(1));
+                LoGMask aux = new LoGMask((int)(8*this.params.get(0))+1,this.params.get(0),this.params.get(1));
                 filteredImages.add(aux.filter(image));
             }else{
                 filteredImages.add(mask.filterImage(image));
@@ -133,10 +132,34 @@ public class DirectionalMask {
                     result[i][j]=Math.max(Math.max(imageH[i][j],imageV[i][j]),Math.max(imageDL[i][j],imageDR[i][j]));
                 }
             }
-            return result;
 
+            compress(result);
+
+            return result;
+        }
+        return null;
+    }
+
+    private void compress(double[][] matrix){
+        double min= matrix[0][0];
+        double max= min;
+        double val;
+        double range;
+        for (int i = 0; i < matrix[0].length; i++) {
+            for (int j = 0; j < matrix.length; j++) {
+                val = matrix[i][j];
+                if(val < min)
+                    min = val;
+                if(val > max)
+                    max = val;
+            }
         }
 
-        return null;
+        range=max-min;
+        for (int i = 0; i < matrix[0].length; i++) {
+            for (int j = 0; j < matrix.length; j++) {
+                matrix[i][j]=((matrix[i][j]-min)*255)/range;
+            }
+        }
     }
 }

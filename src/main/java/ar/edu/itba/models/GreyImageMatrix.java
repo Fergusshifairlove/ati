@@ -9,9 +9,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.function.BinaryOperator;
 import java.util.function.ToDoubleFunction;
 import java.util.stream.DoubleStream;
@@ -184,6 +182,7 @@ public class GreyImageMatrix extends ImageMatrix{
         this.dynamicRange(max, min);
     }
 
+
     void dynamicRange(double maxValue, double minValue) {
         this.applyPunctualOperation(pixel -> pixel - minValue);
         double c = 255/(Math.log(1 + (maxValue -minValue)));
@@ -192,5 +191,9 @@ public class GreyImageMatrix extends ImageMatrix{
 
     public Iterable<Double> getGreyBand() {
         return this.getBand(grey);
+    }
+
+    public double[][] getGrey(){
+        return grey;
     }
 }
