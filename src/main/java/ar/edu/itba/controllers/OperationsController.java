@@ -1,9 +1,6 @@
 package ar.edu.itba.controllers;
 
-import ar.edu.itba.events.NewOperation;
-import ar.edu.itba.events.ApplyOperations;
-import ar.edu.itba.events.OperationsConfirmed;
-import ar.edu.itba.events.RemoveOperation;
+import ar.edu.itba.events.*;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
@@ -38,7 +35,9 @@ public class OperationsController {
         this.eventBus.post(new ApplyOperations());
     }
 
-    public void clearOperations(ActionEvent event) { this.operations.getChildren().clear();}
+    public void clearOperations(ActionEvent event) {
+        this.eventBus.post(new RemoveOperations());
+        this.operations.getChildren().clear();}
 
     public void confirmOperations(ActionEvent event) {
         clearOperations(null);
@@ -47,5 +46,9 @@ public class OperationsController {
     @Subscribe
     public void removeOperation(RemoveOperation removeOperation) {
         this.operations.getChildren().removeAll(removeOperation.getOperation());
+    }
+
+    public void resetImage(ActionEvent event) {
+        this.eventBus.post(new ResetImage());
     }
 }

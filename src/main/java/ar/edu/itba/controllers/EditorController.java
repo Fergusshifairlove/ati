@@ -15,7 +15,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class EditorController {
@@ -82,6 +81,12 @@ public class EditorController {
         this.imageBefore = this.imageAfter;
         this.before.setImage(SwingFXUtils.toFXImage(this.imageAfter.getImage(false), null));
         this.after.setImage(null);
+    }
+
+    @Subscribe
+    public void reset(ResetImage resetImage) {
+        this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
+        eventBus.post(new ImageModified(this.imageAfter));
     }
 
     @Subscribe

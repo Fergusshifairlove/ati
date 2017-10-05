@@ -32,7 +32,10 @@
                 <Button text="Apply" onAction="#applyOperations"/>
                 <Button text="Clear" onAction="#clearOperations"/>
             </HBox>
-            <Button text="Confirm" onAction="#confirmOperations"/>
+            <HBox>
+                <Button text="Confirm" onAction="#confirmOperations"/>
+                <Button text="Reset" onAction="#resetImage"/>
+            </HBox>
         </VBox>
     </bottom>
 </fx:root>
