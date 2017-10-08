@@ -1,8 +1,7 @@
-package ar.edu.itba.models.randomGenerators;
+package ar.edu.itba.models.random.generators;
 
 import java.util.function.DoubleSupplier;
 import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
 
 public interface RandomNumberGenerator extends DoubleSupplier{
     double nextRandom();

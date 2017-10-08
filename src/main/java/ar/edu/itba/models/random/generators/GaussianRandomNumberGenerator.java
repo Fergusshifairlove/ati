@@ -1,20 +1,21 @@
-package ar.edu.itba.models.randomGenerators;
+package ar.edu.itba.models.random.generators;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.DoubleStream;
 
-public class RayleighRandomNumberGenerator implements RandomNumberGenerator{
+public class GaussianRandomNumberGenerator implements RandomNumberGenerator {
     private ThreadLocalRandom random;
-    private double xi;
+    double sigma, mu;
 
-    public RayleighRandomNumberGenerator(double xi) {
-        this.random = ThreadLocalRandom.current();
-        this.xi = xi;
+    public GaussianRandomNumberGenerator(double sigma, double mu) {
+        this.random =  ThreadLocalRandom.current();
+        this.sigma = sigma;
+        this.mu = mu;
     }
 
     @Override
     public double nextRandom() {
-        return xi * Math.sqrt(-2.0* Math.log(1.0-random.nextDouble()));
+        return this.random.nextGaussian()*sigma + mu;
     }
 
     @Override
@@ -29,6 +30,6 @@ public class RayleighRandomNumberGenerator implements RandomNumberGenerator{
 
     @Override
     public double getAsDouble() {
-        return nextRandom();
+        return this.nextRandom();
     }
 }

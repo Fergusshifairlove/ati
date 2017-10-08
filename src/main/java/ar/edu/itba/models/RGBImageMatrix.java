@@ -1,26 +1,18 @@
 package ar.edu.itba.models;
 
-import ar.edu.itba.constants.NoiseType;
-import ar.edu.itba.models.masks.DirectionalMask;
-import ar.edu.itba.models.masks.Mask;
-import ar.edu.itba.models.randomGenerators.RandomNumberGenerator;
-
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.DataBufferInt;
 import java.awt.image.WritableRaster;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.BinaryOperator;
 import java.util.function.ToDoubleFunction;
-import java.util.stream.DoubleStream;
 
-public class RGBImageMatrix extends ImageMatrix{
+public class RGBImageMatrix extends ImageMatrix {
+    private static Integer[] bands = {1, 2, 3};
     private double[][] red;
     private double[][] green;
     private double[][] blue;
-    private static Integer[] bands = {1,2,3};
 
     protected RGBImageMatrix(BufferedImage image) {
         super(image.getWidth(), image.getHeight(), image.getType());
@@ -29,11 +21,17 @@ public class RGBImageMatrix extends ImageMatrix{
         this.blue = new double[this.getWidth()][this.getHeight()];
         if (this.getType() == BufferedImage.TYPE_INT_RGB) {
             this.IntRGB(image);
-        }
-        else if (this.getType() == BufferedImage.TYPE_3BYTE_BGR) {
+        } else if (this.getType() == BufferedImage.TYPE_3BYTE_BGR) {
             this.ByteImage(image);
         }
 
+    }
+
+    public RGBImageMatrix(int width, int height, double[][] red, double[][] green, double[][] blue) {
+        super(width, height, BufferedImage.TYPE_INT_RGB);
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
     }
 
     private void IntRGB(BufferedImage image) {
@@ -66,25 +64,19 @@ public class RGBImageMatrix extends ImageMatrix{
         }
     }
 
-    public RGBImageMatrix(int width, int height, double[][] red, double[][] green, double[][] blue) {
-        super(width, height, BufferedImage.TYPE_INT_RGB);
-        this.red = red;
-        this.green =green;
-        this.blue = blue;
-    }
-
     @Override
     public Pixel getPixelColor(int x, int y) {
-        int red = (int)this.red[x][y];
-        int green = (int)this.green[x][y];
-        int blue = (int)this.blue[x][y];
-        return new RGBPixel(x ,y, red, green, blue);
+        int red = (int) this.red[x][y];
+        int green = (int) this.green[x][y];
+        int blue = (int) this.blue[x][y];
+        return new RGBPixel(x, y, red, green, blue);
     }
 
     @Override
     public void setPixel(Pixel pixel) {
         RGBPixel rgb = (RGBPixel) pixel;
-        int x = rgb.getX(); int y = rgb.getY();
+        int x = rgb.getX();
+        int y = rgb.getY();
         this.setPixel(x, y, rgb.getRed(), rgb.getGreen(), rgb.getBlue());
     }
 
@@ -124,64 +116,16 @@ public class RGBImageMatrix extends ImageMatrix{
     }
 
     @Override
-    public void compress() {
-
-    }
-
-    @Override
-    public void applyNoise(NoiseType noiseType, RandomNumberGenerator generator, double percentage) {
-        long cant = Math.round(this.width * this.height * percentage);
-        DoubleStream randoms;
-        Iterable<Point> toModify;
-
-        double[][][] matrices = {new double[this.width][this.height], new double[this.width][this.height], new double[this.width][this.height]};
-        for (int i = 0; i < matrices.length; i++) {
-            randoms = generator.doubles(cant);
-            toModify = getPixelsToModify(this.width, this.height, cant);
-            matrices[i] = getRandomMatrix(this.width, this.height, noiseType, toModify, randoms.iterator());
-        }
-        ImageMatrix noise = new RGBImageMatrix(this.width, this.height, matrices[0], matrices[1], matrices[2]);
-        this.applyBinaryOperation((x1, x2) -> x1 + x2, noise);
-
-    }
-
-    public static RGBImageMatrix getNoiseImage(int width, int height, RandomNumberGenerator generator, NoiseType type) {
-        long cant = Math.round(width * height);
-        DoubleStream randoms;
-        Iterable<Point> toModify;
-
-        double[][][] matrices = {new double[width][height], new double[width][height], new double[width][height]};
-        for (int i = 0; i < matrices.length; i++) {
-            randoms = generator.doubles(cant);
-            toModify = getPixelsToModify(width, height, cant);
-            matrices[i] = getRandomMatrix(width, height, type, toModify, randoms.iterator());
-        }
-        return new RGBImageMatrix(width, height, matrices[0], matrices[1], matrices[2]);
-    }
-
-    @Override
-    public ImageMatrix applyMask(Mask mask) {
-        this.red = mask.filterImage(this.red);
-        this.green = mask.filterImage(this.green);
-        this.blue = mask.filterImage(this.blue);
-        return this;
-    }
-
-    @Override
-    public ImageMatrix applyBorder(DirectionalMask dirMask) {
-        this.red = dirMask.filterImage(this.red);
-        this.green = dirMask.filterImage(this.green);
-        this.blue = dirMask.filterImage(this.blue);
-        return this;
-    }
-
-    @Override
     public double[][] getBand(int band) {
         switch (band) {
-            case 1: return red;
-            case 2: return green;
-            case 3: return blue;
-            default: throw new IllegalArgumentException();
+            case 1:
+                return red;
+            case 2:
+                return green;
+            case 3:
+                return blue;
+            default:
+                throw new IllegalArgumentException();
         }
     }
 
@@ -193,32 +137,25 @@ public class RGBImageMatrix extends ImageMatrix{
     @Override
     public void setBand(int b, double[][] band) {
         switch (b) {
-            case 1: this.red = band;
-                    break;
-            case 2: this.green = band;
-                    break;
-            case 3: this.blue = band;
-                    break;
-            default: throw new IllegalArgumentException();
+            case 1:
+                this.red = band;
+                break;
+            case 2:
+                this.green = band;
+                break;
+            case 3:
+                this.blue = band;
+                break;
+            default:
+                throw new IllegalArgumentException();
         }
-    }
-
-    @Override
-    public void equalize() {
-        Histogram r = new Histogram(this.getRedBand());
-        Histogram g = new Histogram(this.getGreenBand());
-        Histogram b = new Histogram(this.getBlueBand());
-        this.applyBandOperation(r::equalize,this.red);
-        this.applyBandOperation(g::equalize,this.green);
-        this.applyBandOperation(b::equalize,this.blue);
     }
 
     @Override
     protected BufferedImage toBufferedImage(boolean compress) {
         if (compress) {
             this.compress();
-        }
-        else {
+        } else {
             this.applyPunctualOperation(this::truncate);
         }
         BufferedImage image = new BufferedImage(this.getWidth(), this.getHeight(), this.getType());
@@ -234,24 +171,15 @@ public class RGBImageMatrix extends ImageMatrix{
     }
 
     public Iterable<Double> getRedBand() {
-        return this.getBand(red);
+        return this.getIterableBand(1);
     }
 
     public Iterable<Double> getGreenBand() {
-        return this.getBand(green);
+        return this.getIterableBand(2);
     }
 
     public Iterable<Double> getBlueBand() {
-        return this.getBand(blue);
+        return this.getIterableBand(3);
     }
 
-    private ImageMatrix applyBandOperation(ToDoubleFunction<Double> operation, double[][] band) {
-        double b;
-        for (int i = 0; i < this.getWidth(); i++) {
-            for (int j = 0; j < this.getHeight(); j++) {
-                band[i][j] = operation.applyAsDouble(band[i][j]);
-            }
-        }
-        return this;
-    }
 }

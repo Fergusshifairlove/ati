@@ -4,18 +4,15 @@ import ar.edu.itba.constants.NoiseType;
 import ar.edu.itba.controllers.operations.OperationController;
 import ar.edu.itba.events.ApplyNoise;
 import ar.edu.itba.events.ApplyOperations;
-import ar.edu.itba.events.OperationsConfirmed;
-import ar.edu.itba.models.randomGenerators.GaussianRandomNumberGenerator;
+import ar.edu.itba.models.random.generators.GaussianRandomNumberGenerator;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.sun.javafx.collections.ObservableSequentialListWrapper;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class GaussianController extends OperationController{

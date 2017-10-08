@@ -1,22 +1,20 @@
-package ar.edu.itba.models.randomGenerators;
+package ar.edu.itba.models.random.generators;
 
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.DoubleSupplier;
 import java.util.stream.DoubleStream;
 
-public class GaussianRandomNumberGenerator implements RandomNumberGenerator {
+public class ExponentialRandomNumberGenerator implements RandomNumberGenerator{
     private ThreadLocalRandom random;
-    double sigma, mu;
+    private double lambda;
 
-    public GaussianRandomNumberGenerator(double sigma, double mu) {
-        this.random =  ThreadLocalRandom.current();
-        this.sigma = sigma;
-        this.mu = mu;
+    public ExponentialRandomNumberGenerator(double lambda) {
+        this.random = ThreadLocalRandom.current();
+        this.lambda = lambda;
     }
 
     @Override
     public double nextRandom() {
-        return this.random.nextGaussian()*sigma + mu;
+        return Math.log(1-random.nextDouble())/(-lambda);
     }
 
     @Override
@@ -31,6 +29,6 @@ public class GaussianRandomNumberGenerator implements RandomNumberGenerator {
 
     @Override
     public double getAsDouble() {
-        return this.nextRandom();
+        return nextRandom();
     }
 }

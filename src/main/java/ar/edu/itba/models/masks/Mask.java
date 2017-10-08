@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * Created by Nicolas Castano on 8/28/17.
  */
-public class Mask {
+public class Mask implements Filter{
 
     double mask[][];
     protected int size=0;

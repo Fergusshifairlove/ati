@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by root on 9/16/17.
  */
-public class DirectionalMask {
+public class DirectionalMask implements Filter{
     private List<Mask> masks;
     private List<Double> params;
 

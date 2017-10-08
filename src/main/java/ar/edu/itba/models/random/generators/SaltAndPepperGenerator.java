@@ -1,20 +1,29 @@
-package ar.edu.itba.models.randomGenerators;
+package ar.edu.itba.models.random.generators;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.DoubleStream;
 
-public class ExponentialRandomNumberGenerator implements RandomNumberGenerator{
+/**
+ * Created by Luis on 30/8/2017.
+ */
+public class SaltAndPepperGenerator implements RandomNumberGenerator{
     private ThreadLocalRandom random;
-    private double lambda;
+    private double p0, p1;
 
-    public ExponentialRandomNumberGenerator(double lambda) {
+    public SaltAndPepperGenerator(double p0, double p1) {
         this.random = ThreadLocalRandom.current();
-        this.lambda = lambda;
+        this.p0 = p0;
+        this.p1 = p1;
+    }
+
+    public SaltAndPepperGenerator() {
+        this(0.8, 0.2);
     }
 
     @Override
     public double nextRandom() {
-        return Math.log(1-random.nextDouble())/(-lambda);
+        double x = random.nextDouble();
+        return x >= p0 ? 255 : x <= p1 ? 0 : -1;
     }
 
     @Override
@@ -29,6 +38,6 @@ public class ExponentialRandomNumberGenerator implements RandomNumberGenerator{
 
     @Override
     public double getAsDouble() {
-        return nextRandom();
+        return this.nextRandom();
     }
 }

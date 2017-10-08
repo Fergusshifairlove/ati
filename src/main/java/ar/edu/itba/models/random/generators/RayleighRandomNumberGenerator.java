@@ -1,29 +1,20 @@
-package ar.edu.itba.models.randomGenerators;
+package ar.edu.itba.models.random.generators;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.DoubleStream;
 
-/**
- * Created by Luis on 30/8/2017.
- */
-public class SaltAndPepperGenerator implements RandomNumberGenerator{
+public class RayleighRandomNumberGenerator implements RandomNumberGenerator{
     private ThreadLocalRandom random;
-    private double p0, p1;
+    private double xi;
 
-    public SaltAndPepperGenerator(double p0, double p1) {
+    public RayleighRandomNumberGenerator(double xi) {
         this.random = ThreadLocalRandom.current();
-        this.p0 = p0;
-        this.p1 = p1;
-    }
-
-    public SaltAndPepperGenerator() {
-        this(0.8, 0.2);
+        this.xi = xi;
     }
 
     @Override
     public double nextRandom() {
-        double x = random.nextDouble();
-        return x >= p0 ? 255 : x <= p1 ? 0 : -1;
+        return xi * Math.sqrt(-2.0* Math.log(1.0-random.nextDouble()));
     }
 
     @Override
@@ -38,6 +29,6 @@ public class SaltAndPepperGenerator implements RandomNumberGenerator{
 
     @Override
     public double getAsDouble() {
-        return this.nextRandom();
+        return nextRandom();
     }
 }

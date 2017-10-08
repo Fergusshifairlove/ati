@@ -2,8 +2,6 @@ package ar.edu.itba.controllers;
 
 import ar.edu.itba.controllers.operations.punctualOperations.ThresholdController;
 import ar.edu.itba.events.ApplyOperations;
-import ar.edu.itba.events.ApplyPunctualOperation;
-import ar.edu.itba.events.ApplyThresholding;
 import ar.edu.itba.models.thresholding.GlobalThresholding;
 import ar.edu.itba.models.thresholding.ThresholdFinder;
 import com.google.common.eventbus.EventBus;

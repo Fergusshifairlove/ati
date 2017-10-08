@@ -1,7 +1,7 @@
 package ar.edu.itba.events;
 
 import ar.edu.itba.constants.NoiseType;
-import ar.edu.itba.models.randomGenerators.RandomNumberGenerator;
+import ar.edu.itba.models.random.generators.RandomNumberGenerator;
 
 public class ApplyNoise {
     private RandomNumberGenerator generator;

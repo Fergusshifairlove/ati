@@ -1,9 +1,8 @@
 package ar.edu.itba.models;
 
 import ar.edu.itba.constants.NoiseType;
-import ar.edu.itba.models.masks.DirectionalMask;
-import ar.edu.itba.models.masks.Mask;
-import ar.edu.itba.models.randomGenerators.RandomNumberGenerator;
+import ar.edu.itba.models.random.RandomUtils;
+import ar.edu.itba.models.random.generators.RandomNumberGenerator;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -11,16 +10,14 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.BinaryOperator;
+import java.util.function.Function;
 import java.util.function.ToDoubleFunction;
+import java.util.stream.DoubleStream;
 
-public abstract class ImageMatrix{
+public abstract class ImageMatrix {
     protected int height;
     protected int width;
     private int type;
-
-    public int getType() {
-        return type;
-    }
 
     ImageMatrix(int width, int height, int type) {
         this.height = height;
@@ -37,11 +34,16 @@ public abstract class ImageMatrix{
         else if (image.getType() == BufferedImage.TYPE_3BYTE_BGR) {
             return new RGBImageMatrix(image);
         }
-        System.out.println(image.getType());
-        throw new RuntimeException();
+        throw new IllegalArgumentException();
     }
 
-    int getHeight() {
+
+
+    public int getType() {
+        return type;
+    }
+
+    public int getHeight() {
         return height;
     }
 
@@ -59,89 +61,138 @@ public abstract class ImageMatrix{
 
     public abstract void setPixel(Pixel pixel);
 
-    public abstract ImageMatrix applyPunctualOperation(ToDoubleFunction<Double> operation);
+    public ImageMatrix compress() {
+        for (Integer b : this.getBands()) {
+            double[][] band = this.getBand(b);
+            double min = band[0][0];
+            double max = min;
+            double val;
+            for (int i = 0; i < this.width; i++) {
+                for (int j = 0; j < this.height; j++) {
+                    val = band[i][j];
+                    if (val < min)
+                        min = val;
+                    if (val > max)
+                        max = val;
+                }
+            }
+            this.dynamicRange(b, max, min);
+        }
+        return this;
+    }
 
-    public abstract ImageMatrix applyBinaryOperation(BinaryOperator<Double> operator, ImageMatrix matrix);
-
-    public abstract void compress();
+    void dynamicRange(int band, double maxValue, double minValue) {
+        this.applyPunctualOperation(band, pixel -> pixel - minValue);
+        double c = 255 / (Math.log(1 + (maxValue - minValue)));
+        this.applyPunctualOperation(band, pixel -> c * Math.log(1 + pixel));
+    }
 
     double truncate(double p) {
         if (p < 0)
             return 0;
         if (p > 255)
-            return  255;
+            return 255;
         return p;
     }
 
-    public abstract void applyNoise(NoiseType noiseType, RandomNumberGenerator generator, double percentage);
-
-
-    public abstract ImageMatrix applyMask(Mask mask);
-
-    public abstract ImageMatrix applyBorder(DirectionalMask dirMask);
-
-    static double[][] getRandomMatrix(int width, int height, NoiseType noiseType, Iterable<Point> toModify, Iterator<Double> generator) {
-        double[][] noise = new double[width][height];
-
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                noise[i][j] = noiseType.getNeutral();
-            }
-        }
-
-        for (Point p: toModify) {
-            noise[p.x][p.y] = generator.next();
-        }
-
-        return noise;
-    }
-
-    static Iterable<Point> getPixelsToModify(int width, int height, long cant) {
-        Set<Point> modified = new HashSet<>();
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-        Iterator<Integer> cols = random.ints(0, height).iterator();
-        Iterator<Integer> rows = random.ints(0, width).iterator();
-
-        do {
-            modified.add(new Point(rows.next(), cols.next()));
-        }while (modified.size() < cant);
-
-        return modified;
-    }
-
-    protected Iterable<Double> getBand(double[][] band) {
-        List<Double> b = new ArrayList<>();
-        for (int i=0; i<this.width; i++) {
-            for (int j=0; j<this.height; j++) {
-                b.add(band[i][j]);
-            }
-        }
-        return b;
-    }
-
-    public Iterable<Double> getItBand(int band) {
-        return this.getBand(this.getBand(band));
-    }
-
-    public void applyBandOperation(int band, ToDoubleFunction<Double> operation) {
+    public ImageMatrix applyNoise(int band, NoiseType noiseType, RandomNumberGenerator generator, double percentage) {
         if (band == -1) {
-            this.applyPunctualOperation(operation);
-            return;
+            return this.applyAllBands((b) -> this.applyNoise(b, noiseType, generator, percentage));
         }
-        this.applyBandOperation(this.getBand(band), operation);
+        return this.applyBinaryOperation(band, noiseType.getOperator(),
+                RandomUtils.getNoiseBand(this.width, this.height, generator, noiseType));
+    }
+
+    public Iterable<Double> getIterableBand(int band) {
+        double[][] b = this.getBand(band);
+        List<Double> itBand = new ArrayList<>();
+        for (int i = 0; i < this.width; i++) {
+            for (int j = 0; j < this.height; j++) {
+                itBand.add(b[i][j]);
+            }
+        }
+        return itBand;
     }
 
     public abstract double[][] getBand(int band);
+
     public abstract Iterable<Integer> getBands();
 
-    private void applyBandOperation(double[][] band, ToDoubleFunction<Double> operation) {
-        for (int i=0; i<width; i++) {
-            for (int j=0; j<height; j++) {
-                band[i][j] = operation.applyAsDouble(band[i][j]);
-            }
+    public abstract void setBand(int b, double[][] band);
+
+    public ImageMatrix equalize(Integer band) {
+        if (band == -1) {
+            return this.applyAllBands(this::equalize);
         }
+        Histogram h;
+        h = new Histogram(this.getIterableBand(band));
+        this.applyPunctualOperation(band, h::equalize);
+        return this;
     }
 
-    public abstract void setBand(int b, double[][] band);
-    public abstract void equalize();
+    public ImageMatrix equalize() {
+        return this.equalize(-1);
+    }
+
+    public ImageMatrix applyFilterOperation(int band, Function<double[][], double[][]> filter) {
+        if (band == -1) {
+            return this.applyAllBands((b) -> applyFilterOperation(b, filter));
+        }
+        this.setBand(band, filter.apply(this.getBand(band)));
+        return this;
+    }
+
+    public ImageMatrix applyFilterOperation(Function<double[][], double[][]> filter) {
+        return this.applyFilterOperation(-1, filter);
+    }
+
+    public ImageMatrix applyPunctualOperation(int band, ToDoubleFunction<Double> punctualOperation) {
+        if (band == -1) {
+            return this.applyAllBands((b) -> applyPunctualOperation(b, punctualOperation));
+        }
+        double[][] b = this.getBand(band);
+        for (int i = 0; i < this.width; i++) {
+            for (int j = 0; j < this.height; j++) {
+                b[i][j] = punctualOperation.applyAsDouble(b[i][j]);
+            }
+        }
+        this.setBand(band, b);
+        return this;
+    }
+
+    public ImageMatrix applyPunctualOperation(ToDoubleFunction<Double> punctualOperation) {
+        return this.applyPunctualOperation(-1, punctualOperation);
+    }
+
+    public ImageMatrix applyBinaryOperation(Integer band, BinaryOperator<Double> operator, double[][] band2) {
+        if (band == -1) {
+            return applyAllBands((b) -> applyBinaryOperation(b, operator, band2));
+        }
+        double[][] band1 = this.getBand(band);
+
+        for (int i = 0; i < this.width; i++) {
+            for (int j = 0; j < this.height; j++) {
+                band1[i][j] = operator.apply(band1[i][j], band2[i][j]);
+            }
+        }
+        this.setBand(band, band1);
+        return this;
+    }
+
+    public ImageMatrix applyBinaryOperation(BinaryOperator<Double> operator, ImageMatrix matrix) {
+        if (this.type != matrix.getType()) {
+            throw new IllegalArgumentException();
+        }
+        for (Integer band: matrix.getBands()) {
+            this.applyBinaryOperation(band, operator, matrix.getBand(band));
+        }
+        return this;
+    }
+
+    private ImageMatrix applyAllBands(Function<Integer, ImageMatrix> bandOperation) {
+        for (Integer i : this.getBands()) {
+            bandOperation.apply(i);
+        }
+        return this;
+    }
 }

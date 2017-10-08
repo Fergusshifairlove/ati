@@ -1,12 +1,9 @@
 package ar.edu.itba.controllers.operations.diffusion;
 
-import ar.edu.itba.constants.NoiseType;
 import ar.edu.itba.controllers.operations.OperationController;
-import ar.edu.itba.events.ApplyNoise;
 import ar.edu.itba.events.ApplyOperations;
 import ar.edu.itba.events.DiffuseImage;
 import ar.edu.itba.models.diffusions.IsotropicDiffusion;
-import ar.edu.itba.models.randomGenerators.GaussianRandomNumberGenerator;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
