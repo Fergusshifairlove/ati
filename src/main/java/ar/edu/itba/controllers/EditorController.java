@@ -87,10 +87,10 @@ public class EditorController {
     @Subscribe
     public void applyNoise(ApplyNoise noise) {
         if (this.imageBefore == null) {
-            this.imageAfter = GreyImageMatrix.getNoiseImage(100, 100, noise.getGenerator(), noise.getNoiseType());
+            this.imageAfter = GreyImageMatrix.getNoiseImage(100, 100, noise.getGenerator(), noise.getNoiseType(), noise.getPercentage());
 
         } else {
-            this.imageAfter.applyNoise(-1, noise.getNoiseType(), noise.getGenerator(), noise.getPercentage());
+            this.imageAfter.applyNoise(noise.getNoiseType(), noise.getGenerator(), noise.getPercentage());
             if (noise.getNoiseType() == NoiseType.MULTIPLICATIVE)
                 this.imageAfter.compress();
         }
@@ -100,7 +100,7 @@ public class EditorController {
 
     @Subscribe
     public void applyFilter(Filter filter) {
-        this.imageAfter.applyFilterOperation(-1, filter::filterImage);
+        this.imageAfter.applyFilterOperation(filter::filterImage);
         eventBus.post(new ImageModified(this.imageAfter));
     }
 
@@ -127,7 +127,7 @@ public class EditorController {
 
     @Subscribe
     public void diffuseImage(DiffuseImage diffuse) {
-        this.imageAfter.applyFilterOperation(-1, band -> diffuse.getDiffusion().difuse(band, diffuse.getTimes()));
+        this.imageAfter.applyFilterOperation(band -> diffuse.getDiffusion().difuse(band, diffuse.getTimes()));
         eventBus.post(new ImageModified(this.imageAfter));
     }
 

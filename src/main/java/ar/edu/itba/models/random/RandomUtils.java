@@ -14,8 +14,8 @@ import java.util.stream.DoubleStream;
  * Created by Luis on 7/10/2017.
  */
 public class RandomUtils {
-    public static double[][] getNoiseBand(int width, int height, RandomNumberGenerator generator, NoiseType noiseType) {
-        long cant = Math.round(width * height);
+    public static double[][] getNoiseBand(int width, int height, RandomNumberGenerator generator, NoiseType noiseType, double percentage) {
+        long cant = Math.round(width * height * percentage);
         DoubleStream randoms = generator.doubles(cant);
         Iterable<Point> toModify = getPixelsToModify(width, height, cant);
         return getRandomBand(width, height, noiseType, toModify, randoms.iterator());

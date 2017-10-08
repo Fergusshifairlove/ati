@@ -108,8 +108,8 @@ public class GreyImageMatrix extends ImageMatrix {
     }
 
 
-    public static ImageMatrix getNoiseImage(int width, int height, RandomNumberGenerator generator, NoiseType type) {
-        return new GreyImageMatrix(width, height, RandomUtils.getNoiseBand(width, height, generator, type));
+    public static ImageMatrix getNoiseImage(int width, int height, RandomNumberGenerator generator, NoiseType type, double percentage) {
+        return new GreyImageMatrix(width, height, RandomUtils.getNoiseBand(width, height, generator, type, percentage));
     }
 
 }

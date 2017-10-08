@@ -100,9 +100,12 @@ public abstract class ImageMatrix {
             return this.applyAllBands((b) -> this.applyNoise(b, noiseType, generator, percentage));
         }
         return this.applyBinaryOperation(band, noiseType.getOperator(),
-                RandomUtils.getNoiseBand(this.width, this.height, generator, noiseType));
+                RandomUtils.getNoiseBand(this.width, this.height, generator, noiseType, percentage));
     }
 
+    public ImageMatrix applyNoise(NoiseType noiseType, RandomNumberGenerator generator, double percentage) {
+        return this.applyNoise(-1, noiseType, generator, percentage);
+    }
     public Iterable<Double> getIterableBand(int band) {
         double[][] b = this.getBand(band);
         List<Double> itBand = new ArrayList<>();
