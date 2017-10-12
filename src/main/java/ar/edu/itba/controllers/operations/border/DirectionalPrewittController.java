@@ -2,7 +2,7 @@ package ar.edu.itba.controllers.operations.border;
 
 import ar.edu.itba.controllers.operations.OperationController;
 import ar.edu.itba.events.ApplyOperations;
-import ar.edu.itba.models.masks.Direction;
+import ar.edu.itba.constants.Direction;
 import ar.edu.itba.models.masks.DirectionalMask;
 import ar.edu.itba.models.masks.PrewittMask;
 import com.google.common.eventbus.EventBus;

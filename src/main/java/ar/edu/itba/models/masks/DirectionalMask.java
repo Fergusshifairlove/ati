@@ -1,5 +1,7 @@
 package ar.edu.itba.models.masks;
 
+import ar.edu.itba.constants.Direction;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +12,7 @@ public class DirectionalMask implements Filter{
     private List<Mask> masks;
     private List<Double> params;
 
-    public DirectionalMask(Mask mask, List<Direction> directions,List<Double> params){
+    public DirectionalMask(Mask mask, List<Direction> directions, List<Double> params){
         if(mask.size != 3)
             throw new IllegalArgumentException("Mask size must be 3");
 
@@ -29,7 +31,7 @@ public class DirectionalMask implements Filter{
         }
     }
 
-    private Mask getDirectionizedMask(Mask mask, Direction direction){
+    public static Mask getDirectionizedMask(Mask mask, Direction direction){
         Mask directionizedMask = new Mask(3);
 
         switch (direction){
