@@ -6,8 +6,8 @@ package ar.edu.itba.constants;
 public enum Direction {
     HORIZONTAL(1,0),
     VERTICAL(0,1),
-    DIAGONAL_LEFT(1,-1),
-    DIAGONAL_RIGHT(-1,1);
+    DIAGONAL_LEFT(1,-11),
+    DIAGONAL_RIGHT(1,1);
 
     Direction(int xStep, int yStep) {
         this.xStep = xStep;
@@ -16,11 +16,11 @@ public enum Direction {
 
     private int xStep,yStep;
 
-    public int getxStep() {
+    public int getXStep() {
         return xStep;
     }
 
-    public int getyStep() {
+    public int getYStep() {
         return yStep;
     }
 }

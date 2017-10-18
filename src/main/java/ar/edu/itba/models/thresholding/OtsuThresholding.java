@@ -25,8 +25,8 @@ public class OtsuThresholding implements ThresholdFinder{
             normProb = histogram.getFrequency(t);
             mean[t] = mean[t-1] + t * normProb;
             prob[t] = prob[t-1] + normProb;
-            System.out.println("prob: " + prob[t]);
-            System.out.println("mean: " + mean[t]);
+            //System.out.println("prob: " + prob[t]);
+            //System.out.println("mean: " + mean[t]);
         }
 
         double maxVar = 0.0, var;

@@ -47,7 +47,7 @@ public class Canny implements Filter{
             for (int x = 0; x < current.length; x++) {
                 for (int y = 0; y < current[x].length; y++) {
                     current[x][y] = synthesizer.apply(dx[x][y], dy[x][y]);
-                    directions[x][y] = getAngle(Math.atan2(dx[x][y], dy[x][y]) + 180);
+                    directions[x][y] = getAngle(Math.toDegrees(Math.atan2(dy[x][y], dx[x][y])) + 180);
                 }
             }
 
@@ -69,6 +69,7 @@ public class Canny implements Filter{
     }
 
     private static Direction getAngle(double angle) {
+        System.out.println(angle);
         angle = angle%180;
         if(angle<ANGLE_0_45)
             return Direction.HORIZONTAL;
@@ -82,27 +83,27 @@ public class Canny implements Filter{
     }
 
     private double[][] suppression(double[][] image, Direction[][] borderDirection) {
-        double current, next;
+        double current, next, prev;
         int xdisp, ydisp;
         for (int i = 0; i < image.length; i++) {
             for (int j = 0; j < image[i].length; j++) {
                 current = image[i][j];
                 if (current <= 0)
                     continue;
-                xdisp = borderDirection[i][j].getxStep();
-                ydisp = borderDirection[i][j].getyStep();
+                xdisp = borderDirection[i][j].getXStep();
+                ydisp = borderDirection[i][j].getYStep();
                 if (i + xdisp >= image.length || j + ydisp >= image[i].length || i + xdisp < 0 || j + ydisp< 0)
                     continue;
                 next = image[i + xdisp][j + ydisp];
-                if (next >= current) {
+                if (next > current) {
                     image[i][j] = 0.0;
                 }
-//                if (i - xdisp >= image.length || j - ydisp >= image[i].length || i - xdisp < 0 || j - ydisp< 0)
-//                    continue;
-//                next = image[i - xdisp][j - ydisp];
-//                if (next >= current) {
-//                    image[i][j] = 0.0;
-//                }
+                if (i - xdisp >= image.length || j - ydisp >= image[i].length || i - xdisp < 0 || j - ydisp< 0)
+                    continue;
+                prev = image[i - xdisp][j - ydisp];
+                if (prev > current) {
+                    image[i][j] = 0.0;
+                }
             }
         }
         return image;
@@ -134,7 +135,7 @@ public class Canny implements Filter{
         OtsuThresholding thresholding = new OtsuThresholding();
         double th = thresholding.findThreshold(Arrays.stream(image).flatMap(r -> Doubles.asList(r).stream()).collect(Collectors.toSet()));
         double[] thresholds = {th/2, th};
-        System.out.println("t1: " + th/2 + " t2: " + th);
+        //System.out.println("t1: " + th/2 + " t2: " + th);
         return thresholds;
     }
 
