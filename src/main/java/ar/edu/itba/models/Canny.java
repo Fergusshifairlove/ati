@@ -2,10 +2,15 @@ package ar.edu.itba.models;
 
 import ar.edu.itba.constants.Direction;
 import ar.edu.itba.models.masks.*;
+import ar.edu.itba.models.thresholding.OtsuThresholding;
+import com.google.common.primitives.Doubles;
+import org.apache.commons.collections.iterators.ArrayIterator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.BinaryOperator;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Canny implements Filter{
@@ -18,14 +23,11 @@ public class Canny implements Filter{
     private double[] sigmas;
     private BinaryOperator<Double> synthesizer;
     private BinaryOperator<Double> combiner;
-    private double t1, t2;
 
-    public Canny(double[] sigmas, BinaryOperator<Double> synthesizer, BinaryOperator<Double> combiner,  double t1, double t2) {
+    public Canny(double[] sigmas, BinaryOperator<Double> synthesizer, BinaryOperator<Double> combiner) {
         this.sigmas = sigmas;
         this.synthesizer = synthesizer;
         this.combiner = combiner;
-        this.t1 = t1;
-        this.t2 = t2;
     }
 
     @Override
@@ -50,8 +52,8 @@ public class Canny implements Filter{
             }
 
 
-            //thresholds = this.findThresholds(image);
-            images.add(this.hysteresisThresholding(this.suppression(current, directions), t1, t2));
+            thresholds = this.findThresholds(image);
+            images.add(this.hysteresisThresholding(this.suppression(current, directions), thresholds[0], thresholds[1]));
         }
 
         return images.stream().reduce((m1, m2) -> combine(m1, m2, combiner)).get();
@@ -95,6 +97,12 @@ public class Canny implements Filter{
                 if (next >= current) {
                     image[i][j] = 0.0;
                 }
+//                if (i - xdisp >= image.length || j - ydisp >= image[i].length || i - xdisp < 0 || j - ydisp< 0)
+//                    continue;
+//                next = image[i - xdisp][j - ydisp];
+//                if (next >= current) {
+//                    image[i][j] = 0.0;
+//                }
             }
         }
         return image;
@@ -103,7 +111,7 @@ public class Canny implements Filter{
     private double[][] hysteresisThresholding(double[][] image, double t1, double t2) {
         for (int i = 0; i < image.length; i++) {
             for (int j = 0; j < image[i].length; j++) {
-                if(image[i][j] < t2)
+                if(image[i][j] > t2)
                     image[i][j] = 255.0;
                 else if (image[i][j] < t1)
                     image[i][j] = 0.0;
@@ -123,8 +131,11 @@ public class Canny implements Filter{
     }
 
     private double[] findThresholds(double[][] image) {
-
-        return null;
+        OtsuThresholding thresholding = new OtsuThresholding();
+        double th = thresholding.findThreshold(Arrays.stream(image).flatMap(r -> Doubles.asList(r).stream()).collect(Collectors.toSet()));
+        double[] thresholds = {th/2, th};
+        System.out.println("t1: " + th/2 + " t2: " + th);
+        return thresholds;
     }
 
 
