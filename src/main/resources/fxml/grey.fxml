@@ -11,6 +11,5 @@
          xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml">
     <Label text="G:"/>
-    <TextField fx:id="grey" prefWidth="50"/>
-    <Button onAction="#setGrey">Submit</Button>
+    <TextField fx:id="grey" disable="true" prefWidth="50"/>
 </fx:root>

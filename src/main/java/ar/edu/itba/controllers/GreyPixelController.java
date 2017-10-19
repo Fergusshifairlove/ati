@@ -21,14 +21,7 @@ public class GreyPixelController {
         this.eventBus = eventBus;
     }
 
-    public void setGrey(ActionEvent event) {
-        int g = Integer.parseInt(grey.getText());
-
-        this.pixel = new GreyPixel(pixel.getX(), pixel.getY(), g);
-        System.out.println("(" + g + ")");
-        eventBus.post(new GreyPixelModified(pixel));
-    }
-
+    @Subscribe
     public void clearData(ImageLoaded loaded) {
         this.grey.clear();
         this.pixel = null;

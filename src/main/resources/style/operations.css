@@ -4,11 +4,20 @@ HBox {
     -fx-spacing: 20;
 }
 
+VBox {
+    -fx-spacing: 10;
+}
+
+#labels {
+    -fx-alignment: center;
+}
+
 #title {
     -fx-alignment: center;
     -fx-border-color: black;
     -fx-border-width: 2;
     -fx-padding: 5 5 5 5;
+    -fx-alignment: baseline-center;
 }
 
 #title Label {
@@ -43,6 +52,7 @@ ScrollPane {
 
 TextField {
     -fx-pref-width: 50;
+    -fx-alignment: baseline-right;
 }
 
 .close {

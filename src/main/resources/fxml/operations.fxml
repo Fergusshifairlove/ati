@@ -15,7 +15,7 @@
          xmlns:fx="http://javafx.com/fxml"
          fx:controller="ar.edu.itba.controllers.OperationsController"
          stylesheets="/style/operations.css"
-         prefHeight="400" maxWidth="200">
+         prefHeight="600" maxWidth="200">
     <top>
         <VBox id="title">
             <Label text="Operations"/>

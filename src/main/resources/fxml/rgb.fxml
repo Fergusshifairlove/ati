@@ -12,10 +12,9 @@
          xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml">
     <Label text="R:"/>
-    <TextField fx:id="red" prefWidth="50"/>
+    <TextField fx:id="red" disable="true" prefWidth="50"/>
     <Label text="G:"/>
-    <TextField fx:id="green" prefWidth="50"/>
+    <TextField fx:id="green" disable="true" prefWidth="50"/>
     <Label text="B:"/>
-    <TextField fx:id="blue" prefWidth="50"/>
-    <Button onAction="#setRGB">Submit</Button>
+    <TextField fx:id="blue" disable="true" prefWidth="50"/>
 </fx:root>

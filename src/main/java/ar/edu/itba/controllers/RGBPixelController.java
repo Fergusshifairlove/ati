@@ -23,16 +23,7 @@ public class RGBPixelController {
         this.eventBus = eventBus;
     }
 
-    public void setRGB(ActionEvent event) {
-        int r = Integer.parseInt(red.getText());
-        int g = Integer.parseInt(green.getText());
-        int b = Integer.parseInt(blue.getText());
-
-        this.pixel = new RGBPixel(pixel.getX(), pixel.getY(), r, g, b);
-        System.out.println("(" + r + ", " + g + ", " + b + ")");
-        eventBus.post(new RGBPixelModified(pixel));
-    }
-
+    @Subscribe
     public void clearData(ImageLoaded loaded) {
         this.red.clear();
         this.green.clear();

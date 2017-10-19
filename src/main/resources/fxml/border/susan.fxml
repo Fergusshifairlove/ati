@@ -8,17 +8,18 @@
          xmlns:fx="http://javafx.com/fxml"
          fx:controller="ar.edu.itba.controllers.operations.border.SusanController">
 
-    <Label text="Susan Mask"/>
-    <HBox>
-        <Label text="t"/>
-        <TextField fx:id="threshold"/>
-    </HBox>
-    <HBox>
-        <Label text="delta"/>
-        <TextField fx:id="error"/>
-    </HBox>
-    <HBox>
-        <Label text="Type"/>
-        <ComboBox fx:id="types"/>
-    </HBox>
+
+    <GridPane>
+        <Label maxWidth="Infinity" GridPane.halignment="CENTER" id="title" text="Susan Mask" GridPane.columnSpan="5" GridPane.rowIndex="0"/>
+        <Label GridPane.halignment="LEFT" text="t" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Label GridPane.halignment="LEFT" text="delta" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Label GridPane.halignment="LEFT" text="Type" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <Label GridPane.halignment="CENTER" text=" " GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+        <Label GridPane.halignment="CENTER" text=" " GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+        <Label GridPane.halignment="CENTER" text=" " GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+        <TextField fx:id="threshold" maxWidth="Infinity" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+        <TextField fx:id="error" maxWidth="Infinity" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+        <ComboBox fx:id="types" maxWidth="Infinity" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+    </GridPane>
+
 </fx:root>
