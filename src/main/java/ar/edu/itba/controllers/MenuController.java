@@ -126,4 +126,7 @@ public class MenuController {
     public void anisotropic(ActionEvent event) {
         eventBus.post(new NewOperation<>(new AnisotropicView()));
     }
+
+    public void canny(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new CannyView()));}
+    public void susan(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new SusanView()));}
 }

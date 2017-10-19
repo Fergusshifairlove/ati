@@ -69,7 +69,7 @@ public class Canny implements Filter{
     }
 
     private static Direction getAngle(double angle) {
-        System.out.println(angle);
+        //System.out.println(angle);
         angle = angle%180;
         if(angle<ANGLE_0_45)
             return Direction.HORIZONTAL;
@@ -92,16 +92,19 @@ public class Canny implements Filter{
                     continue;
                 xdisp = borderDirection[i][j].getXStep();
                 ydisp = borderDirection[i][j].getYStep();
+                System.out.println("direction: "+ borderDirection[i][j]);
+                System.out.println("xstep: " + xdisp + " ystep: " + ydisp);
                 if (i + xdisp >= image.length || j + ydisp >= image[i].length || i + xdisp < 0 || j + ydisp< 0)
                     continue;
                 next = image[i + xdisp][j + ydisp];
-                if (next > current) {
+                if (next >= current) {
                     image[i][j] = 0.0;
+                    continue;
                 }
                 if (i - xdisp >= image.length || j - ydisp >= image[i].length || i - xdisp < 0 || j - ydisp< 0)
                     continue;
                 prev = image[i - xdisp][j - ydisp];
-                if (prev > current) {
+                if (prev >= current) {
                     image[i][j] = 0.0;
                 }
             }
@@ -112,13 +115,13 @@ public class Canny implements Filter{
     private double[][] hysteresisThresholding(double[][] image, double t1, double t2) {
         for (int i = 0; i < image.length; i++) {
             for (int j = 0; j < image[i].length; j++) {
-                if(image[i][j] > t2)
+                if(image[i][j] >= t2)
                     image[i][j] = 255.0;
                 else if (image[i][j] < t1)
                     image[i][j] = 0.0;
                 else {
-                    if (i != 0 && j != 0) {
-                        if (image[i-1][j] == 255.0 || image[i][j-1] == 255)
+                    if (i != 0 && j != 0 && i < image.length - 1 && j < image[i].length - 1) {
+                        if (image[i-1][j] == 255.0 || image[i][j-1] == 255 || image[i-1][j-1] == 255.0 || image[i-1][j+1] == 255.0)
                             image[i][j] = 255.0;
                         else
                             image[i][j] = 0.0;
@@ -134,8 +137,8 @@ public class Canny implements Filter{
     private double[] findThresholds(double[][] image) {
         OtsuThresholding thresholding = new OtsuThresholding();
         double th = thresholding.findThreshold(Arrays.stream(image).flatMap(r -> Doubles.asList(r).stream()).collect(Collectors.toSet()));
-        double[] thresholds = {th/2, th};
-        //System.out.println("t1: " + th/2 + " t2: " + th);
+        double[] thresholds = {th/3, th * 2.0/3.0};
+        System.out.println("t1: " + th/3 + " t2: " + th * 2.0/3.0);
         return thresholds;
     }
 

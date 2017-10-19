@@ -79,6 +79,10 @@
                         <SeparatorMenuItem/>
                         <MenuItem text="LoG" onAction="#log"/>
                         <SeparatorMenuItem/>
+                        <MenuItem text="Canny" onAction="#canny"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Susan" onAction="#susan"/>
+
                     </items>
                 </Menu>
                 <Menu text="Thresholding">

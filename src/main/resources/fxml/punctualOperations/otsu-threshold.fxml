@@ -6,7 +6,7 @@
 
 <fx:root type="OtsuThresholdingView" xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
-         fx:controller="ar.edu.itba.controllers.OtsuThresholdingController">
+         fx:controller="ar.edu.itba.controllers.operations.thresholding.OtsuThresholdingController">
 
     <Label text="Otsu Threshold"/>
 </fx:root>

@@ -8,7 +8,7 @@
 <?import ar.edu.itba.views.punctualOperations.GlobalThresholdView?>
 
 <fx:root type="GlobalThresholdView"
-         fx:controller="ar.edu.itba.controllers.GlobalThresholdController"
+         fx:controller="ar.edu.itba.controllers.operations.thresholding.GlobalThresholdController"
          xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml">
     <Label text="Global Threshold:"/>

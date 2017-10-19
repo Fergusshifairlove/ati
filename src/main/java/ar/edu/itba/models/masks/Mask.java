@@ -1,6 +1,7 @@
 package ar.edu.itba.models.masks;
 
 import java.util.Arrays;
+import java.util.function.Function;
 
 /**
  * Created by Nicolas Castano on 8/28/17.
@@ -8,12 +9,14 @@ import java.util.Arrays;
 public class Mask implements Filter{
 
     double mask[][];
+    Function<double[], Double> filter;
     protected int size=0;
 //    protected List<Integer> list;
 
     public Mask(int size){
         mask= new double[size][size];
         this.size = size;
+        this.filter = this::applyFilter;
 //        list = new ArrayList<>();
     }
 
@@ -69,7 +72,7 @@ public class Mask implements Filter{
                             values[k*size+k2] = image[i+k-halfSize][j+k2-halfSize];
                         }
                     }
-                    newImage[i][j] = applyFilter(values);
+                    newImage[i][j] = this.filter.apply(values);
 
                 }
             }
