@@ -8,6 +8,7 @@
 <?import ar.edu.itba.views.EditorView?>
 
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.canvas.Canvas?>
 <fx:root type="EditorView"
          xmlns:fx="http://javafx.com/fxml"
          stylesheets="/style/editor.css"
@@ -16,6 +17,8 @@
         <ImageView fx:id="before" onMouseClicked="#imageClicked" onMousePressed="#mousePressed" onMouseDragged="#mouseDragged" onMouseReleased="#mouseReleased"/>
     </ScrollPane>
     <ScrollPane>
-        <ImageView fx:id="after" onMouseClicked="#imageClicked"/>
+        <Pane fx:id="draw">
+            <ImageView fx:id="after" onMouseClicked="#imageClicked"/>
+        </Pane>
     </ScrollPane>
 </fx:root>

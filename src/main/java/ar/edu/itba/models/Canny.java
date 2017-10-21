@@ -92,8 +92,8 @@ public class Canny implements Filter{
                     continue;
                 xdisp = borderDirection[i][j].getXStep();
                 ydisp = borderDirection[i][j].getYStep();
-                System.out.println("direction: "+ borderDirection[i][j]);
-                System.out.println("xstep: " + xdisp + " ystep: " + ydisp);
+//                System.out.println("direction: "+ borderDirection[i][j]);
+//                System.out.println("xstep: " + xdisp + " ystep: " + ydisp);
                 if (i + xdisp >= image.length || j + ydisp >= image[i].length || i + xdisp < 0 || j + ydisp< 0)
                     continue;
                 next = image[i + xdisp][j + ydisp];
@@ -138,7 +138,7 @@ public class Canny implements Filter{
         OtsuThresholding thresholding = new OtsuThresholding();
         double th = thresholding.findThreshold(Arrays.stream(image).flatMap(r -> Doubles.asList(r).stream()).collect(Collectors.toSet()));
         double[] thresholds = {th/3, th * 2.0/3.0};
-        System.out.println("t1: " + th/3 + " t2: " + th * 2.0/3.0);
+//        System.out.println("t1: " + th/3 + " t2: " + th * 2.0/3.0);
         return thresholds;
     }
 

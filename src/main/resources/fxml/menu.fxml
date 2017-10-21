@@ -82,6 +82,8 @@
                         <MenuItem text="Canny" onAction="#canny"/>
                         <SeparatorMenuItem/>
                         <MenuItem text="Susan" onAction="#susan"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Hough" onAction="#hough"/>
 
                     </items>
                 </Menu>

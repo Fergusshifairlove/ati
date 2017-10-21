@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import ar.edu.itba.views.borderOperations.HoughView?>
+
+<fx:root type="HoughView" xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="ar.edu.itba.controllers.operations.border.HoughController">
+
+
+    <GridPane>
+        <Label maxWidth="Infinity" GridPane.halignment="CENTER" id="title" text="Hough Trasform" GridPane.columnSpan="5" GridPane.rowIndex="0"/>
+        <Label GridPane.halignment="LEFT" text="threshold" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Label GridPane.halignment="LEFT" text="delta" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Label GridPane.halignment="LEFT" text="Type" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <Label GridPane.halignment="CENTER" text=" " GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+        <Label GridPane.halignment="CENTER" text=" " GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+        <Label GridPane.halignment="CENTER" text=" " GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+        <TextField fx:id="threshold" maxWidth="Infinity" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+        <TextField fx:id="error" maxWidth="Infinity" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+        <ComboBox fx:id="types" maxWidth="Infinity" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+    </GridPane>
+
+</fx:root>

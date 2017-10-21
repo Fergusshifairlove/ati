@@ -36,7 +36,8 @@ public enum FxmlEnum {
     ISOTROPIC("fxml/diffusion/isotropic.fxml"),
     OTSU("fxml/punctualOperations/otsu-threshold.fxml"),
     CANNY("fxml/border/canny.fxml"),
-    SUSAN("fxml/border/susan.fxml");
+    SUSAN("fxml/border/susan.fxml"),
+    HOUGH("fxml/border/hough.fxml");
 
 
     private String path;

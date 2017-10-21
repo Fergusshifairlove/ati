@@ -3,23 +3,34 @@ package ar.edu.itba.controllers;
 import ar.edu.itba.constants.NoiseType;
 import ar.edu.itba.events.*;
 import ar.edu.itba.models.GreyImageMatrix;
+import ar.edu.itba.models.Hough;
 import ar.edu.itba.models.ImageMatrix;
 import ar.edu.itba.models.masks.Filter;
+import ar.edu.itba.models.shapes.Shape;
 import ar.edu.itba.models.thresholding.ThresholdFinder;
 import ar.edu.itba.services.ImageService;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Bounds;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 
 import java.io.IOException;
 
 public class EditorController {
     public ImageView before;
     public ImageView after;
+    public Pane draw;
     private ImageMatrix imageBefore;
     private ImageMatrix imageAfter;
     private EventBus eventBus;
@@ -38,6 +49,8 @@ public class EditorController {
         Image image = SwingFXUtils.toFXImage(this.imageAfter.getImage(false), null);
         System.out.println("height: " + image.getHeight() + " width: " + image.getWidth());
         after.setImage(image);
+        this.draw.getChildren().clear();
+        this.draw.getChildren().add(this.after);
     }
 
     @Subscribe
@@ -45,6 +58,7 @@ public class EditorController {
         this.imageBefore = imageService.loadImage(openImage.getImage());
         this.imageAfter = ImageMatrix.readImage(imageBefore.getImage(false));
         this.before.setImage(SwingFXUtils.toFXImage(imageBefore.getImage(false), null));
+        this.draw.getChildren().clear();
         this.eventBus.post(new ImageLoaded(this.imageBefore));
     }
 
@@ -123,12 +137,25 @@ public class EditorController {
         } else if (id.equals("after")) {
             eventBus.post(new PixelSelected(this.imageAfter.getPixelColor(x, y)));
         }
+
     }
 
     @Subscribe
     public void diffuseImage(DiffuseImage diffuse) {
         this.imageAfter.applyFilterOperation(band -> diffuse.getDiffusion().difuse(band, diffuse.getTimes()));
         eventBus.post(new ImageModified(this.imageAfter));
+    }
+
+    @Subscribe
+    public void drawShapes(Hough hough) {
+        Bounds bounds = new BoundingBox(0,0,this.imageAfter.getWidth(), this.imageAfter.getHeight());
+        hough.generateParametricSpace(this.imageAfter.getWidth(), this.imageAfter.getHeight());
+        for (Integer b : imageAfter.getBands()) {
+            for (Shape shape : hough.findShapes(this.imageAfter.getBand(b))) {
+                System.out.println("shape: " + shape);
+                draw.getChildren().add(shape.toFxShape(bounds));
+            }
+        }
     }
 
     public void mousePressed(MouseEvent event) {

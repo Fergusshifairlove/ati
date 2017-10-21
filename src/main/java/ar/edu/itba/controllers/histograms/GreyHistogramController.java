@@ -18,7 +18,7 @@ import java.util.Observable;
 /**
  * Created by root on 8/25/17.
  */
-public class GreyHistogramController {
+public class    GreyHistogramController {
 
     public BarChart barChartBefore, barChartAfter;
     private EventBus eventBus;

@@ -129,4 +129,5 @@ public class MenuController {
 
     public void canny(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new CannyView()));}
     public void susan(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new SusanView()));}
+    public void hough(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new HoughView()));}
 }
