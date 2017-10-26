@@ -29,6 +29,8 @@ public class GreyPixelController {
 
     @Subscribe
     public void setSelectedPixel(PixelSelected selected) {
+        if (!(selected.getPixel() instanceof GreyPixel))
+            return;
         this.pixel = (GreyPixel) selected.getPixel();
         grey.setText(String.valueOf(pixel.getGrey()));
     }

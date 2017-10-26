@@ -94,15 +94,19 @@ public class Canny implements Filter{
                 ydisp = borderDirection[i][j].getYStep();
 //                System.out.println("direction: "+ borderDirection[i][j]);
 //                System.out.println("xstep: " + xdisp + " ystep: " + ydisp);
-                if (i + xdisp >= image.length || j + ydisp >= image[i].length || i + xdisp < 0 || j + ydisp< 0)
+                if (i + xdisp >= image.length || j + ydisp >= image[i].length || i + xdisp < 0 || j + ydisp< 0) {
+                    image[i][j] = 0.0;
                     continue;
+                }
                 next = image[i + xdisp][j + ydisp];
                 if (next >= current) {
                     image[i][j] = 0.0;
                     continue;
                 }
-                if (i - xdisp >= image.length || j - ydisp >= image[i].length || i - xdisp < 0 || j - ydisp< 0)
+                if (i - xdisp >= image.length || j - ydisp >= image[i].length || i - xdisp < 0 || j - ydisp< 0) {
+                    image[i][j] = 0.0;
                     continue;
+                }
                 prev = image[i - xdisp][j - ydisp];
                 if (prev >= current) {
                     image[i][j] = 0.0;

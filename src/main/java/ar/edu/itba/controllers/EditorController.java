@@ -24,6 +24,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
 
@@ -31,15 +32,23 @@ public class EditorController {
     public ImageView before;
     public ImageView after;
     public Pane draw;
+    public Pane selection;
     private ImageMatrix imageBefore;
     private ImageMatrix imageAfter;
     private EventBus eventBus;
     private ImageService imageService;
+    private Rectangle selectionArea;
+    private boolean selected;
 
     @Inject
     public EditorController(final EventBus eventBus, final ImageService imageService) {
         this.eventBus = eventBus;
+        this.selected = false;
         this.imageService = imageService;
+        this.selectionArea = new Rectangle(0,0,0,0);
+        this.selectionArea.setFill(Color.TRANSPARENT);
+        this.selectionArea.setStroke(Color.YELLOW);
+        //this.selection.getChildren().add(this.selectionArea);
     }
 
     @Subscribe
@@ -59,6 +68,7 @@ public class EditorController {
         this.imageAfter = ImageMatrix.readImage(imageBefore.getImage(false));
         this.before.setImage(SwingFXUtils.toFXImage(imageBefore.getImage(false), null));
         this.draw.getChildren().clear();
+        this.selection.getChildren().add(this.selectionArea);
         this.eventBus.post(new ImageLoaded(this.imageBefore));
     }
 
@@ -131,7 +141,7 @@ public class EditorController {
         int x = (int) event.getX();
         int y = (int) event.getY();
         System.out.println("x: " + x + " y: " + y);
-        String id = ((ImageView) event.getSource()).getId();
+        String id = ((Pane) event.getSource()).getChildren().get(0).getId();
         if (id.equals("before")) {
             eventBus.post(new PixelSelected(this.imageBefore.getPixelColor(x, y)));
         } else if (id.equals("after")) {
@@ -160,14 +170,48 @@ public class EditorController {
 
     public void mousePressed(MouseEvent event) {
         System.out.println("pressed");
+        System.out.println("x: " + event.getX() + " y:" + event.getY());
+        //this.selection.getChildren().remove(this.selectionArea);
+        this.selected = false;
+
     }
 
     public void mouseDragged(MouseEvent event) {
         System.out.println("dragged");
+        System.out.println("x: " + event.getX() + " y:" + event.getY());
+        System.out.println(this.selected);
+        if (! this.selected) {
+            this.selectionArea.setX(event.getX());
+            this.selectionArea.setY(event.getY());
+            this.selectionArea.setHeight(0);
+            this.selectionArea.setWidth(0);
+            this.selected = true;
+            return;
+        }
+        if (this.selectionArea.getX() < event.getX())
+            this.selectionArea.setWidth(event.getX() - this.selectionArea.getX());
+        else {
+            double x = this.selectionArea.getX();
+            this.selectionArea.setX(event.getX());
+            this.selectionArea.setWidth((x + this.selectionArea.getWidth() - event.getX()));
+        }
+
+
+        if (this.selectionArea.getY() < event.getY())
+            this.selectionArea.setHeight(event.getY() - this.selectionArea.getY());
+        else {
+            double y = this.selectionArea.getY();
+            this.selectionArea.setY(event.getY());
+            this.selectionArea.setHeight((y + this.selectionArea.getHeight() - event.getY()));
+        }
     }
 
     public void mouseReleased(MouseEvent event) {
         System.out.println("released");
+        System.out.println("x: " + event.getX() + " y:" + event.getY());
+        this.selected = false;
+        if(!this.selection.getChildren().contains(this.selectionArea))
+            this.selection.getChildren().add(this.selectionArea);
     }
 
 }

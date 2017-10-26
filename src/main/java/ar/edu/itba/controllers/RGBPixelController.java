@@ -33,6 +33,8 @@ public class RGBPixelController {
 
     @Subscribe
     public void setSelectedPixel(PixelSelected selected) {
+        if (!(selected.getPixel() instanceof RGBPixel))
+            return;
         this.pixel = (RGBPixel) selected.getPixel();
         red.setText(String.valueOf(pixel.getRed()));
         green.setText(String.valueOf(pixel.getGreen()));
