@@ -84,36 +84,44 @@ public class Canny implements Filter{
 
     private double[][] suppression(double[][] image, Direction[][] borderDirection) {
         double current, next, prev;
+        double[][] aux = new double[image.length][image[0].length];
         int xdisp, ydisp;
         for (int i = 0; i < image.length; i++) {
             for (int j = 0; j < image[i].length; j++) {
                 current = image[i][j];
-                if (current <= 0)
+                if (current <= 0) {
+                    aux[i][j] = 0.0;
                     continue;
+                }
                 xdisp = borderDirection[i][j].getXStep();
                 ydisp = borderDirection[i][j].getYStep();
 //                System.out.println("direction: "+ borderDirection[i][j]);
 //                System.out.println("xstep: " + xdisp + " ystep: " + ydisp);
                 if (i + xdisp >= image.length || j + ydisp >= image[i].length || i + xdisp < 0 || j + ydisp< 0) {
-                    //image[i][j] = 0.0;
+                    aux[i][j] = 0.0;
                     continue;
                 }
                 next = image[i + xdisp][j + ydisp];
                 if (next >= current) {
-                    image[i][j] = 0.0;
+                    aux[i][j] = 0.0;
                     continue;
+                }else {
+                    aux[i][j] = 255.0;
                 }
                 if (i - xdisp >= image.length || j - ydisp >= image[i].length || i - xdisp < 0 || j - ydisp< 0) {
-                    //image[i][j] = 0.0;
+                    aux[i][j] = 0.0;
                     continue;
                 }
                 prev = image[i - xdisp][j - ydisp];
-                if (prev >= current) {
-                    image[i][j] = 0.0;
+                if (prev > current) {
+                    aux[i][j] = 0.0;
+                }
+                else {
+                    aux[i][j] = 255.0;
                 }
             }
         }
-        return image;
+        return aux;
     }
 
     private double[][] hysteresisThresholding(double[][] image, double t1, double t2) {
