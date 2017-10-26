@@ -68,7 +68,7 @@ public class EditorController {
         this.imageAfter = ImageMatrix.readImage(imageBefore.getImage(false));
         this.before.setImage(SwingFXUtils.toFXImage(imageBefore.getImage(false), null));
         this.draw.getChildren().clear();
-        this.selection.getChildren().add(this.selectionArea);
+        //this.selection.getChildren().add(this.selectionArea);
         this.eventBus.post(new ImageLoaded(this.imageBefore));
     }
 
@@ -168,10 +168,17 @@ public class EditorController {
         }
     }
 
+    @Subscribe
+    public void cutImage(CutImage cutImage) {
+        this.imageAfter = this.imageBefore.getSubImage((int) selectionArea.getX(),
+                (int) selectionArea.getY(), (int) selectionArea.getWidth(), (int) selectionArea.getHeight());
+        eventBus.post(new ImageModified(this.imageAfter));
+    }
+
     public void mousePressed(MouseEvent event) {
         System.out.println("pressed");
         System.out.println("x: " + event.getX() + " y:" + event.getY());
-        //this.selection.getChildren().remove(this.selectionArea);
+        this.selection.getChildren().remove(this.selectionArea);
         this.selected = false;
 
     }
@@ -186,6 +193,7 @@ public class EditorController {
             this.selectionArea.setHeight(0);
             this.selectionArea.setWidth(0);
             this.selected = true;
+            this.selection.getChildren().add(this.selectionArea);
             return;
         }
         if (this.selectionArea.getX() < event.getX())
@@ -209,9 +217,9 @@ public class EditorController {
     public void mouseReleased(MouseEvent event) {
         System.out.println("released");
         System.out.println("x: " + event.getX() + " y:" + event.getY());
-        this.selected = false;
-        if(!this.selection.getChildren().contains(this.selectionArea))
+        if(this.selected && !this.selection.getChildren().contains(this.selectionArea))
             this.selection.getChildren().add(this.selectionArea);
+        this.selected = false;
     }
 
 }

@@ -99,6 +99,17 @@ public class GreyImageMatrix extends ImageMatrix {
         }
     }
 
+    @Override
+    public ImageMatrix getSubImage(int row, int col, int width, int height) {
+        double[][] subMatrix = new double[width][height];
+        for (int i = row; i < row + width; i++) {
+            for (int j = col; j < col + height; j++) {
+                subMatrix[i-row][j-col] = grey[i][j];
+            }
+        }
+        return new GreyImageMatrix(width, height, subMatrix);
+    }
+
     public Iterable<Double> getGreyBand() {
         return this.getIterableBand(1);
     }

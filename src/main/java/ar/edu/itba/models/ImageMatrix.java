@@ -198,4 +198,6 @@ public abstract class ImageMatrix {
         }
         return this;
     }
+
+    public abstract ImageMatrix getSubImage(int row, int col, int width, int height);
 }

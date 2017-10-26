@@ -182,4 +182,18 @@ public class RGBImageMatrix extends ImageMatrix {
         return this.getIterableBand(3);
     }
 
+    @Override
+    public ImageMatrix getSubImage(int row, int col, int width, int height) {
+        double[][] subR = new double[width][height];
+        double[][] subG = new double[width][height];
+        double[][] subB = new double[width][height];
+        for (int i = row; i < row + width; i++) {
+            for (int j = col; j < row + height; j++) {
+                subR[i-row][j-col] = red[i][j];
+                subG[i-row][j-col] = green[i][j];
+                subB[i-row][j-col] = blue[i][j];
+            }
+        }
+        return new RGBImageMatrix(width, height, subR, subG, subB);
+    }
 }
