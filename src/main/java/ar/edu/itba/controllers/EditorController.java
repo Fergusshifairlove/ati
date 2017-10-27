@@ -170,9 +170,15 @@ public class EditorController {
 
     @Subscribe
     public void cutImage(CutImage cutImage) {
-        this.imageAfter = this.imageBefore.getSubImage((int) selectionArea.getX(),
+        if (! this.selected)
+            return;
+        ImageMatrix subimage = this.imageBefore.getSubImage((int) selectionArea.getX(),
                 (int) selectionArea.getY(), (int) selectionArea.getWidth(), (int) selectionArea.getHeight());
-        eventBus.post(new ImageModified(this.imageAfter));
+        this.selectionArea.setWidth(0);
+        this.selectionArea.setHeight(0);
+        this.selected = false;
+        this.selection.getChildren().remove(this.selectionArea);
+        eventBus.post(new ImageModified(ImageMatrix.readImage(subimage.getImage(false))));
     }
 
     public void mousePressed(MouseEvent event) {
@@ -219,7 +225,6 @@ public class EditorController {
         System.out.println("x: " + event.getX() + " y:" + event.getY());
         if(this.selected && !this.selection.getChildren().contains(this.selectionArea))
             this.selection.getChildren().add(this.selectionArea);
-        this.selected = false;
     }
 
 }

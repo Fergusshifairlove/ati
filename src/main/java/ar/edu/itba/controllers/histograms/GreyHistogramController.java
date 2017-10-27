@@ -32,7 +32,8 @@ public class    GreyHistogramController {
     @Subscribe
     public void loadHistogram(ImageModified imageModified) {
         System.out.println("HISTOGRAM");
-
+        if (! (imageModified.getModified() instanceof GreyImageMatrix))
+            return;
         barChartAfter.getData().clear();
         ImageMatrix image = ImageMatrix.readImage(imageModified.getModified().getImage(false));
         if (image.getType() == BufferedImage.TYPE_INT_RGB || image.getType() == BufferedImage.TYPE_3BYTE_BGR)
@@ -43,6 +44,9 @@ public class    GreyHistogramController {
     }
 
     @Subscribe void imageOpened(ShowHistogram imageLoaded) {
+        if (! (imageLoaded.getImage() instanceof GreyImageMatrix))
+            return;
+
         barChartAfter.getData().clear();
         barChartBefore.getData().clear();
         ImageMatrix image = imageLoaded.getImage();

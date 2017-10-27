@@ -39,7 +39,8 @@ public class RGBHistogramController {
     @Subscribe
     public void loadHistogram(ImageModified imageModified) {
         System.out.println("HISTOGRAM");
-
+        if (! (imageModified.getModified() instanceof RGBImageMatrix))
+            return;
         this.clearAfterData();
 
         ImageMatrix image = ImageMatrix.readImage(imageModified.getModified().getImage(false));
@@ -56,6 +57,10 @@ public class RGBHistogramController {
     }
 
     @Subscribe void imageOpened(ShowHistogram imageLoaded) {
+
+        if (! (imageLoaded.getImage() instanceof RGBImageMatrix))
+            return;
+
         this.clearBeforeData();
         this.clearAfterData();
         ImageMatrix image = imageLoaded.getImage();

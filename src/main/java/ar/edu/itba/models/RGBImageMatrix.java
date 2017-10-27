@@ -27,8 +27,8 @@ public class RGBImageMatrix extends ImageMatrix {
 
     }
 
-    public RGBImageMatrix(int width, int height, double[][] red, double[][] green, double[][] blue) {
-        super(width, height, BufferedImage.TYPE_INT_RGB);
+    public RGBImageMatrix(int width, int height, double[][] red, double[][] green, double[][] blue, int type) {
+        super(width, height, type);
         this.red = red;
         this.green = green;
         this.blue = blue;
@@ -37,7 +37,7 @@ public class RGBImageMatrix extends ImageMatrix {
     private void IntRGB(BufferedImage image) {
         final int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
         final int pixelLength = 3;
-        for (int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength) {
+        for (int pixel = 0, row = 0, col = 0; pixel < pixels.length - 2; pixel += pixelLength) {
             this.blue[row][col] = ((int) pixels[pixel] & 0xff); // blue
             this.green[row][col] = (((int) pixels[pixel + 1] & 0xff)); // green
             this.red[row][col] = (((int) pixels[pixel + 2] & 0xff)); // red
@@ -188,12 +188,12 @@ public class RGBImageMatrix extends ImageMatrix {
         double[][] subG = new double[width][height];
         double[][] subB = new double[width][height];
         for (int i = row; i < row + width; i++) {
-            for (int j = col; j < row + height; j++) {
+            for (int j = col; j < col + height; j++) {
                 subR[i-row][j-col] = red[i][j];
                 subG[i-row][j-col] = green[i][j];
                 subB[i-row][j-col] = blue[i][j];
             }
         }
-        return new RGBImageMatrix(width, height, subR, subG, subB);
+        return new RGBImageMatrix(width, height, subR, subG, subB, this.getType());
     }
 }
