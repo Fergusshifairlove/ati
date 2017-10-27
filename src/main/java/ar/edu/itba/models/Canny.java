@@ -35,12 +35,12 @@ public class Canny implements Filter{
         int cant = this.sigmas.length;
         GaussianMask mask;
         SobelMask detector = new SobelMask();
-        double [][] current, dx, dy;
+        double [][] current, supressed, dx, dy;
         double[] thresholds;
         Direction[][] directions = new Direction[image.length][image[0].length];
         List<double[][]> images = new ArrayList();
-        for (int i = 0; i < cant; i++) {
-            mask = new GaussianMask((int)(2*Math.ceil(2*sigmas[i])+1), sigmas[i]);
+        for (double sigma : this.sigmas) {
+            mask = new GaussianMask((int) (2 * Math.ceil(2 * sigma) + 1), sigma);
             current = mask.filterImage(image);
             dx = DirectionalMask.getDirectionizedMask(detector, Direction.HORIZONTAL).filterImage(current);
             dy = DirectionalMask.getDirectionizedMask(detector, Direction.VERTICAL).filterImage(current);
@@ -52,8 +52,9 @@ public class Canny implements Filter{
             }
 
 
-            thresholds = this.findThresholds(image);
-            images.add(this.hysteresisThresholding(this.suppression(current, directions), thresholds[0], thresholds[1]));
+            supressed = this.suppression(current, directions);
+            thresholds = this.findThresholds(current);
+            images.add(this.hysteresisThresholding(supressed, thresholds[0], thresholds[1]));
         }
 
         return images.stream().reduce((m1, m2) -> combine(m1, m2, combiner)).get();
@@ -106,7 +107,7 @@ public class Canny implements Filter{
                     aux[i][j] = 0.0;
                     continue;
                 }else {
-                    aux[i][j] = 255.0;
+                    aux[i][j] = current;
                 }
                 if (i - xdisp >= image.length || j - ydisp >= image[i].length || i - xdisp < 0 || j - ydisp< 0) {
                     aux[i][j] = 0.0;
@@ -117,7 +118,7 @@ public class Canny implements Filter{
                     aux[i][j] = 0.0;
                 }
                 else {
-                    aux[i][j] = 255.0;
+                    aux[i][j] = current;
                 }
             }
         }
