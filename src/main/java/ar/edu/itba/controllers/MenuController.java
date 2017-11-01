@@ -131,6 +131,6 @@ public class MenuController {
     public void susan(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new SusanView()));}
     public void hough(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new HoughView()));}
     public void cut(ActionEvent actionEvent){eventBus.post(new CutImage());}
-    public void findObject(ActionEvent actionEvent) {eventBus.post(new FindObject());}
+    public void findObject(ActionEvent actionEvent) {eventBus.post(new FindObjectInImage());}
 }
 

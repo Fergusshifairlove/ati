@@ -13,17 +13,15 @@ import com.google.inject.Inject;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 public class EditorController {
@@ -226,17 +224,24 @@ public class EditorController {
     }
 
     @Subscribe
-    public void findObject(FindObject findObject) {
+    public void findObject(FindObjectInImage findObjectInImage) {
         ActiveContours activeContours = new ActiveContours(this.imageAfter,
                 (int)selectionArea.getX(), (int) selectionArea.getY(),
                 (int)(selectionArea.getX() + selectionArea.getWidth()),
                 (int) (selectionArea.getY() + selectionArea.getHeight()));
 
-        this.imageAfter = activeContours.findObject(this.imageAfter,20d 0,
-                new RGBPixel(0, 0, 255, 0, 0),
-                new RGBPixel(0, 0, 0, 0, 255));
+        Pixel lin, lout;
+        if (this.imageAfter.getType() == BufferedImage.TYPE_BYTE_GRAY) {
+            lin = new GreyPixel(0, 0, 255);
+            lout = new GreyPixel(0, 0, 0);
+        }
+        else {
+            lin = new RGBPixel(0, 0, 255, 0, 0);
+            lout = new RGBPixel(0, 0, 0, 0, 255);
+        }
+        this.imageAfter = activeContours.findObject(this.imageAfter,200, lin, lout);
 
         this.eventBus.post(new ImageModified(this.imageAfter));
     }
-
+    
 }
