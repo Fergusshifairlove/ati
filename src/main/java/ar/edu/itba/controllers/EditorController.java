@@ -2,9 +2,7 @@ package ar.edu.itba.controllers;
 
 import ar.edu.itba.constants.NoiseType;
 import ar.edu.itba.events.*;
-import ar.edu.itba.models.GreyImageMatrix;
-import ar.edu.itba.models.Hough;
-import ar.edu.itba.models.ImageMatrix;
+import ar.edu.itba.models.*;
 import ar.edu.itba.models.masks.Filter;
 import ar.edu.itba.models.shapes.Shape;
 import ar.edu.itba.models.thresholding.ThresholdFinder;
@@ -225,6 +223,20 @@ public class EditorController {
         System.out.println("x: " + event.getX() + " y:" + event.getY());
         if(this.selected && !this.selection.getChildren().contains(this.selectionArea))
             this.selection.getChildren().add(this.selectionArea);
+    }
+
+    @Subscribe
+    public void findObject(FindObject findObject) {
+        ActiveContours activeContours = new ActiveContours(this.imageAfter,
+                (int)selectionArea.getX(), (int) selectionArea.getY(),
+                (int)(selectionArea.getX() + selectionArea.getWidth()),
+                (int) (selectionArea.getY() + selectionArea.getHeight()));
+
+        this.imageAfter = activeContours.findObject(this.imageAfter,20d 0,
+                new RGBPixel(0, 0, 255, 0, 0),
+                new RGBPixel(0, 0, 0, 0, 255));
+
+        this.eventBus.post(new ImageModified(this.imageAfter));
     }
 
 }

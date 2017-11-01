@@ -59,6 +59,9 @@ public abstract class ImageMatrix {
 
     public abstract Pixel getPixelColor(int x, int y);
 
+    public Pixel getPixelColor(Position pos) {
+        return this.getPixelColor(pos.getX(), pos.getY());
+    }
     public abstract void setPixel(Pixel pixel);
 
     public ImageMatrix compress() {

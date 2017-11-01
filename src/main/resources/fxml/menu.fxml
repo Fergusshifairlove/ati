@@ -86,6 +86,8 @@
                         <MenuItem text="Susan" onAction="#susan"/>
                         <SeparatorMenuItem/>
                         <MenuItem text="Hough" onAction="#hough"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Active Contours" onAction="#findObject"/>
 
                     </items>
                 </Menu>

@@ -61,7 +61,7 @@ public class GreyImageMatrix extends ImageMatrix {
         GreyPixel greyPixel = (GreyPixel) pixel;
         int x = greyPixel.getX();
         int y = greyPixel.getY();
-        int val = greyPixel.getGrey();
+        int val = (int) greyPixel.getGrey();
         setPixel(x, y, val);
     }
 
