@@ -19,6 +19,8 @@
                         <MenuItem text="Save" onAction="#saveFile"/>
                         <SeparatorMenuItem/>
                         <MenuItem text="Save As"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Open video directory" onAction="#openDirectory"/>
                     </items>
                 </Menu>
                 <Menu text="Edit">

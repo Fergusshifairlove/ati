@@ -19,10 +19,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import org.apache.commons.collections.functors.NotNullPredicate;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class EditorController {
     public ImageView before;
@@ -35,6 +41,8 @@ public class EditorController {
     private ImageService imageService;
     private Rectangle selectionArea;
     private boolean selected;
+    private boolean video = false;
+    private List<ImageMatrix> images;
 
     @Inject
     public EditorController(final EventBus eventBus, final ImageService imageService) {
@@ -44,6 +52,7 @@ public class EditorController {
         this.selectionArea = new Rectangle(0,0,0,0);
         this.selectionArea.setFill(Color.TRANSPARENT);
         this.selectionArea.setStroke(Color.YELLOW);
+        this.images = new LinkedList<>();
         //this.selection.getChildren().add(this.selectionArea);
     }
 
@@ -56,6 +65,7 @@ public class EditorController {
         after.setImage(image);
         this.draw.getChildren().clear();
         this.draw.getChildren().add(this.after);
+        this.video = false;
     }
 
     @Subscribe
@@ -65,6 +75,7 @@ public class EditorController {
         this.before.setImage(SwingFXUtils.toFXImage(imageBefore.getImage(false), null));
         this.draw.getChildren().clear();
         //this.selection.getChildren().add(this.selectionArea);
+        this.video = false;
         this.eventBus.post(new ImageLoaded(this.imageBefore));
     }
 
@@ -242,6 +253,29 @@ public class EditorController {
         this.imageAfter = activeContours.findObject(this.imageAfter,200, lin, lout);
 
         this.eventBus.post(new ImageModified(this.imageAfter));
+    }
+
+    @Subscribe
+    public void findObject(FindObjectInVideo findObjectInVideo){
+        this.video = true;
+        File directory = findObjectInVideo.getVideoDir();
+
+        this.images = Arrays.stream(directory.listFiles((dir, name) -> name.endsWith(".jpg")))
+                .map(img -> {
+                    try {
+                        return imageService.loadImage(img);
+                    }
+                    catch(IOException exception) {
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+
+        this.imageBefore = this.images.get(0);
+        this.before.setImage(SwingFXUtils.toFXImage(this.imageBefore.getImage(false), null));
+        this.after.setImage(null);
+        this.eventBus.post(new ImageLoaded(this.imageBefore));
     }
     
 }

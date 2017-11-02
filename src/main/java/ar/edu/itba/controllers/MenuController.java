@@ -22,6 +22,7 @@ import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuBar;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import java.io.*;
@@ -29,6 +30,7 @@ import java.io.*;
 public class MenuController {
     public MenuBar menuBar;
     private FileChooser fileChooser;
+    private DirectoryChooser directoryChooser;
     private EventBus eventBus;
     private ImageService imageService;
 
@@ -49,6 +51,9 @@ public class MenuController {
                 new FileChooser.ExtensionFilter("BMP", "*.bmp"),
                 new FileChooser.ExtensionFilter("All Images", "*.*")
         );
+
+        directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Open video directory");
     }
 
     public void openFile(ActionEvent actionEvent) throws IOException {
@@ -56,6 +61,14 @@ public class MenuController {
         File file = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
         if (file != null)
             eventBus.post(new OpenImage(file));
+
+    }
+
+    public void openDirectory(ActionEvent actionEvent) throws IOException {
+        directoryChooser.setTitle("Open Video Directory");
+        File file = directoryChooser.showDialog(menuBar.getScene().getWindow());
+        if (file != null)
+            eventBus.post(new FindObjectInVideo(file));
 
     }
 
