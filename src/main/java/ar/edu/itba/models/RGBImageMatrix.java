@@ -5,6 +5,7 @@ import java.awt.image.DataBufferByte;
 import java.awt.image.DataBufferInt;
 import java.awt.image.WritableRaster;
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.BinaryOperator;
 import java.util.function.ToDoubleFunction;
 
@@ -130,7 +131,7 @@ public class RGBImageMatrix extends ImageMatrix {
     }
 
     @Override
-    public Iterable<Integer> getBands() {
+    public List<Integer> getBands() {
         return Arrays.asList(bands);
     }
 

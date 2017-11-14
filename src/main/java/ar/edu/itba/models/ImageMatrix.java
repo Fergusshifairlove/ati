@@ -122,7 +122,7 @@ public abstract class ImageMatrix {
 
     public abstract double[][] getBand(int band);
 
-    public abstract Iterable<Integer> getBands();
+    public abstract List<Integer> getBands();
 
     public abstract void setBand(int b, double[][] band);
 
@@ -196,9 +196,7 @@ public abstract class ImageMatrix {
     }
 
     private ImageMatrix applyAllBands(Function<Integer, ImageMatrix> bandOperation) {
-        for (Integer i : this.getBands()) {
-            bandOperation.apply(i);
-        }
+        this.getBands().parallelStream().forEach(bandOperation::apply);
         return this;
     }
 

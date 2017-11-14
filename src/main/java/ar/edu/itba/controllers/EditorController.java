@@ -20,6 +20,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.apache.commons.collections.functors.NotNullPredicate;
+import org.jcodec.api.FrameGrab;
+import org.jcodec.api.JCodecException;
+import org.jcodec.common.io.NIOUtils;
+import org.jcodec.common.model.Picture;
+import org.jcodec.scale.AWTUtil;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -28,6 +33,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 public class EditorController {
@@ -42,7 +49,9 @@ public class EditorController {
     private Rectangle selectionArea;
     private boolean selected;
     private boolean video = false;
+    private ActiveContoursController activeContoursController;
     private List<ImageMatrix> images;
+    private ExecutorService executorService;
 
     @Inject
     public EditorController(final EventBus eventBus, final ImageService imageService) {
@@ -53,7 +62,7 @@ public class EditorController {
         this.selectionArea.setFill(Color.TRANSPARENT);
         this.selectionArea.setStroke(Color.YELLOW);
         this.images = new LinkedList<>();
-        //this.selection.getChildren().add(this.selectionArea);
+        this.executorService = Executors.newCachedThreadPool();
     }
 
     @Subscribe
@@ -236,6 +245,14 @@ public class EditorController {
 
     @Subscribe
     public void findObject(FindObjectInImage findObjectInImage) {
+        if (this.video) {
+            this.activeContoursController = new ActiveContoursController(this.images.get(0), selectionArea, this);
+            for (ImageMatrix image: this.images) {
+                this.activeContoursController.addFrame(image);
+            }
+            this.executorService.submit(this.activeContoursController);
+            return;
+        }
         ActiveContours activeContours = new ActiveContours(this.imageAfter,
                 (int)selectionArea.getX(), (int) selectionArea.getY(),
                 (int)(selectionArea.getX() + selectionArea.getWidth()),
@@ -249,6 +266,11 @@ public class EditorController {
         else {
             lin = new RGBPixel(0, 0, 255, 0, 0);
             lout = new RGBPixel(0, 0, 0, 0, 255);
+        }
+        if (this.video) {
+            for (ImageMatrix image: this.images) {
+                this.imageAfter = activeContours.findObject(image, 200, lin, lout);
+            }
         }
         this.imageAfter = activeContours.findObject(this.imageAfter,200, lin, lout);
 
@@ -277,5 +299,33 @@ public class EditorController {
         this.after.setImage(null);
         this.eventBus.post(new ImageLoaded(this.imageBefore));
     }
-    
+
+    public void setImage(ImageMatrix image) {
+        this.imageAfter = image;
+        this.after.setImage(SwingFXUtils.toFXImage(image.getImage(false), null));
+    }
+
+    @Subscribe
+    public void openVideo(OpenVideo openVideo) throws IOException, JCodecException {
+        this.video = true;
+
+        File file = openVideo.getVideo();
+        FrameGrab grab = FrameGrab.createFrameGrab(NIOUtils.readableChannel(file));
+        grab.seekToSecondPrecise(0);
+        Picture picture;
+        BufferedImage image;
+        for (int i=0;i<100;i++) {
+            picture = grab.getNativeFrame();
+            System.out.println(picture.getWidth() + "x" + picture.getHeight() + " " + picture.getColor());
+            //for JDK (jcodec-javase)
+            image = AWTUtil.toBufferedImage(picture);
+            this.images.add(ImageMatrix.readImage(image));
+        }
+
+        this.imageBefore = this.images.get(0);
+        this.before.setImage(SwingFXUtils.toFXImage(this.imageBefore.getImage(false), null));
+        this.after.setImage(null);
+        this.eventBus.post(new ImageLoaded(this.imageBefore));
+    }
+
 }

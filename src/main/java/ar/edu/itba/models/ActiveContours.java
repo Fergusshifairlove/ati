@@ -27,8 +27,8 @@ public class ActiveContours {
         phi = new HashMap<>();
         gaussianPhi = new HashMap<>();
 
-        System.out.println("start x: " + startX + " start y: " + startY);
-        System.out.println("end x: " + endX + " end y: " + endY);
+//        System.out.println("start x: " + startX + " start y: " + startY);
+//        System.out.println("end x: " + endX + " end y: " + endY);
 
         int objCount = 0, avgCount = 0;
 
@@ -122,7 +122,7 @@ public class ActiveContours {
 
         while (!(inDone && outDone) && count < times) {
             count++;
-            System.out.println("TIMES: " + count + " LIN: " + lIn.size() + " LOUT: " + lOut.size());
+            //System.out.println("TIMES: " + count + " LIN: " + lIn.size() + " LOUT: " + lOut.size());
             outDone = true;
 
             //switch in
@@ -136,7 +136,7 @@ public class ActiveContours {
 
                     //switch neighbours
                     for (Position n : p.getNeighbours(DIRECTIONS)) {
-                        if (phi.getOrDefault(n, -5) == OUT) {
+                        if (phi.getOrDefault(n, 0) == OUT) {
                             phi.put(n, LOUT);
                             toAdd.add(n);
                         }
@@ -167,13 +167,13 @@ public class ActiveContours {
                 pixel = frame.getPixelColor(p);
                 if (speedFunction.applyAsDouble(pixel) < 0) {
                     inDone = false;
-                    toRemove.remove(p);
+                    toRemove.add(p);
                     lOut.add(p);
                     phi.put(p, LOUT);
 
                     //switch neighbours
                     for (Position n : p.getNeighbours(DIRECTIONS)) {
-                        if (phi.getOrDefault(n, -5) == IN) {
+                        if (phi.getOrDefault(n, 0) == IN) {
                             phi.put(n, LIN);
                             toAdd.add(n);
                         }
@@ -190,7 +190,7 @@ public class ActiveContours {
             //check lout
             for (Position p : lOut) {
                 if (!isLout(p)) {
-                    toRemove.remove(p);
+                    toRemove.add(p);
                     phi.put(p, OUT);
                 }
             }

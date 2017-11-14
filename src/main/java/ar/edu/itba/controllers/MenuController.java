@@ -26,6 +26,8 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MenuController {
     public MenuBar menuBar;
@@ -33,11 +35,13 @@ public class MenuController {
     private DirectoryChooser directoryChooser;
     private EventBus eventBus;
     private ImageService imageService;
+    private Map<String,FileChooser.ExtensionFilter> filters;
 
     @Inject
     public MenuController(final EventBus eventBus, final ImageService imageService) {
         this.eventBus = eventBus;
         this.imageService = imageService;
+        this.filters = new HashMap<>();
     }
 
     @FXML
@@ -49,6 +53,7 @@ public class MenuController {
                 new FileChooser.ExtensionFilter("PGM", "*.pgm"),
                 new FileChooser.ExtensionFilter("PPM", "*.ppm"),
                 new FileChooser.ExtensionFilter("BMP", "*.bmp"),
+                new FileChooser.ExtensionFilter("MP4", "*.mp4"),
                 new FileChooser.ExtensionFilter("All Images", "*.*")
         );
 
@@ -60,6 +65,11 @@ public class MenuController {
         fileChooser.setTitle("Open Resource File");
         File file = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
         if (file != null)
+            if (file.getName().endsWith(".mp4")) {
+                eventBus.post(new OpenVideo(file));
+                return;
+            }
+
             eventBus.post(new OpenImage(file));
 
     }

@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
 import java.util.Arrays;
+import java.util.List;
 
 public class GreyImageMatrix extends ImageMatrix {
     private static Integer[] bands = {1};
@@ -84,7 +85,7 @@ public class GreyImageMatrix extends ImageMatrix {
     }
 
     @Override
-    public Iterable<Integer> getBands() {
+    public List<Integer> getBands() {
         return Arrays.asList(bands);
     }
 
