@@ -1,17 +1,18 @@
 package ar.edu.itba.models;
 
 import ar.edu.itba.constants.Direction;
-import ar.edu.itba.models.masks.*;
+import ar.edu.itba.models.masks.DirectionalMask;
+import ar.edu.itba.models.masks.Filter;
+import ar.edu.itba.models.masks.GaussianMask;
+import ar.edu.itba.models.masks.SobelMask;
 import ar.edu.itba.models.thresholding.OtsuThresholding;
 import com.google.common.primitives.Doubles;
-import org.apache.commons.collections.iterators.ArrayIterator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class Canny implements Filter{
 
@@ -35,13 +36,14 @@ public class Canny implements Filter{
         int cant = this.sigmas.length;
         GaussianMask mask;
         SobelMask detector = new SobelMask();
-        double [][] current, supressed, dx, dy;
+        double [][] current, suppressed, dx, dy;
         double[] thresholds;
         Direction[][] directions = new Direction[image.length][image[0].length];
         List<double[][]> images = new ArrayList();
         for (double sigma : this.sigmas) {
             mask = new GaussianMask((int) (2 * Math.ceil(2 * sigma) + 1), sigma);
             current = mask.filterImage(image);
+            //current = image;
             dx = DirectionalMask.getDirectionizedMask(detector, Direction.HORIZONTAL).filterImage(current);
             dy = DirectionalMask.getDirectionizedMask(detector, Direction.VERTICAL).filterImage(current);
             for (int x = 0; x < current.length; x++) {
@@ -52,9 +54,9 @@ public class Canny implements Filter{
             }
 
 
-            supressed = this.suppression(current, directions);
+            suppressed = this.suppression(current, directions);
             thresholds = this.findThresholds(current);
-            images.add(this.hysteresisThresholding(supressed, thresholds[0], thresholds[1]));
+            images.add(this.hysteresisThresholding(suppressed, thresholds[0], thresholds[1]));
         }
 
         return images.stream().reduce((m1, m2) -> combine(m1, m2, combiner)).get();

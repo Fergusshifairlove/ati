@@ -36,6 +36,8 @@
                         <MenuItem text="Contrast" onAction="#getContrast"/>
                         <SeparatorMenuItem/>
                         <MenuItem text="Cut" onAction="#cut"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="White Square" onAction="#createWhiteSquare"/>
                     </items>
                 </Menu>
                 <Menu text="Noise">

@@ -155,5 +155,6 @@ public class MenuController {
     public void hough(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new HoughView()));}
     public void cut(ActionEvent actionEvent){eventBus.post(new CutImage());}
     public void findObject(ActionEvent actionEvent) {eventBus.post(new FindObjectInImage());}
+    public void createWhiteSquare(ActionEvent actionEvent){eventBus.post(new CreateWhiteSquare());}
 }
 

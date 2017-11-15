@@ -6,7 +6,7 @@ package ar.edu.itba.constants;
 public enum Direction {
     HORIZONTAL(1,0),
     VERTICAL(0,1),
-    DIAGONAL_LEFT(1,-1),
+    DIAGONAL_LEFT(-1,1),
     DIAGONAL_RIGHT(1,1);
 
     Direction(int xStep, int yStep) {

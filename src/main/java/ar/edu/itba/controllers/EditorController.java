@@ -37,6 +37,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
+import static java.lang.Thread.sleep;
+
 public class EditorController {
     public ImageView before;
     public ImageView after;
@@ -63,6 +65,7 @@ public class EditorController {
         this.selectionArea.setStroke(Color.YELLOW);
         this.images = new LinkedList<>();
         this.executorService = Executors.newCachedThreadPool();
+        this.activeContoursController = new ActiveContoursController(this);
     }
 
     @Subscribe
@@ -116,12 +119,14 @@ public class EditorController {
         this.imageBefore = this.imageAfter;
         this.before.setImage(SwingFXUtils.toFXImage(this.imageAfter.getImage(false), null));
         this.after.setImage(null);
+        this.images.clear();
     }
 
     @Subscribe
     public void reset(ResetImage resetImage) {
         this.imageAfter = ImageMatrix.readImage(this.imageBefore.getImage(false));
         eventBus.post(new ImageModified(this.imageAfter));
+        this.images.clear();
     }
 
     @Subscribe
@@ -246,10 +251,9 @@ public class EditorController {
     @Subscribe
     public void findObject(FindObjectInImage findObjectInImage) {
         if (this.video) {
-            this.activeContoursController = new ActiveContoursController(this.images.get(0), selectionArea, this);
-            for (ImageMatrix image: this.images) {
-                this.activeContoursController.addFrame(image);
-            }
+            ImageMatrix firstFrame = ImageMatrix.readImage(this.imageBefore.getImage(false));
+
+            this.activeContoursController.initialize(this.imageBefore, this.selectionArea);
             this.executorService.submit(this.activeContoursController);
             return;
         }
@@ -281,7 +285,7 @@ public class EditorController {
     public void findObject(FindObjectInVideo findObjectInVideo){
         this.video = true;
         File directory = findObjectInVideo.getVideoDir();
-
+        this.images.clear();
         this.images = Arrays.stream(directory.listFiles((dir, name) -> name.endsWith(".jpg")))
                 .map(img -> {
                     try {
@@ -295,6 +299,8 @@ public class EditorController {
                 .collect(Collectors.toList());
 
         this.imageBefore = this.images.get(0);
+        this.images.forEach(activeContoursController::addFrame);
+        this.images.clear();
         this.before.setImage(SwingFXUtils.toFXImage(this.imageBefore.getImage(false), null));
         this.after.setImage(null);
         this.eventBus.post(new ImageLoaded(this.imageBefore));
@@ -306,7 +312,7 @@ public class EditorController {
     }
 
     @Subscribe
-    public void openVideo(OpenVideo openVideo) throws IOException, JCodecException {
+    public void openVideo(OpenVideo openVideo) throws IOException, JCodecException, InterruptedException {
         this.video = true;
 
         File file = openVideo.getVideo();
@@ -314,18 +320,43 @@ public class EditorController {
         grab.seekToSecondPrecise(0);
         Picture picture;
         BufferedImage image;
-        for (int i=0;i<100;i++) {
-            picture = grab.getNativeFrame();
-            System.out.println(picture.getWidth() + "x" + picture.getHeight() + " " + picture.getColor());
-            //for JDK (jcodec-javase)
-            image = AWTUtil.toBufferedImage(picture);
-            this.images.add(ImageMatrix.readImage(image));
-        }
+        this.imageBefore = ImageMatrix.readImage(AWTUtil.toBufferedImage(grab.getNativeFrame()));
+        executorService.submit(() -> {
+            for (int i = 0; i < 1000; i++) {
+                //for JDK (jcodec-javase)
+                try {
+                    this.activeContoursController.addFrame(ImageMatrix.readImage(AWTUtil.toBufferedImage(grab.getNativeFrame())));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
-        this.imageBefore = this.images.get(0);
         this.before.setImage(SwingFXUtils.toFXImage(this.imageBefore.getImage(false), null));
         this.after.setImage(null);
         this.eventBus.post(new ImageLoaded(this.imageBefore));
     }
 
+    @Subscribe
+    public void whiteSquare(CreateWhiteSquare createWhiteSquare) {
+
+        int width = 256;
+        int height = 256;
+
+        int square_width = 80;
+        double[][] matrix = new double[width][height];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (i > width/2 - 40 && j > height/2 - 40 && i < width/2 + 40 && j < height/2 + 40) {
+                    matrix[i][j] = 255;
+                }
+                else {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+        ImageMatrix image = new GreyImageMatrix(width, height, matrix);
+
+        eventBus.post(new ImageModified(ImageMatrix.readImage(image.getImage(false))));
+    }
 }

@@ -18,9 +18,13 @@ public class ActiveContoursController implements Runnable{
     private Pixel lIn, lOut;
     private boolean done;
 
-    public ActiveContoursController(ImageMatrix initialFrame, Rectangle initialObjectSelection, EditorController editorController) {
+    public ActiveContoursController(EditorController editorController) {
         this.frames = new LinkedBlockingDeque<>();
-        this.frames.add(initialFrame);
+        this.editorController = editorController;
+    }
+
+    public void initialize(ImageMatrix initialFrame, Rectangle initialObjectSelection) {
+        this.frames.addFirst(initialFrame);
 
         if (initialFrame.getType() == BufferedImage.TYPE_BYTE_GRAY) {
             this.lIn = new GreyPixel(0, 0, 255);
@@ -35,9 +39,7 @@ public class ActiveContoursController implements Runnable{
                 (int)(initialObjectSelection.getX() + initialObjectSelection.getWidth()),
                 (int)(initialObjectSelection.getY() + initialObjectSelection.getHeight()));
 
-        this.editorController = editorController;
         this.done = false;
-
     }
 
     @Override
