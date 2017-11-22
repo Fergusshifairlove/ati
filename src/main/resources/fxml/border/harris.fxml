@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import ar.edu.itba.views.borderOperations.HarrisView?>
+
+<fx:root type="HarrisView"
+         fx:controller="ar.edu.itba.controllers.operations.border.HarrisController"
+         xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml">
+    <Label text="HARRIS"/>
+    <Label text="Percentage:"/>
+    <Slider fx:id="slider" max="100" min="0" showTickLabels="true" showTickMarks="true"/>
+    <Button styleClass="close" onAction="#removeOperation"/>
+</fx:root>

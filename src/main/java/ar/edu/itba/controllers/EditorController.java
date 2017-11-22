@@ -18,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import org.apache.commons.collections.functors.NotNullPredicate;
 import org.jcodec.api.FrameGrab;
@@ -141,6 +142,25 @@ public class EditorController {
         }
         eventBus.post(new ImageModified(ImageMatrix.readImage(imageAfter.getImage(false))));
 
+    }
+
+    @Subscribe
+    public void harris(HarrisCorners harrisCorners) {
+        Harris harris = harrisCorners.getHarris();
+        ImageMatrix im = ImageMatrix.readImage(this.imageAfter.getImage(false)).applyFilterOperation(harris::filterImage);
+        double[][] band = im.getBand(1);
+        Bounds bounds = new BoundingBox(0,0,this.imageAfter.getWidth(), this.imageAfter.getHeight());
+        Circle circle;
+        for (int i = 0; i < band.length; i++) {
+            for (int j = 0; j < band[0].length; j++) {
+                if(band[i][j] > 0.0) {
+                    circle = new Circle(i,j,3);
+                    circle.setFill(Color.YELLOW);
+                    draw.getChildren().add(circle);
+                }
+            }
+        }
+        //eventBus.post(new ImageModified(this.imageAfter));
     }
 
     @Subscribe

@@ -92,6 +92,8 @@
                         <MenuItem text="Hough" onAction="#hough"/>
                         <SeparatorMenuItem/>
                         <MenuItem text="Active Contours" onAction="#findObject"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Harris" onAction="#harris"/>
 
                     </items>
                 </Menu>

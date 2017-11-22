@@ -1,6 +1,7 @@
 package ar.edu.itba.controllers;
 
-import ar.edu.itba.events.*;    
+import ar.edu.itba.events.*;
+import ar.edu.itba.models.Harris;
 import ar.edu.itba.models.thresholding.OtsuThresholding;
 import ar.edu.itba.services.ImageService;
 import ar.edu.itba.views.GreyPixelView;
@@ -156,5 +157,6 @@ public class MenuController {
     public void cut(ActionEvent actionEvent){eventBus.post(new CutImage());}
     public void findObject(ActionEvent actionEvent) {eventBus.post(new FindObjectInImage());}
     public void createWhiteSquare(ActionEvent actionEvent){eventBus.post(new CreateWhiteSquare());}
+    public void harris(ActionEvent actionEvent){eventBus.post(new NewOperation<>(new HarrisView()));}
 }
 

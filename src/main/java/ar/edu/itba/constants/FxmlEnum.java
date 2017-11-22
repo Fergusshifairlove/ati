@@ -37,7 +37,8 @@ public enum FxmlEnum {
     OTSU("fxml/punctualOperations/otsu-threshold.fxml"),
     CANNY("fxml/border/canny.fxml"),
     SUSAN("fxml/border/susan.fxml"),
-    HOUGH("fxml/border/hough.fxml");
+    HOUGH("fxml/border/hough.fxml"),
+    HARRIS("fxml/border/harris.fxml");
 
 
     private String path;
