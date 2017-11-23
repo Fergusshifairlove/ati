@@ -33,6 +33,8 @@ public abstract class ImageMatrix {
             return new RGBImageMatrix(image);
         else if (image.getType() == BufferedImage.TYPE_3BYTE_BGR) {
             return new RGBImageMatrix(image);
+        } else if (image.getType() == BufferedImage.TYPE_4BYTE_ABGR) {
+            return new BGRImagerMatrix(image);
         }
         throw new IllegalArgumentException();
     }

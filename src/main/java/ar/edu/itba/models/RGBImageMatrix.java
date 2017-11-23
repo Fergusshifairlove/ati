@@ -11,9 +11,13 @@ import java.util.function.ToDoubleFunction;
 
 public class RGBImageMatrix extends ImageMatrix {
     private static Integer[] bands = {1, 2, 3};
-    private double[][] red;
-    private double[][] green;
-    private double[][] blue;
+    protected double[][] red;
+    protected double[][] green;
+    protected double[][] blue;
+
+    public RGBImageMatrix(int width, int height, int type) {
+        super(width, height, type);
+    }
 
     protected RGBImageMatrix(BufferedImage image) {
         super(image.getWidth(), image.getHeight(), image.getType());
