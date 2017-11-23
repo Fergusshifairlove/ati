@@ -38,7 +38,8 @@ public enum FxmlEnum {
     CANNY("fxml/border/canny.fxml"),
     SUSAN("fxml/border/susan.fxml"),
     HOUGH("fxml/border/hough.fxml"),
-    HARRIS("fxml/border/harris.fxml");
+    HARRIS("fxml/features/harris.fxml"),
+    SIFT("fxml/features/sift.fxml");
 
 
     private String path;

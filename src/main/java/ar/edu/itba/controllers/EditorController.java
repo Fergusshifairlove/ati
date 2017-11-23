@@ -20,7 +20,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import org.apache.commons.collections.functors.NotNullPredicate;
+import mpicbg.imagefeatures.Feature;
 import org.jcodec.api.FrameGrab;
 import org.jcodec.api.JCodecException;
 import org.jcodec.common.io.NIOUtils;
@@ -43,7 +43,8 @@ import static java.lang.Thread.sleep;
 public class EditorController {
     public ImageView before;
     public ImageView after;
-    public Pane draw;
+    public Pane drawAfter;
+    public Pane drawBefore;
     public Pane selection;
     private ImageMatrix imageBefore;
     private ImageMatrix imageAfter;
@@ -76,8 +77,10 @@ public class EditorController {
         Image image = SwingFXUtils.toFXImage(this.imageAfter.getImage(false), null);
         System.out.println("height: " + image.getHeight() + " width: " + image.getWidth());
         after.setImage(image);
-        this.draw.getChildren().clear();
-        this.draw.getChildren().add(this.after);
+        this.drawAfter.getChildren().clear();
+        this.drawAfter.getChildren().add(this.after);
+        this.drawBefore.getChildren().clear();
+        this.drawBefore.getChildren().add(this.selection);
         this.video = false;
     }
 
@@ -86,7 +89,9 @@ public class EditorController {
         this.imageBefore = imageService.loadImage(openImage.getImage());
         this.imageAfter = ImageMatrix.readImage(imageBefore.getImage(false));
         this.before.setImage(SwingFXUtils.toFXImage(imageBefore.getImage(false), null));
-        this.draw.getChildren().clear();
+        this.drawAfter.getChildren().clear();
+        this.drawBefore.getChildren().clear();
+        this.drawBefore.getChildren().add(this.selection);
         //this.selection.getChildren().add(this.selectionArea);
         this.video = false;
         this.eventBus.post(new ImageLoaded(this.imageBefore));
@@ -156,7 +161,7 @@ public class EditorController {
                 if(band[i][j] > 0.0) {
                     circle = new Circle(i,j,3);
                     circle.setFill(Color.YELLOW);
-                    draw.getChildren().add(circle);
+                    drawAfter.getChildren().add(circle);
                 }
             }
         }
@@ -204,7 +209,7 @@ public class EditorController {
         for (Integer b : imageAfter.getBands()) {
             for (Shape shape : hough.findShapes(this.imageAfter.getBand(b))) {
                 System.out.println("shape: " + shape);
-                draw.getChildren().add(shape.toFxShape(bounds));
+                drawAfter.getChildren().add(shape.toFxShape(bounds));
             }
         }
     }
@@ -379,4 +384,48 @@ public class EditorController {
 
         eventBus.post(new ImageModified(ImageMatrix.readImage(image.getImage(false))));
     }
+
+    @Subscribe
+    public void siftFeatures(GetSIFTFeatures getFeatures) {
+        List<Feature> features = SiftManager.getFeatures(this.imageBefore.getImage(false));
+        double[] pos;
+        Circle circle;
+        for (Feature f: features) {
+            pos = f.location;
+            circle =  new Circle(pos[0],pos[1],3);
+            circle.setFill(Color.YELLOW);
+            drawBefore.getChildren().add(circle);
+        }
+
+    }
+
+
+    @Subscribe
+    public void compareImages(CompareImages compareImages) throws IOException {
+        ImageMatrix image = imageService.loadImage(compareImages.getImage());
+        eventBus.post(new ImageModified(ImageMatrix.readImage(image.getImage(false))));
+    }
+
+    @Subscribe
+    void siftCompare(CompareSift compareSift) {
+        List<Feature> first = SiftManager.getFeatures(imageBefore.getImage(false));
+        List<Feature> second = SiftManager.getFeatures(imageAfter.getImage(false));
+        double[] pos;
+        Circle circle;
+        for (Feature f: first) {
+            pos = f.location;
+            circle =  new Circle(pos[0],pos[1],3);
+            circle.setFill(Color.YELLOW);
+            drawBefore.getChildren().add(circle);
+        }
+        for (Feature f: second) {
+            pos = f.location;
+            circle =  new Circle(pos[0],pos[1],3);
+            circle.setFill(Color.YELLOW);
+            drawAfter.getChildren().add(circle);
+        }
+        eventBus.post(SiftManager.compareImages(first, second));
+
+    }
+
 }

@@ -5,10 +5,10 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import ar.edu.itba.views.borderOperations.HarrisView?>
+<?import ar.edu.itba.views.features.HarrisView?>
 
 <fx:root type="HarrisView"
-         fx:controller="ar.edu.itba.controllers.operations.border.HarrisController"
+         fx:controller="ar.edu.itba.controllers.operations.features.HarrisController"
          xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml">
     <Label text="HARRIS"/>

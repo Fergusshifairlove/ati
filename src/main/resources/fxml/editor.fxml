@@ -14,12 +14,14 @@
          stylesheets="/style/editor.css"
          fx:controller="ar.edu.itba.controllers.EditorController">
     <ScrollPane>
-        <Pane fx:id="selection"  onMouseClicked="#imageClicked" onMousePressed="#mousePressed" onMouseDragged="#mouseDragged" onMouseReleased="#mouseReleased">
-            <ImageView fx:id="before"/>
+        <Pane fx:id="drawBefore">
+            <Pane fx:id="selection"  onMouseClicked="#imageClicked" onMousePressed="#mousePressed" onMouseDragged="#mouseDragged" onMouseReleased="#mouseReleased">
+                <ImageView fx:id="before"/>
+            </Pane>
         </Pane>
     </ScrollPane>
     <ScrollPane>
-        <Pane fx:id="draw">
+        <Pane fx:id="drawAfter">
             <ImageView fx:id="after" onMouseClicked="#imageClicked"/>
         </Pane>
     </ScrollPane>

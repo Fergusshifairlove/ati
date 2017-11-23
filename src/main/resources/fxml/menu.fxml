@@ -92,8 +92,6 @@
                         <MenuItem text="Hough" onAction="#hough"/>
                         <SeparatorMenuItem/>
                         <MenuItem text="Active Contours" onAction="#findObject"/>
-                        <SeparatorMenuItem/>
-                        <MenuItem text="Harris" onAction="#harris"/>
 
                     </items>
                 </Menu>
@@ -110,6 +108,15 @@
                         <SeparatorMenuItem/>
                         <MenuItem text="Anisotropic" onAction="#anisotropic"/>
                     </items>
+                </Menu>
+                <Menu text="Features">
+                       <items>
+                           <MenuItem text="SIFT Features" onAction="#siftFeatures"/>
+                           <SeparatorMenuItem/>
+                           <MenuItem text="Compare Images" onAction="#sift"/>
+                           <SeparatorMenuItem/>
+                           <MenuItem text="Harris" onAction="#harris"/>
+                       </items>
                 </Menu>
 
             </menus>

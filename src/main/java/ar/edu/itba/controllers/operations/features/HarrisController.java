@@ -1,8 +1,7 @@
-package ar.edu.itba.controllers.operations.border;
+package ar.edu.itba.controllers.operations.features;
 
 import ar.edu.itba.controllers.operations.OperationController;
 import ar.edu.itba.events.ApplyOperations;
-import ar.edu.itba.events.ApplyPunctualOperation;
 import ar.edu.itba.events.HarrisCorners;
 import ar.edu.itba.models.Harris;
 import com.google.common.eventbus.EventBus;
