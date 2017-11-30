@@ -168,5 +168,9 @@ public class MenuController {
             eventBus.post(new NewOperation<>(new SiftView()));
         }
     }
+
+    public void onlySift(ActionEvent actionEvent) {
+        eventBus.post(new NewOperation<>(new SiftView()));
+    }
 }
 

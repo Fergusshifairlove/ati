@@ -18,6 +18,8 @@ public class SiftManager {
     public static List<Feature> getFeatures(BufferedImage img) {
         List<Feature> fs = new ArrayList<Feature>();
         FloatArray2DSIFT.Param p = new FloatArray2DSIFT.Param();
+        System.out.println("params: { fdBins: " + p.fdBins + ", fdSize: " + p.fdSize + ", initialSigma: "
+                + p.initialSigma + ", maxOctave: " + p.maxOctaveSize + ", minOctave: " + p.minOctaveSize + " }");
         GenericDialog gd = new GenericDialog("SIFT");
         SIFT.addFields(gd, p);
         SIFT.readFields(gd, p);
@@ -54,18 +56,25 @@ public class SiftManager {
 
         }
 
-        double percentage = ((double) matchFrom1.size())
-                / ((keyPoints1.size() < keyPoints2.size()) ? keyPoints2.size() : keyPoints1.size());
+        double percentage1 = ((double) matchFrom1.size())
+                / keyPoints1.size();
 
+
+        double percentage2 = ((double) matchFrom2.size())
+                / keyPoints2.size();
 
         // String resultMsg=(percentage<0.90)?containsMsg:equalsMsg;
         String resultMsg;
-        if (percentage >= 0.8) {
+        if (percentage1 >= 0.8 && percentage2 >= 0.8) {
             return SIFTComparation.EQUALS;
-        } else if (percentage >= 0.5) {
+        }
+        else if(percentage1 >= 0.8 && percentage2 < 0.8) {
+            return SIFTComparation.CONTAINED;
+        } else if (percentage1 < 0.8 && percentage2 >= 0.8) {
             return SIFTComparation.CONTAINS;
-        } else {
-            return SIFTComparation.DIFFERNT;
+        }
+        else {
+            return SIFTComparation.DIFFERENT;
         }
 
     }

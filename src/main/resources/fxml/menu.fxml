@@ -115,6 +115,8 @@
                            <SeparatorMenuItem/>
                            <MenuItem text="Compare Images" onAction="#sift"/>
                            <SeparatorMenuItem/>
+                           <MenuItem text="SIFT" onAction="#onlySift"/>
+                           <SeparatorMenuItem/>
                            <MenuItem text="Harris" onAction="#harris"/>
                        </items>
                 </Menu>
