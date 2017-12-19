@@ -120,6 +120,9 @@
                            <MenuItem text="Harris" onAction="#harris"/>
                        </items>
                 </Menu>
+                <Menu text="Cows">
+                    <MenuItem text="Count" onAction="#countCows"/>
+                </Menu>
 
             </menus>
     </MenuBar>

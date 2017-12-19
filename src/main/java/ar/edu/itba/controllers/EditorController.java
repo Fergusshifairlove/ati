@@ -4,7 +4,10 @@ import ar.edu.itba.constants.NoiseType;
 import ar.edu.itba.events.*;
 import ar.edu.itba.models.*;
 import ar.edu.itba.models.masks.Filter;
+import ar.edu.itba.models.masks.Mask;
+import ar.edu.itba.models.masks.MedianMask;
 import ar.edu.itba.models.shapes.Shape;
+import ar.edu.itba.models.thresholding.OtsuThresholding;
 import ar.edu.itba.models.thresholding.ThresholdFinder;
 import ar.edu.itba.services.ImageService;
 import com.google.common.eventbus.EventBus;
@@ -28,12 +31,10 @@ import org.jcodec.common.model.Picture;
 import org.jcodec.scale.AWTUtil;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -301,7 +302,7 @@ public class EditorController {
                 this.imageAfter = activeContours.findObject(image, 200, lin, lout);
             }
         }
-        this.imageAfter = activeContours.findObject(this.imageAfter,200, lin, lout);
+        this.imageAfter = activeContours.findObject(this.imageAfter,1000, lin, lout);
 
         this.eventBus.post(new ImageModified(this.imageAfter));
     }
@@ -426,6 +427,67 @@ public class EditorController {
         }
         eventBus.post(SiftManager.compareImages(first, second));
 
+    }
+
+    @Subscribe
+    void countCows(CountCows countCows) {
+        OtsuThresholding otsuThresholding = new OtsuThresholding();
+
+        for (Integer band : this.imageAfter.getBands()) {
+            Double threshold = otsuThresholding.findThreshold(imageAfter.getIterableBand(band));
+            imageAfter.applyPunctualOperation(band, p -> p > threshold ? 255 : 0);
+        }
+
+        double[][] red = this.imageAfter.getBand(1);
+        double[][] green = this.imageAfter.getBand(2);
+        double[][] blue = this.imageAfter.getBand(3);
+
+        double[][] grey = new double[this.imageAfter.getWidth()][this.imageAfter.getHeight()];
+
+        for (int i = 0; i < this.imageAfter.getWidth(); i++){
+            for (int j = 0; j < this.imageAfter.getHeight(); j++) {
+                if (red[i][j] == 255 && green[i][j] != 255 && blue[i][j] != 255) {
+                    grey[i][j] = 255;
+                } else {
+                    grey[i][j] = 0;
+                }
+            }
+        }
+
+        this.imageAfter = new RGBImageMatrix(this.imageAfter.getWidth(), this.imageAfter.getHeight(), grey, grey, grey, this.imageAfter.getType());
+        Mask medianMask = new MedianMask(3);
+        this.imageAfter.applyFilterOperation(medianMask::filterImage);
+
+        double[] sigmas = {1.0};
+        Canny canny = new Canny(sigmas, (x,y)->Math.sqrt(Math.pow(x,2) + Math.pow(y,2)), (x,y)->x.equals(y)?x:0.0);
+        this.imageAfter.applyFilterOperation(canny::filterImage);
+
+        grey = this.imageAfter.getBand(1);
+        List<GreyPixel> pixels = new ArrayList<>();
+        for (int i = 0; i < this.imageAfter.getWidth(); i++) {
+            for (int j = 0; j < this.imageAfter.getHeight(); j++) {
+                if (grey[i][j] == 255) {
+                    pixels.add(new GreyPixel(i, j, 255));
+                }
+            }
+        }
+
+        HAC hac = new HAC();
+        Set<GreyPixelCluster> clusters = hac.clusterize(pixels, 30);
+        System.out.println(clusters.size());
+
+        Circle circle;
+        for (GreyPixelCluster cluster: clusters) {
+            System.out.println("centroid x: " + cluster.getCentroid()[0] + " y: " + cluster.getCentroid()[1]);
+            circle =  new Circle(cluster.getCentroid()[0],cluster.getCentroid()[1],3);
+            circle.setFill(Color.YELLOW);
+            drawBefore.getChildren().add(circle);
+
+        }
+
+        Image image = SwingFXUtils.toFXImage(this.imageAfter.getImage(false), null);
+        System.out.println("height: " + image.getHeight() + " width: " + image.getWidth());
+        after.setImage(image);
     }
 
 }

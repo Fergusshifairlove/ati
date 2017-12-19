@@ -172,5 +172,9 @@ public class MenuController {
     public void onlySift(ActionEvent actionEvent) {
         eventBus.post(new NewOperation<>(new SiftView()));
     }
+
+    public void countCows(ActionEvent actionEvent) {
+        eventBus.post(new CountCows());
+    }
 }
 

@@ -18,6 +18,7 @@ public class GreyPixel extends Pixel {
         return grey;
     }
 
+
     @Override
     protected Pixel copy() {
         return new GreyPixel(0 ,0, grey);
@@ -43,5 +44,25 @@ public class GreyPixel extends Pixel {
     @Override
     public double norm() {
         return Math.sqrt(Math.pow(grey, 2));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        GreyPixel greyPixel = (GreyPixel) o;
+
+        return Double.compare(greyPixel.grey, grey) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        long temp;
+        temp = Double.doubleToLongBits(grey);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
     }
 }
