@@ -3,6 +3,9 @@ package ar.edu.itba.controllers;
 import ar.edu.itba.constants.NoiseType;
 import ar.edu.itba.events.*;
 import ar.edu.itba.models.*;
+import ar.edu.itba.models.clustering.GreyPixelCluster;
+import ar.edu.itba.models.clustering.HAC;
+import ar.edu.itba.models.clustering.HDC;
 import ar.edu.itba.models.masks.Filter;
 import ar.edu.itba.models.masks.Mask;
 import ar.edu.itba.models.masks.MedianMask;
@@ -31,7 +34,6 @@ import org.jcodec.common.model.Picture;
 import org.jcodec.scale.AWTUtil;
 
 import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;

@@ -1,4 +1,6 @@
-package ar.edu.itba.models;
+package ar.edu.itba.models.clustering;
+
+import ar.edu.itba.models.GreyPixel;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -7,33 +9,38 @@ public class HAC {
 
     public Set<GreyPixelCluster> clusterize(List<GreyPixel> pixels, double maxDistance) {
         System.out.println("creating initialClusters");
-        Set<GreyPixelCluster> clusters = pixels
+        Set<GreyPixelCluster> initialClusters = pixels
                 .parallelStream()
                 .map(Arrays::asList)
                 .map(GreyPixelCluster::new)
                 .collect(Collectors.toSet());
 
         System.out.println("creating pairs");
-        ClusterPair clusterPair;
-        PriorityQueue<ClusterPair> queue = new PriorityQueue<>();
-        clusters.forEach(cluster -> {
-            for (GreyPixelCluster other : clusters) {
+        HACClusterPair clusterPair;
+        PriorityQueue<HACClusterPair> queue = new PriorityQueue<>(HACClusterPair::compareTo);
+        initialClusters.forEach(cluster -> {
+            for (GreyPixelCluster other : initialClusters) {
                 if (cluster != other) {
-                    ClusterPair pair = new ClusterPair(cluster, other);
+                    HACClusterPair pair = new HACClusterPair(cluster, other);
                     queue.add(pair);
                 }
             }
         });
 
 
+        HashSet<GreyPixelCluster> clusters = new HashSet<>();
+        clusters.addAll(initialClusters);
+        initialClusters.clear();
+
         GreyPixelCluster cluster;
         boolean done = false;
         System.out.println("agglomerating pairs");
         while (!queue.isEmpty()) {
-            System.out.println(clusters.size());
+            //System.out.println(queue.size());
             clusterPair = queue.poll();
-            if (!clusters.contains(clusterPair.cluster1) || !clusters.contains(clusterPair.cluster2))
+            if (!clusters.contains(clusterPair.cluster1) || !clusters.contains(clusterPair.cluster2)) {
                 continue;
+            }
 
             if (clusterPair.distance > maxDistance) {
                 System.out.println("max distance reached: " + clusterPair.distance);
@@ -44,9 +51,13 @@ public class HAC {
             clusters.remove(clusterPair.cluster1);
             clusters.remove(clusterPair.cluster2);
 
-            for (GreyPixelCluster other: clusters) {
-                queue.add(new ClusterPair(cluster, other));
-            }
+            System.out.println("calculating distances");
+            System.out.println("cluster cant: " + clusters.size());
+
+            long time = System.nanoTime();
+            List<HACClusterPair> newPairs = generatePairs(cluster, clusters);
+            System.out.println(System.nanoTime() - time);
+            queue.addAll(newPairs);
 
             clusters.add(cluster);
         }
@@ -54,19 +65,26 @@ public class HAC {
         return clusters;
     }
 
-    class ClusterPair implements Comparable<ClusterPair>{
+    private List<HACClusterPair> generatePairs(GreyPixelCluster cluster, Collection<GreyPixelCluster> clusters) {
+        return clusters
+                .parallelStream()
+                .map(other -> new HACClusterPair(cluster, other))
+                .collect(Collectors.toList());
+    }
+
+    class HACClusterPair implements Comparable<HACClusterPair>{
         GreyPixelCluster cluster1;
         GreyPixelCluster cluster2;
         double distance;
 
-        ClusterPair(GreyPixelCluster c1, GreyPixelCluster c2) {
+        HACClusterPair(GreyPixelCluster c1, GreyPixelCluster c2) {
             this.cluster1 = c1;
             this.cluster2 = c2;
             this.distance = Math.sqrt(Math.pow(c1.getCentroid()[0] - c2.getCentroid()[0],2) + Math.pow(c1.getCentroid()[1] - c2.getCentroid()[1],2));
         }
 
         @Override
-        public int compareTo(ClusterPair o) {
+        public int compareTo(HACClusterPair o) {
             return Double.compare(distance, o.distance);
         }
 
@@ -75,7 +93,7 @@ public class HAC {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
 
-            ClusterPair that = (ClusterPair) o;
+            HACClusterPair that = (HACClusterPair) o;
 
             if (cluster1 != null ? !cluster1.equals(that.cluster1) : that.cluster1 != null) return false;
             return cluster2 != null ? cluster2.equals(that.cluster2) : that.cluster2 == null;

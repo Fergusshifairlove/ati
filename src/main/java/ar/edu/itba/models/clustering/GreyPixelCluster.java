@@ -1,4 +1,6 @@
-package ar.edu.itba.models;
+package ar.edu.itba.models.clustering;
+
+import ar.edu.itba.models.GreyPixel;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,6 +9,7 @@ import java.util.stream.Stream;
 public class GreyPixelCluster {
     private double[] centroid;
     private List<GreyPixel> pixels;
+    private double spread;
 
     public double[] getCentroid() {
         return centroid;
@@ -36,6 +39,11 @@ public class GreyPixelCluster {
         centroid[1] /= size;
 
         return centroid;
+    }
+
+    public void addPixel(GreyPixel pixel) {
+        this.pixels.add(pixel);
+        this.centroid = calculateCentroid(this.pixels);
     }
 
     @Override
