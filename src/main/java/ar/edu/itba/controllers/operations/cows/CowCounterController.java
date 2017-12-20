@@ -17,6 +17,10 @@ public class CowCounterController extends OperationController {
     public TextField minClusterSize;
     public Label count;
     public TextField maxSpread;
+    public TextField threshold;
+    public TextField blue;
+    public TextField green;
+    public TextField red;
 
     @Inject
     public CowCounterController(EventBus eventBus) {
@@ -30,7 +34,11 @@ public class CowCounterController extends OperationController {
         int distance = Integer.parseInt(maxClusterDistance.getText());
         int size = Integer.parseInt(minClusterSize.getText());
         double spread = Double.parseDouble(maxSpread.getText());
-        this.eventBus.post(new CountCows(mask, distance, size, spread));
+        double r = Double.parseDouble(red.getText());
+        double g = Double.parseDouble(green.getText());
+        double b = Double.parseDouble(blue.getText());
+        int t = Integer.parseInt(threshold.getText());
+        this.eventBus.post(new CountCows(mask, distance, size, t, r, g, b, spread));
     }
 
 

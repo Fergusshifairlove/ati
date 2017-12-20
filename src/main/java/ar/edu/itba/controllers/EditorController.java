@@ -440,14 +440,23 @@ public class EditorController {
             imageAfter.applyPunctualOperation(band, p -> p > threshold ? 255 : 0);
         }
 
+        double r = countCows.getR();
+        double g = countCows.getG();
+        double b = countCows.getB();
         double[][] red = this.imageAfter.getBand(1);
         double[][] green = this.imageAfter.getBand(2);
         double[][] blue = this.imageAfter.getBand(3);
 
         double[][] grey = new double[this.imageAfter.getWidth()][this.imageAfter.getHeight()];
-
+        double norm;
         for (int i = 0; i < this.imageAfter.getWidth(); i++){
             for (int j = 0; j < this.imageAfter.getHeight(); j++) {
+//                norm = Math.sqrt(Math.pow(red[i][j] - r, 2) + Math.pow(green[i][j] - g, 2) + Math.pow(blue[i][j] - b, 2));
+//                if (norm < countCows.getThreshold()) {
+//                    grey[i][j] = 255;
+//                } else {
+//                    grey[i][j] = 0;
+//                }
                 if (red[i][j] == 255 && green[i][j] != 255 && blue[i][j] != 255) {
                     grey[i][j] = 255;
                 } else {
