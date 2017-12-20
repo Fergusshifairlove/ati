@@ -2,6 +2,7 @@ package ar.edu.itba.controllers;
 
 import ar.edu.itba.events.*;
 import ar.edu.itba.services.ImageService;
+import ar.edu.itba.views.cows.CowCounterView;
 import ar.edu.itba.views.features.HarrisView;
 import ar.edu.itba.views.GreyPixelView;
 import ar.edu.itba.views.borderOperations.LaplacianView;
@@ -174,7 +175,7 @@ public class MenuController {
     }
 
     public void countCows(ActionEvent actionEvent) {
-        eventBus.post(new CountCows());
+        eventBus.post(new NewOperation<>(new CowCounterView()));
     }
 }
 

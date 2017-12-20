@@ -24,6 +24,7 @@ public class GreyPixelCluster {
             throw new IllegalArgumentException();
         this.centroid = calculateCentroid(pixels);
         this.pixels = pixels;
+        this.spread = -1;
     }
 
     private double[] calculateCentroid(List<GreyPixel> pixels) {
@@ -41,9 +42,34 @@ public class GreyPixelCluster {
         return centroid;
     }
 
-    public void addPixel(GreyPixel pixel) {
+    void addPixel(GreyPixel pixel) {
         this.pixels.add(pixel);
         this.centroid = calculateCentroid(this.pixels);
+    }
+
+    public int getSize() {
+        return pixels.size();
+    }
+
+    public double calculateSpreadDistance() {
+        if (this.spread != -1)
+            return this.spread;
+
+        double max = Double.MIN_VALUE;
+        double dist;
+        for (GreyPixel p: pixels) {
+            for (GreyPixel q: pixels) {
+                dist = calculateDistance(p,q);
+                if (dist > max) {
+                    max = dist;
+                }
+            }
+        }
+        this.spread = max;
+        return this.spread;
+    }
+    private double calculateDistance(GreyPixel p1, GreyPixel p2) {
+        return Math.sqrt(Math.pow(p1.getX() - p2.getX(),2) + Math.pow(p1.getY() - p2.getY(),2));
     }
 
     @Override

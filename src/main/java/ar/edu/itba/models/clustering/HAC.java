@@ -6,8 +6,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class HAC {
+    private double maxDistance;
+    private int minSize;
 
-    public Set<GreyPixelCluster> clusterize(List<GreyPixel> pixels, double maxDistance) {
+    public HAC(double maxDistance, int minSize) {
+        this.maxDistance = maxDistance;
+        this.minSize = minSize;
+    }
+
+    public Set<GreyPixelCluster> clusterize(List<GreyPixel> pixels) {
         System.out.println("creating initialClusters");
         Set<GreyPixelCluster> initialClusters = pixels
                 .parallelStream()
@@ -22,7 +29,9 @@ public class HAC {
             for (GreyPixelCluster other : initialClusters) {
                 if (cluster != other) {
                     HACClusterPair pair = new HACClusterPair(cluster, other);
-                    queue.add(pair);
+                    if (pair.distance <= maxDistance) {
+                        queue.add(pair);
+                    }
                 }
             }
         });
@@ -44,7 +53,7 @@ public class HAC {
 
             if (clusterPair.distance > maxDistance) {
                 System.out.println("max distance reached: " + clusterPair.distance);
-                return clusters;
+                break;
             }
 
             cluster = GreyPixelCluster.mergeClusters(clusterPair.cluster1, clusterPair.cluster2);
@@ -62,13 +71,14 @@ public class HAC {
             clusters.add(cluster);
         }
 
-        return clusters;
+        return clusters.stream().filter(c -> c.getSize() > minSize).collect(Collectors.toSet());
     }
 
     private List<HACClusterPair> generatePairs(GreyPixelCluster cluster, Collection<GreyPixelCluster> clusters) {
         return clusters
                 .parallelStream()
                 .map(other -> new HACClusterPair(cluster, other))
+                .filter(p -> p.distance <= maxDistance)
                 .collect(Collectors.toList());
     }
 

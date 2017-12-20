@@ -457,12 +457,14 @@ public class EditorController {
         }
 
         this.imageAfter = new RGBImageMatrix(this.imageAfter.getWidth(), this.imageAfter.getHeight(), grey, grey, grey, this.imageAfter.getType());
-        Mask medianMask = new MedianMask(3);
+
+        Mask medianMask = new MedianMask(countCows.getMaskSize());
         this.imageAfter.applyFilterOperation(medianMask::filterImage);
 
-        double[] sigmas = {1.0};
-        Canny canny = new Canny(sigmas, (x,y)->Math.sqrt(Math.pow(x,2) + Math.pow(y,2)), (x,y)->x.equals(y)?x:0.0);
-        this.imageAfter.applyFilterOperation(canny::filterImage);
+
+        double[] sigmas = {1.0, 3.0};
+        //Canny canny = new Canny(sigmas, (x,y)->Math.sqrt(Math.pow(x,2) + Math.pow(y,2)), (x,y)->x.equals(y)?x:0.0);
+        //this.imageAfter.applyFilterOperation(canny::filterImage);
 
         grey = this.imageAfter.getBand(1);
         List<GreyPixel> pixels = new ArrayList<>();
@@ -474,15 +476,22 @@ public class EditorController {
             }
         }
 
-        HAC hac = new HAC();
-        Set<GreyPixelCluster> clusters = hac.clusterize(pixels, 30);
+        HAC hac = new HAC(countCows.getMaxDistance(), countCows.getMinSize());
+        Set<GreyPixelCluster> clusters = hac.clusterize(pixels);
         System.out.println(clusters.size());
 
+        int count = 0;
         Circle circle;
         for (GreyPixelCluster cluster: clusters) {
             System.out.println("centroid x: " + cluster.getCentroid()[0] + " y: " + cluster.getCentroid()[1]);
             circle =  new Circle(cluster.getCentroid()[0],cluster.getCentroid()[1],3);
-            circle.setFill(Color.YELLOW);
+            if (cluster.calculateSpreadDistance() > countCows.getMaxSpread()) {
+                circle.setFill(Color.RED);
+                count+=2;
+            } else {
+                circle.setFill(Color.YELLOW);
+                count+=1;
+            }
             drawBefore.getChildren().add(circle);
 
         }
@@ -490,6 +499,8 @@ public class EditorController {
         Image image = SwingFXUtils.toFXImage(this.imageAfter.getImage(false), null);
         System.out.println("height: " + image.getHeight() + " width: " + image.getWidth());
         after.setImage(image);
+
+        eventBus.post(new CowCount(count));
     }
 
 }

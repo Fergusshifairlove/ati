@@ -39,7 +39,8 @@ public enum FxmlEnum {
     SUSAN("fxml/border/susan.fxml"),
     HOUGH("fxml/border/hough.fxml"),
     HARRIS("fxml/features/harris.fxml"),
-    SIFT("fxml/features/sift.fxml");
+    SIFT("fxml/features/sift.fxml"),
+    COWS("fxml/cows/cow-counter.fxml");
 
 
     private String path;

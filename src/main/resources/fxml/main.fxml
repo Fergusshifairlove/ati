@@ -20,7 +20,7 @@
     <center>
         <VBox>
             <EditorView/>
-            <HistogramView/>
+            <!--<HistogramView/>-->
         </VBox>
     </center>
     <right>

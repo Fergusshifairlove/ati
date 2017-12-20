@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import ar.edu.itba.views.cows.CowCounterView?>
+
+<fx:root type="CowCounterView"
+        xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ar.edu.itba.controllers.operations.cows.CowCounterController">
+
+    <Label maxWidth="Infinity" text="Cow Counter" id="title"/>
+    <HBox>
+        <VBox>
+            <Label text="Mask Size"/>
+            <Label text="Max Distance"/>
+            <Label text="Min Size"/>
+            <Label text="Max spread"/>
+        </VBox>
+        <VBox>
+            <TextField fx:id="maskSize"/>
+            <TextField fx:id="maxClusterDistance"/>
+            <TextField fx:id="minClusterSize"/>
+            <TextField fx:id="maxSpread"/>
+        </VBox>
+    </HBox>
+    <Label fx:id="count"/>
+</fx:root>
