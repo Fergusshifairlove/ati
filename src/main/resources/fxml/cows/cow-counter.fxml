@@ -15,16 +15,16 @@
     <Label maxWidth="Infinity" text="Cow Counter" id="title"/>
     <HBox>
         <VBox>
-            <Label text="Mask Size"/>
-            <Label text="Max Distance"/>
-            <Label text="Min Size"/>
-            <Label text="Max spread"/>
+            <Label prefHeight="30" text="Mask Size"/>
+            <Label prefHeight="30" text="Max Distance"/>
+            <Label prefHeight="30" text="Min Size"/>
+            <Label prefHeight="30" text="Max spread"/>
         </VBox>
         <VBox>
-            <TextField fx:id="maskSize"/>
-            <TextField fx:id="maxClusterDistance"/>
-            <TextField fx:id="minClusterSize"/>
-            <TextField fx:id="maxSpread"/>
+            <TextField prefHeight="30" fx:id="maskSize"/>
+            <TextField prefHeight="30" fx:id="maxClusterDistance"/>
+            <TextField prefHeight="30" fx:id="minClusterSize"/>
+            <TextField prefHeight="30" fx:id="maxSpread"/>
         </VBox>
     </HBox>
     <Label fx:id="count"/>
