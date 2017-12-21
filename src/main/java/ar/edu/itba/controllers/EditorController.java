@@ -451,17 +451,17 @@ public class EditorController {
         double norm;
         for (int i = 0; i < this.imageAfter.getWidth(); i++){
             for (int j = 0; j < this.imageAfter.getHeight(); j++) {
-//                norm = Math.sqrt(Math.pow(red[i][j] - r, 2) + Math.pow(green[i][j] - g, 2) + Math.pow(blue[i][j] - b, 2));
-//                if (norm < countCows.getThreshold()) {
-//                    grey[i][j] = 255;
-//                } else {
-//                    grey[i][j] = 0;
-//                }
-                if (red[i][j] == 255 && green[i][j] != 255 && blue[i][j] != 255) {
+                norm = Math.sqrt(Math.pow(red[i][j] - r, 2) + Math.pow(green[i][j] - g, 2) + Math.pow(blue[i][j] - b, 2));
+                if (norm < countCows.getThreshold()) {
                     grey[i][j] = 255;
                 } else {
                     grey[i][j] = 0;
                 }
+//                if (red[i][j] == 255 && green[i][j] != 255 && blue[i][j] != 255) {
+//                    grey[i][j] = 255;
+//                } else {
+//                    grey[i][j] = 0;
+//                }
             }
         }
 
