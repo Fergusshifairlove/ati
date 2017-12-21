@@ -433,12 +433,12 @@ public class EditorController {
 
     @Subscribe
     void countCows(CountCows countCows) {
-        OtsuThresholding otsuThresholding = new OtsuThresholding();
-
-        for (Integer band : this.imageAfter.getBands()) {
-            Double threshold = otsuThresholding.findThreshold(imageAfter.getIterableBand(band));
-            imageAfter.applyPunctualOperation(band, p -> p > threshold ? 255 : 0);
-        }
+//        OtsuThresholding otsuThresholding = new OtsuThresholding();
+//
+//        for (Integer band : this.imageAfter.getBands()) {
+//            Double threshold = otsuThresholding.findThreshold(imageAfter.getIterableBand(band));
+//            imageAfter.applyPunctualOperation(band, p -> p > threshold ? 255 : 0);
+//        }
 
         double r = countCows.getR();
         double g = countCows.getG();
@@ -498,7 +498,7 @@ public class EditorController {
                 circle.setFill(Color.RED);
                 count+=2;
             } else {
-                circle.setFill(Color.YELLOW);
+                circle.setFill(Color.BLUE);
                 count+=1;
             }
             drawBefore.getChildren().add(circle);

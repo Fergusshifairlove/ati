@@ -29,7 +29,7 @@ public class HAC {
             for (GreyPixelCluster other : initialClusters) {
                 if (cluster != other) {
                     HACClusterPair pair = new HACClusterPair(cluster, other);
-                    if (pair.distance <= maxDistance) {
+                    if (pair.distance <= 2  ) {
                         queue.add(pair);
                     }
                 }
